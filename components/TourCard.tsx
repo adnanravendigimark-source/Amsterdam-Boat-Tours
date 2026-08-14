@@ -1,4 +1,5 @@
 import SafeImage from "./SafeImage";
+import StarRating from "./StarRating";
 import type { Tour } from "@/lib/data";
 import { LockIcon } from "./icons";
 
@@ -40,9 +41,7 @@ export default function TourCard({
         )}
 
         <div className="absolute bottom-3 left-3 flex items-center gap-1.5 rounded-lg bg-white/95 px-2.5 py-1 text-xs font-bold text-slate-900 shadow-md backdrop-blur-md">
-          <span className="text-amber-500">★</span>
-          {tour.rating.toFixed(1)}
-          <span className="font-normal text-slate-500">({tour.reviews.toLocaleString()})</span>
+          <StarRating rating={tour.rating} showValue reviewCount={tour.reviews} size="xs" />
         </div>
       </div>
 

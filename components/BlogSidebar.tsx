@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SafeImage from "./SafeImage";
+import StarRating from "./StarRating";
 import { getTours } from "@/lib/data";
 import { getRelatedPosts } from "@/lib/posts";
 
@@ -20,28 +21,27 @@ export default async function BlogSidebar({
         <div className="overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-sm transition hover:shadow-md">
           <div className="relative aspect-[16/10]">
             <SafeImage src={tour.image} alt={tour.imageAlt} fill sizes="320px" className="object-cover" />
-            <span className="absolute left-3 top-3 rounded-lg bg-gradient-to-r from-canal-orange to-amber-500 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
+            <span className="absolute left-3 top-3 rounded-lg bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
               Recommended
             </span>
           </div>
           <div className="p-5">
-            <p className="font-display text-base font-bold leading-snug text-stone-900">
+            <p className="font-display text-base font-bold leading-snug text-slate-900">
               {tour.title}
             </p>
-            <div className="mt-1.5 flex items-center gap-1.5 text-xs text-stone-500 font-medium">
-              <span className="text-amber-500">★</span>
-              {tour.rating.toFixed(1)} ({tour.reviews.toLocaleString()} reviews)
+            <div className="mt-1.5 flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+              <StarRating rating={tour.rating} showValue reviewCount={tour.reviews} size="xs" />
             </div>
-            <div className="mt-4 flex items-center justify-between border-t border-stone-100 pt-4">
+            <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-4">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-stone-400">from</p>
-                <p className="font-display text-xl font-bold text-stone-900">€{tour.price}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">from</p>
+                <p className="font-display text-xl font-bold text-slate-900">€{tour.price}</p>
               </div>
               <a
                 href={tour.href}
                 target="_blank"
                 rel="noopener nofollow sponsored"
-                className="rounded-xl bg-gradient-to-r from-canal-orange to-amber-500 px-4 py-2 text-xs font-bold text-white shadow-sm hover:scale-[1.02] transition"
+                className="rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:scale-[1.02] transition"
               >
                 Book Now
               </a>

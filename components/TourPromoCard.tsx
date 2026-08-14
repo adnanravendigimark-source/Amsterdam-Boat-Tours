@@ -1,4 +1,5 @@
 import SafeImage from "./SafeImage";
+import StarRating from "./StarRating";
 import type { Tour } from "@/lib/data";
 
 export default function TourPromoCard({ tour }: { tour: Tour }) {
@@ -13,8 +14,9 @@ export default function TourPromoCard({ tour }: { tour: Tour }) {
         </span>
         <p className="mt-1 font-display text-lg font-bold text-slate-900">{tour.title}</p>
         <div className="mt-1.5 flex items-center gap-2 text-xs font-medium text-slate-600">
-          <span className="text-amber-500">★</span>
-          {tour.rating.toFixed(1)} ({tour.reviews.toLocaleString()} reviews) · from €{tour.price}/person
+          <StarRating rating={tour.rating} showValue reviewCount={tour.reviews} size="xs" />
+          <span>·</span>
+          <span>from €{tour.price}/person</span>
         </div>
       </div>
       <a
