@@ -188,23 +188,23 @@ export const DEFAULT_THEME: ThemeColors = {
 
 export const DEFAULT_GALLERY: GalleryImage[] = [
   {
-    src: "https://images.unsplash.com/photo-1755589066709-ec12ec11baa1?q=80&w=900&auto=format&fit=crop",
-    alt: "A canal cruise boat gliding past historic Amsterdam houses and trees",
+    src: "/images/gallery/canal-cruise.jpg",
+    alt: "A classic glass-topped canal cruise boat gliding past historic Amsterdam houses and trees",
     label: "Canal Cruise",
   },
   {
-    src: "https://images.unsplash.com/photo-1759720694996-5f6b3435fe5a?q=80&w=900&auto=format&fit=crop",
-    alt: "Amsterdam canal houses glowing at dusk with lights reflecting on the water",
+    src: "/images/gallery/evening-lights.jpg",
+    alt: "Illuminated Skinny Bridge glowing over the Amstel River with canal tour boat",
     label: "Evening Lights",
   },
   {
-    src: "https://images.unsplash.com/photo-1754835143820-bcf20e2e1a35?q=80&w=900&auto=format&fit=crop",
-    alt: "A row of historic Dutch canal houses lining an Amsterdam canal",
+    src: "/images/gallery/historic-gables.jpg",
+    alt: "Historic 17th-century Dutch canal houses with step, neck, and bell gables reflected in water",
     label: "Historic Gables",
   },
   {
-    src: "https://images.unsplash.com/photo-1742054294387-3fd76b62b47f?q=80&w=900&auto=format&fit=crop",
-    alt: "Colorful gabled buildings lining a canal in Amsterdam",
+    src: "/images/gallery/unesco-canal-ring.jpg",
+    alt: "Wide angle panoramic view of the UNESCO Canal Ring with arched bridges and canal tour boat",
     label: "UNESCO Canal Ring",
   },
 ];
@@ -256,23 +256,23 @@ export const DEFAULT_SECTIONS: HomepageSections = {
     ctaHref: "#tours",
     images: [
       {
-        src: "https://images.unsplash.com/photo-1759720694996-5f6b3435fe5a?q=80&w=700&auto=format&fit=crop",
-        alt: "Amsterdam canal houses glowing at dusk with lights reflecting on the water",
+        src: "/images/gallery/evening-lights.jpg",
+        alt: "Illuminated Skinny Bridge glowing over the Amstel River with canal tour boat",
         label: "Evening Lights",
       },
       {
-        src: "https://images.unsplash.com/photo-1755589066709-ec12ec11baa1?q=80&w=700&auto=format&fit=crop",
-        alt: "A canal cruise boat gliding past historic Amsterdam houses",
+        src: "/images/gallery/golden-hour-cruise.jpg",
+        alt: "Open-air canal cruise boat gliding past historic canal houses during golden hour",
         label: "Golden Hour Cruise",
       },
       {
-        src: "https://images.unsplash.com/photo-1754835143820-bcf20e2e1a35?q=80&w=700&auto=format&fit=crop",
-        alt: "Historic canal houses in Amsterdam",
+        src: "/images/gallery/unesco-canal-ring.jpg",
+        alt: "Wide angle view of UNESCO Canal Ring bridges and canal boat",
         label: "Canal Ring",
       },
       {
-        src: "https://images.unsplash.com/photo-1742054294387-3fd76b62b47f?q=80&w=700&auto=format&fit=crop",
-        alt: "Colorful buildings along an Amsterdam canal",
+        src: "/images/gallery/jordaan-district.jpg",
+        alt: "Charming canals and houseboats in the historic Jordaan district",
         label: "Jordaan District",
       },
     ],

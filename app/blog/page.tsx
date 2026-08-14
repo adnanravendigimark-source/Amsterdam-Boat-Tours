@@ -30,7 +30,6 @@ export default async function BlogIndexPage() {
   return (
     <>
       <Header />
-      <Breadcrumbs items={[{ name: "Blog", path: "/blog" }]} />
       <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20">
         <div className="text-center">
           <span className="inline-block rounded-md bg-blue-50 border border-blue-200/80 px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">

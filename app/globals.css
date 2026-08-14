@@ -75,6 +75,17 @@ body {
 .rich-content a:hover {
   color: #0284c7;
 }
+.rich-content a.text-white,
+.rich-content a[class*="text-white"],
+.rich-content a[class*="bg-"] {
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+.rich-content a.text-white:hover,
+.rich-content a[class*="text-white"]:hover,
+.rich-content a[class*="bg-"]:hover {
+  color: #ffffff !important;
+}
 .rich-content strong {
   font-weight: 700;
   color: #0f172a;

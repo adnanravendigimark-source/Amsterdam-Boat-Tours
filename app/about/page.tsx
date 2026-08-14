@@ -36,7 +36,6 @@ export default async function AboutPage() {
   return (
     <>
       <Header />
-      <Breadcrumbs items={[{ name: "About", path: "/about" }]} />
       <main>
         {/* Hero banner */}
         <section className="relative overflow-hidden bg-canal-navy text-white">
