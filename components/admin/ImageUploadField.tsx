@@ -102,7 +102,7 @@ export default function ImageUploadField({
         <button
           type="button"
           onClick={() => setLibraryOpen(true)}
-          className="shrink-0 rounded-lg border border-stone-300 px-3 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-50"
+          className="shrink-0 rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-semibold text-stone-900 transition hover:bg-stone-100"
         >
           Media Library
         </button>
@@ -110,7 +110,7 @@ export default function ImageUploadField({
           type="button"
           onClick={() => fileInput.current?.click()}
           disabled={uploading}
-          className="shrink-0 rounded-lg border border-stone-300 px-3 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-50 disabled:opacity-60"
+          className="shrink-0 rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm font-semibold text-stone-900 transition hover:bg-stone-100 disabled:opacity-60"
         >
           {uploading ? "Uploading…" : "Upload"}
         </button>
@@ -128,7 +128,7 @@ export default function ImageUploadField({
       </div>
       {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
       {value && (
-        <div className="mt-2 flex items-start gap-2">
+        <div className="mt-2 flex items-start gap-3 rounded-lg border border-stone-200 bg-stone-50 p-2.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={value}
@@ -140,7 +140,7 @@ export default function ImageUploadField({
               <button
                 type="button"
                 onClick={() => setRecropSrc(value)}
-                className="whitespace-nowrap rounded-lg border border-stone-300 px-3 py-2 text-xs font-medium text-stone-700 transition hover:bg-stone-50"
+                className="whitespace-nowrap rounded-lg border border-stone-300 bg-white px-3 py-2 text-xs font-semibold text-stone-900 transition hover:bg-stone-100"
               >
                 Adjust crop
               </button>
@@ -148,7 +148,7 @@ export default function ImageUploadField({
             <button
               type="button"
               onClick={() => onChange("")}
-              className="whitespace-nowrap rounded-lg border border-red-200 px-3 py-2 text-xs font-medium text-red-600 transition hover:bg-red-50"
+              className="whitespace-nowrap rounded-lg border border-red-200 bg-white px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50"
             >
               Remove image
             </button>

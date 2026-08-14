@@ -21,6 +21,7 @@ const config: Config = {
         canal: {
           blue: "rgb(var(--color-canal-blue) / <alpha-value>)",
           primary: "rgb(var(--color-canal-primary) / <alpha-value>)",
+          orange: "rgb(var(--color-canal-primary) / <alpha-value>)",
           ink: "rgb(var(--color-canal-ink) / <alpha-value>)",
           navy: "#091b3d",
           azure: "#0ea5e9",

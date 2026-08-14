@@ -238,7 +238,7 @@ export default function CropModal({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-lg border border-stone-300 px-4 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-50"
+            className="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-900 transition hover:bg-stone-100"
           >
             Cancel
           </button>
@@ -246,7 +246,7 @@ export default function CropModal({
             <button
               type="button"
               onClick={onUseOriginal}
-              className="rounded-lg border border-stone-300 px-4 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-50"
+              className="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-900 transition hover:bg-stone-100"
             >
               Use original, uncropped
             </button>
@@ -255,7 +255,7 @@ export default function CropModal({
             type="button"
             onClick={handleSave}
             disabled={!ready || saving}
-            className="rounded-lg bg-canal-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-canal-blue/90 disabled:opacity-60"
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
           >
             {saving ? "Saving…" : "Save crop"}
           </button>

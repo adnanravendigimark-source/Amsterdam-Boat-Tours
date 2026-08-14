@@ -80,7 +80,7 @@ export default function FaqsForm({ initial }: { initial: FAQ[] }) {
       <button
         type="button"
         onClick={addFaq}
-        className="rounded-lg border border-dashed border-stone-300 px-4 py-2.5 text-sm font-medium text-stone-600 transition hover:bg-stone-50"
+        className="rounded-lg border border-dashed border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-900 transition hover:bg-stone-100"
       >
         + Add FAQ
       </button>
@@ -89,7 +89,7 @@ export default function FaqsForm({ initial }: { initial: FAQ[] }) {
         <button
           type="submit"
           disabled={saving}
-          className="rounded-lg bg-canal-orange px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-canal-orange/90 disabled:opacity-60"
+          className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
         >
           {saving ? "Saving…" : "Save Changes"}
         </button>

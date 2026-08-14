@@ -157,7 +157,7 @@ export default function AboutForm({ initial }: { initial: AboutPageContent }) {
             </div>
           ))}
         </div>
-        <button type="button" onClick={addReason} className="rounded-lg border border-stone-300 px-3 py-1.5 text-xs font-medium text-stone-700 hover:bg-stone-50">
+        <button type="button" onClick={addReason} className="rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-xs font-semibold text-stone-900 hover:bg-stone-100">
           + Add card
         </button>
       </SectionCard>
@@ -206,7 +206,7 @@ export default function AboutForm({ initial }: { initial: AboutPageContent }) {
         <button
           type="submit"
           disabled={saving}
-          className="rounded-lg bg-canal-orange px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-canal-orange/90 disabled:opacity-60"
+          className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
         >
           {saving ? "Saving…" : "Save Changes"}
         </button>

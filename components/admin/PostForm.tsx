@@ -476,13 +476,13 @@ export default function PostForm({
         <div className="mx-auto flex max-w-4xl items-center justify-between gap-3">
           <p className="text-xs text-stone-500">{dirty ? "Unsaved changes" : "All changes saved"}</p>
           <div className="flex gap-3">
-            <button type="button" onClick={handleCancel} className="rounded-lg border border-stone-300 px-5 py-2.5 text-sm font-medium text-stone-700 transition hover:bg-stone-50">
+            <button type="button" onClick={handleCancel} className="rounded-lg border border-stone-300 bg-white px-5 py-2.5 text-sm font-semibold text-stone-900 transition hover:bg-stone-100">
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="rounded-lg bg-canal-orange px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-canal-orange/90 disabled:opacity-60"
+              className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
             >
               {saving ? "Saving…" : isNew ? "Publish Post" : "Save Changes"}
             </button>

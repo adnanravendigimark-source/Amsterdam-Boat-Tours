@@ -178,7 +178,7 @@ export default function IndexingManager({ initial }: { initial: IndexingRow[] })
                 type="button"
                 onClick={() => setPending(null)}
                 disabled={applying}
-                className="rounded-lg border border-stone-300 px-4 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-50 disabled:opacity-60"
+                className="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-900 transition hover:bg-stone-100 disabled:opacity-60"
               >
                 Cancel
               </button>
@@ -186,7 +186,7 @@ export default function IndexingManager({ initial }: { initial: IndexingRow[] })
                 type="button"
                 onClick={confirmChange}
                 disabled={applying}
-                className="rounded-lg bg-canal-orange px-4 py-2 text-sm font-semibold text-black transition hover:bg-canal-orange/90 disabled:opacity-60"
+                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
               >
                 {applying ? "Saving…" : "Yes, change it"}
               </button>
