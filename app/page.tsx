@@ -8,6 +8,7 @@ import EveningCruise from "@/components/EveningCruise";
 import PracticalInfo from "@/components/PracticalInfo";
 import PriceComparison from "@/components/PriceComparison";
 import FAQSection from "@/components/FAQSection";
+import BlogSection from "@/components/BlogSection";
 import Footer from "@/components/Footer";
 import { getTours } from "@/lib/data";
 import { getHomepageContent } from "@/lib/homepage";
@@ -65,6 +66,7 @@ export default async function HomePage() {
         <EveningCruise />
         <PracticalInfo />
         <PriceComparison />
+        <BlogSection />
         <FAQSection />
         <div className="h-20 sm:hidden" aria-hidden="true" />
       </main>
