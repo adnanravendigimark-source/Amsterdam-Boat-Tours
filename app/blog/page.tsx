@@ -36,7 +36,7 @@ export default async function BlogIndexPage() {
           <span className="inline-block rounded-md bg-blue-50 border border-blue-200/80 px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">
             Canal Cruise Travel Guide
           </span>
-          <h1 className="mt-3 font-display text-4xl font-black text-slate-900 sm:text-5xl">
+          <h1 className="mt-3 font-display text-4xl font-bold text-slate-900 sm:text-5xl">
             Amsterdam Canal Travel Tips &amp; Guides
           </h1>
           <p className="mx-auto mt-3 max-w-lg text-slate-600">
@@ -69,7 +69,7 @@ export default async function BlogIndexPage() {
               <span className="inline-flex w-fit rounded-md bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">
                 {featured.category}
               </span>
-              <h2 className="mt-4 font-display text-2xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">
+              <h2 className="mt-4 font-display text-2xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
                 {featured.title}
               </h2>
               <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-slate-600">{featured.excerpt}</p>

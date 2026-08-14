@@ -37,7 +37,7 @@ export default async function ContactPage() {
           <span className="inline-block rounded-md bg-blue-50 border border-blue-200/80 px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">
             {contact.heroEyebrow}
           </span>
-          <h1 className="mt-3 font-display text-3xl font-black text-slate-900 sm:text-4xl">
+          <h1 className="mt-3 font-display text-3xl font-bold text-slate-900 sm:text-4xl">
             {contact.heroHeading}
           </h1>
           <div
@@ -55,7 +55,7 @@ export default async function ContactPage() {
             <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Email Us Directly</p>
             <a
               href={`mailto:${contact.email}`}
-              className="mt-1 block break-all font-display text-2xl font-black text-blue-600 hover:underline"
+              className="mt-1 block break-all font-display text-2xl font-bold text-blue-600 hover:underline"
             >
               {contact.email}
             </a>

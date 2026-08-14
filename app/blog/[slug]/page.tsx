@@ -82,7 +82,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
             <span className="h-1 w-1 rounded-full bg-slate-300" />
             <span className="text-slate-400 font-medium">{post.readTime}</span>
           </div>
-          <h1 className="mt-3 font-display text-3xl font-black leading-tight text-slate-900 sm:text-5xl">
+          <h1 className="mt-3 font-display text-3xl font-bold leading-tight text-slate-900 sm:text-5xl">
             {post.title}
           </h1>
           {post.excerpt && <p className="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">{post.excerpt}</p>}

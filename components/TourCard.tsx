@@ -87,7 +87,7 @@ export default function TourCard({
             <div className="flex items-end justify-between gap-2">
               <div>
                 <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">from</p>
-                <span className="font-display text-2xl font-black text-slate-900">€{tour.price}</span>
+                <span className="font-display text-2xl font-bold text-slate-900">€{tour.price}</span>
               </div>
               <a
                 href={tour.href}
@@ -112,7 +112,7 @@ export default function TourCard({
                 {tour.originalPrice && (
                   <span className="text-sm text-slate-400 line-through">€{tour.originalPrice}</span>
                 )}
-                <span className="font-display text-2xl font-black text-slate-900">€{tour.price}</span>
+                <span className="font-display text-2xl font-bold text-slate-900">€{tour.price}</span>
                 <span className="text-xs text-slate-500">/ person</span>
               </div>
             </div>

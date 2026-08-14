@@ -55,7 +55,7 @@ export default async function AboutPage() {
             <span className="inline-block rounded-full bg-sky-500/20 border border-sky-400/30 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-sky-200 backdrop-blur-md">
               {about.heroEyebrow}
             </span>
-            <h1 className="mt-4 font-display text-4xl font-black leading-tight sm:text-5xl">
+            <h1 className="mt-4 font-display text-4xl font-bold leading-tight sm:text-5xl">
               {about.heroHeading}
             </h1>
             <div

@@ -10,7 +10,7 @@ export default async function PriceComparison() {
         <span className="inline-block text-xs font-bold uppercase tracking-widest text-blue-600">
           Transparent Comparison
         </span>
-        <h2 className="mt-2 font-display text-3xl font-black text-slate-900 sm:text-4xl">{s.heading}</h2>
+        <h2 className="mt-2 font-display text-3xl font-bold text-slate-900 sm:text-4xl">{s.heading}</h2>
         <div
           className="rich-content mt-3 text-base text-slate-600"
           dangerouslySetInnerHTML={{ __html: s.subheading }}

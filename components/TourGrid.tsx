@@ -20,7 +20,7 @@ export default async function TourGrid() {
         <span className="inline-block text-xs font-bold uppercase tracking-widest text-blue-600">
           Handpicked Options
         </span>
-        <h2 className="mt-2 font-display text-3xl font-black text-slate-900 sm:text-4xl">
+        <h2 className="mt-2 font-display text-3xl font-bold text-slate-900 sm:text-4xl">
           Amsterdam Canal Cruises &amp; Tickets
         </h2>
         <p className="mt-3 text-base text-slate-600">

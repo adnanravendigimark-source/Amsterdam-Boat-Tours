@@ -29,7 +29,7 @@ export default async function Hero() {
           {content.heroBadge}
         </div>
 
-        <h1 className="mt-5 max-w-3xl font-display text-4xl font-black leading-[1.08] tracking-tight drop-shadow-sm sm:text-5xl lg:text-6xl">
+        <h1 className="mt-5 max-w-3xl font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.15] tracking-tight drop-shadow-sm">
           {content.heroHeading}
         </h1>
         <div
