@@ -1,0 +1,71 @@
+import { getTours } from "@/lib/data";
+import { getHomepageContent } from "@/lib/homepage";
+
+export default async function PriceComparison() {
+  const [tours, { sections }] = await Promise.all([getTours(), getHomepageContent()]);
+  const s = sections.price;
+  return (
+    <section id="prices" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      <div className="max-w-3xl">
+        <span className="inline-block text-xs font-bold uppercase tracking-widest text-blue-600">
+          Transparent Comparison
+        </span>
+        <h2 className="mt-2 font-display text-3xl font-black text-slate-900 sm:text-4xl">{s.heading}</h2>
+        <div
+          className="rich-content mt-3 text-base text-slate-600"
+          dangerouslySetInnerHTML={{ __html: s.subheading }}
+        />
+      </div>
+
+      <div className="mt-10 overflow-x-auto rounded-2xl border border-slate-200/80 bg-white shadow-sm">
+        <table className="w-full min-w-[700px] border-collapse text-left text-sm">
+          <thead>
+            <tr className="bg-canal-navy text-white">
+              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">Cruise Option</th>
+              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">Price</th>
+              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">Duration</th>
+              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">Tasting / Drinks</th>
+              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">Best For</th>
+              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider text-right"></th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {tours.map((tour, i) => (
+              <tr
+                key={tour.id}
+                className={`transition hover:bg-sky-50/40 ${
+                  tour.ribbon === "Bestseller" ? "bg-sky-50/60 font-medium" : i % 2 ? "bg-slate-50/60" : ""
+                }`}
+              >
+                <td className="px-6 py-4 font-semibold text-slate-900">{tour.title}</td>
+                <td className="px-6 py-4 font-bold text-blue-600">
+                  €{tour.price} <span className="font-normal text-xs text-slate-400">/ person</span>
+                </td>
+                <td className="px-6 py-4 text-slate-600">{tour.duration}</td>
+                <td className="px-6 py-4 text-slate-600">
+                  {tour.id === "amsterdam-evening-wine-cheese-cruise"
+                    ? "Dutch Wine & Cheese"
+                    : tour.id === "amsterdam-canal-cruise-pancake-tasting"
+                    ? "Dutch Pancake Tasting"
+                    : "Sightseeing"}
+                </td>
+                <td className="px-6 py-4 text-slate-600">{tour.bestFor}</td>
+                <td className="px-6 py-4 text-right">
+                  <a
+                    href={tour.href}
+                    target="_blank"
+                    rel="noopener nofollow sponsored"
+                    className="inline-flex rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition hover:scale-[1.02]"
+                  >
+                    Book
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-3.5 text-xs text-slate-400">{s.note}</p>
+    </section>
+  );
+}
