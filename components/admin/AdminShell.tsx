@@ -67,8 +67,8 @@ export default function AdminShell({
                 wide, flat silhouette rather than a square icon, so a small
                 ring-bordered square box was squashing it down to a sliver.
                 It reads better shown directly at its natural aspect ratio. */}
-            <span className="relative block h-9 w-24 shrink-0">
-              <Image src={logo} alt="Amsterdam Boat Tours logo" fill sizes="96px" className="object-contain" priority />
+            <span className="relative block h-7 w-20 shrink-0">
+              <Image src={logo} alt="Amsterdam Boat Tours logo" fill sizes="80px" className="object-contain" priority />
             </span>
             <div className="min-w-0">
               <p className="truncate font-display text-sm font-semibold italic text-white">{brandName}</p>

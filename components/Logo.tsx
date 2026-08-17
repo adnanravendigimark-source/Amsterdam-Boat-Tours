@@ -29,12 +29,12 @@ export default function Logo({
             than a taller box built for the old mark) so the illustration
             fills its box edge-to-edge instead of shrinking inside empty
             letterbox space. */}
-        <span className="relative block h-24 w-[344px] sm:h-28 sm:w-[401px] transition-transform duration-300 hover:scale-105">
+        <span className="relative block h-20 w-[286px] sm:h-24 sm:w-[344px] transition-transform duration-300 hover:scale-105">
           <Image
             src={customSrc || logo}
             alt={alt}
             fill
-            sizes="401px"
+            sizes="344px"
             className="object-contain"
             priority
           />
@@ -55,13 +55,13 @@ export default function Logo({
   }
 
   const image = (
-    <span className="relative block h-12 w-[172px] overflow-hidden sm:h-14 sm:w-[200px] transition-transform duration-300 group-hover:scale-105">
+    <span className="relative block h-9 w-[129px] overflow-hidden sm:h-10 sm:w-[143px] transition-transform duration-300 group-hover:scale-105">
       <Image
         src={customSrc || logo}
         alt={alt}
         fill
         priority
-        sizes="200px"
+        sizes="143px"
         className="object-contain"
       />
     </span>
