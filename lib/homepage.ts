@@ -116,6 +116,11 @@ export interface HomepageContent {
   heroSubheading: string;
   heroImage: string;
   heroImageAlt: string;
+  // Optional background video for the hero section (components/Hero.tsx) —
+  // when set, it's rendered instead of heroImage (which still doubles as
+  // the video's poster frame and OG/social share image). Leave blank to
+  // use the image only.
+  heroVideo: string;
   heroGallery: GalleryImage[];
   heroCtaPrimaryText: string;
   heroCtaPrimaryHref: string;
@@ -319,6 +324,7 @@ const DEFAULT_HOMEPAGE_CONTENT: HomepageContent = {
   heroImage:
     "https://images.unsplash.com/photo-1755589066709-ec12ec11baa1?q=80&w=2400&auto=format&fit=crop",
   heroImageAlt: "A classic Amsterdam canal cruise boat gliding along the UNESCO canal ring past historic gabled townhouses",
+  heroVideo: "",
   heroGallery: DEFAULT_GALLERY,
   heroCtaPrimaryText: "Compare Canal Cruises",
   heroCtaPrimaryHref: "#tours",
@@ -384,6 +390,7 @@ function rowToHomepage(row: any): HomepageContent {
     heroSubheading: row.hero_subheading || "",
     heroImage: row.hero_image || "",
     heroImageAlt: row.hero_image_alt || "",
+    heroVideo: row.hero_video || "",
     heroGallery: (() => {
       const g = parseReasons(row.hero_gallery);
       return g.length ? (g as unknown as GalleryImage[]) : DEFAULT_GALLERY;
@@ -450,6 +457,7 @@ export async function saveHomepageCopy(data: {
   heroSubheading: string;
   heroImage: string;
   heroImageAlt: string;
+  heroVideo: string;
   heroGallery: GalleryImage[];
   heroCtaPrimaryText: string;
   heroCtaPrimaryHref: string;
@@ -468,13 +476,13 @@ export async function saveHomepageCopy(data: {
   await sql`
     INSERT INTO homepage (
       id, hero_badge, hero_heading, hero_subheading, hero_image, hero_image_alt,
-      hero_gallery, hero_cta_primary_text, hero_cta_primary_href,
+      hero_video, hero_gallery, hero_cta_primary_text, hero_cta_primary_href,
       hero_cta_secondary_text, hero_cta_secondary_href,
       rating_value, rating_count, meta_title, meta_description, focus_keyword,
       canonical_url, og_title, og_description, og_image
     ) VALUES (
       1, ${data.heroBadge}, ${data.heroHeading}, ${data.heroSubheading}, ${data.heroImage},
-      ${data.heroImageAlt}, ${JSON.stringify(data.heroGallery || [])}::jsonb,
+      ${data.heroImageAlt}, ${data.heroVideo || ""}, ${JSON.stringify(data.heroGallery || [])}::jsonb,
       ${data.heroCtaPrimaryText || ""}, ${data.heroCtaPrimaryHref || ""},
       ${data.heroCtaSecondaryText || ""}, ${data.heroCtaSecondaryHref || ""},
       ${data.ratingValue}, ${data.ratingCount},
@@ -487,6 +495,7 @@ export async function saveHomepageCopy(data: {
       hero_subheading = EXCLUDED.hero_subheading,
       hero_image = EXCLUDED.hero_image,
       hero_image_alt = EXCLUDED.hero_image_alt,
+      hero_video = EXCLUDED.hero_video,
       hero_gallery = EXCLUDED.hero_gallery,
       hero_cta_primary_text = EXCLUDED.hero_cta_primary_text,
       hero_cta_primary_href = EXCLUDED.hero_cta_primary_href,

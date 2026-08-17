@@ -118,6 +118,7 @@ async function createTables() {
       hero_subheading TEXT NOT NULL DEFAULT '',
       hero_image TEXT NOT NULL DEFAULT '',
       hero_image_alt TEXT NOT NULL DEFAULT '',
+      hero_video TEXT NOT NULL DEFAULT '',
       rating_value TEXT NOT NULL DEFAULT '',
       rating_count TEXT NOT NULL DEFAULT '',
       show_featured_tour BOOLEAN NOT NULL DEFAULT false,
@@ -261,6 +262,7 @@ async function addSeoColumns() {
   await sql`ALTER TABLE homepage ADD COLUMN IF NOT EXISTS og_title TEXT NOT NULL DEFAULT ''`;
   await sql`ALTER TABLE homepage ADD COLUMN IF NOT EXISTS og_description TEXT NOT NULL DEFAULT ''`;
   await sql`ALTER TABLE homepage ADD COLUMN IF NOT EXISTS og_image TEXT NOT NULL DEFAULT ''`;
+  await sql`ALTER TABLE homepage ADD COLUMN IF NOT EXISTS hero_video TEXT NOT NULL DEFAULT ''`;
 
   await sql`ALTER TABLE privacy_policy ADD COLUMN IF NOT EXISTS no_follow BOOLEAN NOT NULL DEFAULT false`;
   await sql`ALTER TABLE privacy_policy ADD COLUMN IF NOT EXISTS canonical_url TEXT NOT NULL DEFAULT ''`;

@@ -11,14 +11,27 @@ export default async function Hero() {
       className="relative flex min-h-[calc(100dvh-4rem)] flex-col justify-center overflow-hidden bg-canal-navy text-white"
     >
       <div className="absolute inset-0">
-        <SafeImage
-          src={content.heroImage}
-          alt={content.heroImageAlt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
+        {content.heroVideo ? (
+          // eslint-disable-next-line jsx-a11y/media-has-caption
+          <video
+            src={content.heroVideo}
+            poster={content.heroImage || undefined}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+        ) : (
+          <SafeImage
+            src={content.heroImage}
+            alt={content.heroImageAlt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-canal-navy via-canal-navy/80 to-canal-navy/40" />
         <div className="absolute inset-0 bg-mosaic mix-blend-soft-light" aria-hidden="true" />
       </div>

@@ -48,6 +48,7 @@ export async function PUT(req: Request) {
         heroSubheading: body.heroSubheading,
         heroImage: body.heroImage,
         heroImageAlt: body.heroImageAlt,
+        heroVideo: body.heroVideo || "",
         heroGallery: body.heroGallery || [],
         heroCtaPrimaryText: body.heroCtaPrimaryText || "",
         heroCtaPrimaryHref: body.heroCtaPrimaryHref || "",
