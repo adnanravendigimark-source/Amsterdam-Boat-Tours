@@ -281,6 +281,12 @@ async function addSeoColumns() {
 
   await sql`ALTER TABLE tours ADD COLUMN IF NOT EXISTS price_table_column1 TEXT NOT NULL DEFAULT ''`;
   await sql`ALTER TABLE tours ADD COLUMN IF NOT EXISTS price_table_feature TEXT NOT NULL DEFAULT ''`;
+
+  // Stores the owner (.env ADMIN_EMAIL) account's password after it's
+  // changed via /admin/account — see lib/adminPassword.ts. Without this
+  // column, changing the owner password fails with a Postgres "column
+  // does not exist" error.
+  await sql`ALTER TABLE site_settings ADD COLUMN IF NOT EXISTS admin_password_hash TEXT`;
   console.log("SEO columns ready.");
 }
 
