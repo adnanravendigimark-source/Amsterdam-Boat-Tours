@@ -8,12 +8,16 @@ export default function Logo({
   theme = "light",
   src = "",
   alt = "Amsterdam Boat Tours",
+  line1 = "Amsterdam",
+  line2 = "Boat Tours",
 }: {
   className?: string;
   variant?: "compact" | "stacked";
   theme?: "light" | "dark";
   src?: string;
   alt?: string;
+  line1?: string;
+  line2?: string;
 }) {
   const isDark = theme === "dark";
   const customSrc = src?.trim();
@@ -36,10 +40,10 @@ export default function Logo({
             className={`block font-display text-2xl font-black tracking-[-0.03em] uppercase ${isDark ? "text-white" : "text-slate-900"
               }`}
           >
-            Amsterdam
+            {line1}
           </span>
           <span className="block font-display text-xs font-extrabold uppercase tracking-[0.32em] bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
-            Boat Tours
+            {line2}
           </span>
         </div>
       </Link>
@@ -73,10 +77,10 @@ export default function Logo({
           className={`block whitespace-nowrap font-display text-[1.18rem] font-black tracking-[-0.03em] uppercase ${isDark ? "text-white" : "text-slate-900"
             }`}
         >
-          Amsterdam
+          {line1}
         </span>
         <span className="block whitespace-nowrap font-display text-[10.5px] font-extrabold uppercase tracking-[0.28em] bg-gradient-to-r from-blue-600 to-sky-500 bg-clip-text text-transparent">
-          Boat Tours
+          {line2}
         </span>
       </div>
     </span>

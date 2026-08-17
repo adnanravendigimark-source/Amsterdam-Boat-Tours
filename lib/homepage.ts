@@ -31,6 +31,28 @@ export interface FooterColumn {
   links: FooterLink[];
 }
 
+// Tour grid intro (the eyebrow/heading/subheading directly above the tour
+// cards — see components/TourGrid.tsx).
+export interface TourSection {
+  eyebrow: string;
+  heading: string;
+  subheading: string;
+}
+
+// "Amsterdam Canal Highlights" trust/highlights band — see
+// components/CanalHighlights.tsx.
+export interface HighlightCard {
+  icon: string; // emoji, rendered as-is
+  title: string;
+  body: string;
+}
+export interface HighlightsSection {
+  eyebrow: string;
+  heading: string;
+  subheading: string;
+  cards: HighlightCard[];
+}
+
 export interface WhySection {
   heading: string;
   intro: string;
@@ -59,6 +81,7 @@ export interface TowerSection {
 export interface PracticalSection {
   hoursHeading: string;
   hours: HoursRow[];
+  hoursNote: string;
   addressHeading: string;
   address: string;
   metro: string;
@@ -67,6 +90,7 @@ export interface PracticalSection {
 }
 
 export interface PriceSection {
+  eyebrow: string;
   heading: string;
   subheading: string;
   note: string;
@@ -77,18 +101,89 @@ export interface PriceSection {
   column1Label: string;
   column2Label: string;
   bestForLabel: string;
+  // Label on each row's action button.
+  bookLabel: string;
+}
+
+// Wrapper eyebrow/heading above the FAQ accordion — see
+// components/FAQSection.tsx. The questions/answers themselves are
+// separately admin-editable via /admin/faqs (lib/data.ts's getFaqs()).
+export interface FaqSection {
+  eyebrow: string;
+  heading: string;
+}
+
+// Custom 404 page — see app/not-found.tsx.
+export interface NotFoundSection {
+  heading: string;
+  body: string;
+  primaryButtonText: string;
+  primaryButtonHref: string;
+  secondaryButtonText: string;
+  secondaryButtonHref: string;
+}
+
+// Homepage "From the Blog" teaser section — see components/BlogSection.tsx.
+// Distinct from the /blog listing page itself (BlogPageSection below).
+export interface BlogTeaserSection {
+  eyebrow: string;
+  heading: string;
+  subheading: string;
+  viewAllText: string;
+  readArticleText: string;
+}
+
+// The /blog listing page, plus the small wrapper labels shared by every
+// blog article page (Back link, Quick Answer/Table of Contents labels,
+// Related Guides/Articles headings, sidebar CTA) — see app/blog/page.tsx,
+// app/blog/[slug]/page.tsx, components/QuickAnswer.tsx,
+// components/TableOfContents.tsx, components/RelatedPosts.tsx, and
+// components/BlogSidebar.tsx. The posts themselves are edited separately
+// from /admin/posts.
+export interface BlogPageSection {
+  eyebrow: string;
+  heading: string;
+  subheading: string;
+  emptyStateText: string;
+  featuredLinkText: string;
+  ctaHeading: string;
+  ctaButtonText: string;
+  backToGuidesText: string;
+  quickAnswerLabel: string;
+  tocLabel: string;
+  relatedGuidesHeading: string;
+  sidebarRelatedHeading: string;
+  sidebarRecommendedBadge: string;
+  sidebarCompareLinkText: string;
+  // Label above the inline mid-article tour promo card — see
+  // components/TourPromoCard.tsx (rendered via RecommendedTour.tsx).
+  promoRecommendedText: string;
 }
 
 export interface HomepageSections {
+  tours: TourSection;
+  highlights: HighlightsSection;
   why: WhySection;
   tower: TowerSection;
   practical: PracticalSection;
   price: PriceSection;
+  faq: FaqSection;
+  notFound: NotFoundSection;
+  blogTeaser: BlogTeaserSection;
+  blogPage: BlogPageSection;
 }
 
 export interface HeaderContent {
   logoImage: string;
   logoAlt: string;
+  // The two-line wordmark text shown next to (or under) the logo image —
+  // see components/Logo.tsx. Shown regardless of whether logoImage is set.
+  logoLine1: string;
+  logoLine2: string;
+  // Shared label for every "Book Now" button site-wide (tour cards, the
+  // mobile sticky bar, blog sidebar) — see components/TourCard.tsx,
+  // TourPromoCard.tsx, FeaturedTour.tsx, BlogSidebar.tsx.
+  bookNowText: string;
   navLinks: NavLink[];
   ctaText: string;
   ctaHref: string;
@@ -151,6 +246,9 @@ export interface HomepageContent {
 export const DEFAULT_HEADER: HeaderContent = {
   logoImage: "",
   logoAlt: "Amsterdam Boat Tours",
+  logoLine1: "Amsterdam",
+  logoLine2: "Boat Tours",
+  bookNowText: "Book Now",
   navLinks: [
     { label: "Home", href: "/" },
     { label: "About Us", href: "/about" },
@@ -222,6 +320,40 @@ export const DEFAULT_GALLERY: GalleryImage[] = [
 ];
 
 export const DEFAULT_SECTIONS: HomepageSections = {
+  tours: {
+    eyebrow: "Handpicked Options",
+    heading: "Amsterdam Canal Cruises & Tickets",
+    subheading:
+      "Curated canal cruise options — classic 1-hour sightseeing, evening wine & cheese in a heated saloon boat, and museum combos. Every cruise explores the UNESCO Canal Ring.",
+  },
+  highlights: {
+    eyebrow: "Why the Canals",
+    heading: "Amsterdam Canal Highlights",
+    subheading:
+      "The canals aren't just a way to get between landmarks — they're a viewpoint on their own. Here's what makes the ride itself worth booking.",
+    cards: [
+      {
+        title: "UNESCO Canal Ring",
+        body: "The 17th-century Grachtengordel is a UNESCO World Heritage Site — over 1,500 bridges and 165 canals wind through the historic center.",
+        icon: "🏛️",
+      },
+      {
+        title: "Anne Frank House & Golden Bend",
+        body: "Pass right by the Anne Frank House and the grand merchant mansions of the Golden Bend on Herengracht, all from the water.",
+        icon: "🏘️",
+      },
+      {
+        title: "Open, Covered & Glass-Top Boats",
+        body: "Choose an open-air boat for fresh canal air, or a glass-topped saloon boat that stays warm and dry whatever the weather.",
+        icon: "🛶",
+      },
+      {
+        title: "Golden Hour Glow",
+        body: "After sunset, gabled townhouses and houseboats light up along the water, and the low bridges make for a magical, close-up ride.",
+        icon: "✨",
+      },
+    ],
+  },
   why: {
     heading: "What You Actually See on an Amsterdam Canal Cruise",
     intro:
@@ -295,6 +427,7 @@ export const DEFAULT_SECTIONS: HomepageSections = {
       { range: "April – October (Summer)", time: "9:00 AM – 10:30 PM (departs every 15–20 mins)" },
       { range: "November – March (Winter)", time: "10:00 AM – 9:00 PM (departs every 30 mins)" },
     ],
+    hoursNote: "Departures every 15–30 minutes across Amsterdam's primary cruise docks.",
     addressHeading: "Primary Boarding Points",
     address:
       "Damrak Pier 5 — 1012 LG Amsterdam (opposite Centraal Station). Trams 4, 14, 24.\nAnne Frank Pier — Prinsengracht 263, Westermarkt tram stop.\nRokin Pier — Rokin 38, near Dam Square & Rokin Metro Station.",
@@ -304,6 +437,7 @@ export const DEFAULT_SECTIONS: HomepageSections = {
       "Late afternoon into golden hour provides the finest sunlight for canal house photos. Weekday mornings before 11:30 AM offer the quietest canals with fewer boats.",
   },
   price: {
+    eyebrow: "Transparent Comparison",
     heading: "Compare & Choose Your Amsterdam Cruise",
     subheading:
       "All four options side by side — pick the cruise that matches your itinerary, then book instantly online.",
@@ -313,6 +447,44 @@ export const DEFAULT_SECTIONS: HomepageSections = {
     column1Label: "Duration",
     column2Label: "Tasting / Drinks",
     bestForLabel: "Best For",
+    bookLabel: "Book",
+  },
+  faq: {
+    eyebrow: "Got Questions?",
+    heading: "Amsterdam Canal Cruise FAQs",
+  },
+  notFound: {
+    heading: "Looks like this page missed the boat.",
+    body: "The page you're looking for doesn't exist or may have moved. Try one of these instead.",
+    primaryButtonText: "Compare Canal Cruises & Tickets →",
+    primaryButtonHref: "/#tours",
+    secondaryButtonText: "Read the Travel Guide",
+    secondaryButtonHref: "/blog",
+  },
+  blogTeaser: {
+    eyebrow: "From the Blog",
+    heading: "Amsterdam Canal Cruise Guides & Tips",
+    subheading:
+      "Expert advice, evening cruise comparisons, and insider tips to help you pick the best canal tour in Amsterdam.",
+    viewAllText: "View All Articles",
+    readArticleText: "Read Article",
+  },
+  blogPage: {
+    eyebrow: "Canal Cruise Travel Guide",
+    heading: "Amsterdam Canal Travel Tips & Guides",
+    subheading: "Practical advice to help you choose the best departure point, cruise route, and departure time.",
+    emptyStateText: "No articles published yet — check back soon.",
+    featuredLinkText: "Read the guide",
+    ctaHeading: "Ready to book your Amsterdam canal cruise?",
+    ctaButtonText: "Compare Amsterdam Canal Cruises & Tickets →",
+    backToGuidesText: "← All travel guides",
+    quickAnswerLabel: "Quick Answer",
+    tocLabel: "In This Guide",
+    relatedGuidesHeading: "Related Travel Guides",
+    sidebarRelatedHeading: "Related Travel Guides",
+    sidebarRecommendedBadge: "Recommended",
+    sidebarCompareLinkText: "Compare all cruises & tickets →",
+    promoRecommendedText: "Recommended Option",
   },
 };
 
@@ -407,10 +579,16 @@ function rowToHomepage(row: any): HomepageContent {
     featuredUrgencyText: row.featured_urgency_text || "",
     featuredReasons: parseReasons(row.featured_reasons),
     sections: {
+      tours: { ...DEFAULT_SECTIONS.tours, ...sectionsRaw.tours },
+      highlights: { ...DEFAULT_SECTIONS.highlights, ...sectionsRaw.highlights },
       why: { ...DEFAULT_SECTIONS.why, ...sectionsRaw.why },
       tower: { ...DEFAULT_SECTIONS.tower, ...sectionsRaw.tower },
       practical: { ...DEFAULT_SECTIONS.practical, ...sectionsRaw.practical },
       price: { ...DEFAULT_SECTIONS.price, ...sectionsRaw.price },
+      faq: { ...DEFAULT_SECTIONS.faq, ...sectionsRaw.faq },
+      notFound: { ...DEFAULT_SECTIONS.notFound, ...sectionsRaw.notFound },
+      blogTeaser: { ...DEFAULT_SECTIONS.blogTeaser, ...sectionsRaw.blogTeaser },
+      blogPage: { ...DEFAULT_SECTIONS.blogPage, ...sectionsRaw.blogPage },
     },
     header: parseJsonWithDefault<HeaderContent>(row.header_json, DEFAULT_HEADER),
     footer: parseJsonWithDefault<FooterContent>(row.footer_json, DEFAULT_FOOTER),

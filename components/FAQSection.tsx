@@ -1,7 +1,8 @@
 import { getFaqs } from "@/lib/data";
+import { getHomepageContent } from "@/lib/homepage";
 
 export default async function FAQSection() {
-  const faqs = await getFaqs();
+  const [faqs, { sections }] = await Promise.all([getFaqs(), getHomepageContent()]);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -16,10 +17,10 @@ export default async function FAQSection() {
     <section id="faq" className="mx-auto max-w-4xl px-4 py-20 sm:px-6">
       <div className="text-center">
         <span className="inline-block text-xs font-bold uppercase tracking-widest text-canal-blue">
-          Got Questions?
+          {sections.faq.eyebrow}
         </span>
         <h2 className="mt-2 font-display text-3xl font-bold text-stone-900 sm:text-4xl">
-          Amsterdam Canal Cruise FAQs
+          {sections.faq.heading}
         </h2>
       </div>
 

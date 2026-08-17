@@ -8,7 +8,7 @@ export default async function PriceComparison() {
     <section id="prices" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <div className="max-w-3xl">
         <span className="inline-block text-xs font-bold uppercase tracking-widest text-blue-600">
-          Transparent Comparison
+          {s.eyebrow}
         </span>
         <h2 className="mt-2 font-display text-3xl font-bold text-slate-900 sm:text-4xl">{s.heading}</h2>
         <div
@@ -51,7 +51,7 @@ export default async function PriceComparison() {
                     rel="noopener nofollow sponsored"
                     className="inline-flex rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition hover:scale-[1.02]"
                   >
-                    Book
+                    {s.bookLabel}
                   </a>
                 </td>
               </tr>

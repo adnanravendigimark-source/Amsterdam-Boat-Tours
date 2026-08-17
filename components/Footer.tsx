@@ -3,13 +3,13 @@ import Logo from "./Logo";
 import { getSiteChrome } from "@/lib/homepage";
 
 export default async function Footer() {
-  const { footer } = await getSiteChrome();
+  const { header, footer } = await getSiteChrome();
   return (
     <footer className="border-t border-stone-800 bg-canal-navy text-stone-100">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
-            <Logo variant="stacked" theme="dark" />
+            <Logo variant="stacked" theme="dark" line1={header.logoLine1} line2={header.logoLine2} />
             <div
               className="mt-5 max-w-sm text-sm leading-relaxed text-stone-300 rich-content rich-content-invert"
               dangerouslySetInnerHTML={{ __html: footer.tagline }}

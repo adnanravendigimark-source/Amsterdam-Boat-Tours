@@ -3,6 +3,7 @@ import SafeImage from "./SafeImage";
 import StarRating from "./StarRating";
 import { getTours } from "@/lib/data";
 import { getRelatedPosts } from "@/lib/posts";
+import { getHomepageContent } from "@/lib/homepage";
 
 export default async function BlogSidebar({
   slug,
@@ -11,9 +12,13 @@ export default async function BlogSidebar({
   slug: string;
   recommendedTourId: string;
 }) {
-  const tours = await getTours();
+  const [tours, related, { header, sections }] = await Promise.all([
+    getTours(),
+    getRelatedPosts(slug),
+    getHomepageContent(),
+  ]);
   const tour = tours.find((t) => t.id === recommendedTourId);
-  const related = await getRelatedPosts(slug);
+  const s = sections.blogPage;
 
   return (
     <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
@@ -22,7 +27,7 @@ export default async function BlogSidebar({
           <div className="relative aspect-[16/10]">
             <SafeImage src={tour.image} alt={tour.imageAlt} fill sizes="320px" className="object-cover" />
             <span className="absolute left-3 top-3 rounded-lg bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
-              Recommended
+              {s.sidebarRecommendedBadge}
             </span>
           </div>
           <div className="p-5">
@@ -43,7 +48,7 @@ export default async function BlogSidebar({
                 rel="noopener nofollow sponsored"
                 className="rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:scale-[1.02] transition"
               >
-                Book Now
+                {header.bookNowText}
               </a>
             </div>
           </div>
@@ -52,7 +57,7 @@ export default async function BlogSidebar({
 
       <div className="rounded-2xl border border-stone-200/80 bg-white p-6 shadow-sm">
         <p className="text-xs font-bold uppercase tracking-widest text-canal-blue">
-          Related Travel Guides
+          {s.sidebarRelatedHeading}
         </p>
         <div className="mt-4 space-y-4">
           {related.map((post) => (
@@ -77,7 +82,7 @@ export default async function BlogSidebar({
         href="/#tours"
         className="block rounded-2xl bg-gradient-to-r from-canal-navy to-slate-900 p-6 text-center text-sm font-bold text-white shadow-md transition hover:scale-[1.01]"
       >
-        Compare all cruises &amp; tickets →
+        {s.sidebarCompareLinkText}
       </a>
     </aside>
   );

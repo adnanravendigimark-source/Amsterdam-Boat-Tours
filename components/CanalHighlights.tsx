@@ -1,41 +1,22 @@
-const highlights = [
-  {
-    title: "UNESCO Canal Ring",
-    body: "The 17th-century Grachtengordel is a UNESCO World Heritage Site — over 1,500 bridges and 165 canals wind through the historic center.",
-    icon: "🏛️",
-  },
-  {
-    title: "Anne Frank House & Golden Bend",
-    body: "Pass right by the Anne Frank House and the grand merchant mansions of the Golden Bend on Herengracht, all from the water.",
-    icon: "🏘️",
-  },
-  {
-    title: "Open, Covered & Glass-Top Boats",
-    body: "Choose an open-air boat for fresh canal air, or a glass-topped saloon boat that stays warm and dry whatever the weather.",
-    icon: "🛶",
-  },
-  {
-    title: "Golden Hour Glow",
-    body: "After sunset, gabled townhouses and houseboats light up along the water, and the low bridges make for a magical, close-up ride.",
-    icon: "✨",
-  },
-];
+import { getHomepageContent } from "@/lib/homepage";
 
-export default function CanalHighlights() {
+// Content editable from /admin/homepage → Content tab (see
+// lib/homepage.ts's HighlightsSection / DEFAULT_SECTIONS.highlights).
+export default async function CanalHighlights() {
+  const { sections } = await getHomepageContent();
+  const s = sections.highlights;
+
   return (
     <section id="highlights" className="bg-canal-ink py-16 text-white">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <span className="text-xs font-semibold uppercase tracking-wider text-gold-400">
-          Why the Canals
+          {s.eyebrow}
         </span>
-        <h2 className="mt-2 font-display text-3xl font-bold">Amsterdam Canal Highlights</h2>
-        <p className="mt-3 max-w-2xl text-white/70">
-          The canals aren't just a way to get between landmarks — they're a viewpoint on their own.
-          Here's what makes the ride itself worth booking.
-        </p>
+        <h2 className="mt-2 font-display text-3xl font-bold">{s.heading}</h2>
+        <p className="mt-3 max-w-2xl text-white/70">{s.subheading}</p>
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {highlights.map((item) => (
+          {s.cards.map((item) => (
             <div
               key={item.title}
               className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition hover:border-canal-orange/40 hover:bg-white/10"

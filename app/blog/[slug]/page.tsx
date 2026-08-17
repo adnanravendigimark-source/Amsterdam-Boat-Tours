@@ -10,6 +10,7 @@ import BlogPostBody from "@/components/BlogPostBody";
 import BlogSidebar from "@/components/BlogSidebar";
 import SafeImage from "@/components/SafeImage";
 import { getPost } from "@/lib/posts";
+import { getHomepageContent } from "@/lib/homepage";
 import { getRedirectTarget } from "@/lib/redirects";
 import { resolveRobots, resolveCanonical, resolveOg, buildArticleJsonLd } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
@@ -45,7 +46,8 @@ export async function generateMetadata({
 }
 
 export default async function Post({ params }: { params: { slug: string } }) {
-  const post = await getPost(params.slug);
+  const [post, { sections }] = await Promise.all([getPost(params.slug), getHomepageContent()]);
+  const s = sections.blogPage;
   if (!post) {
     const target = await getRedirectTarget(params.slug);
     if (target) permanentRedirect(`/blog/${target}`);
@@ -65,7 +67,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
 
   const { toc: headingToc, html: contentHtml } = extractTableOfContents(post.content);
   const toc = post.quickAnswer.trim()
-    ? [{ id: "quick-answer", text: "Quick Answer", level: 2 as const }, ...headingToc]
+    ? [{ id: "quick-answer", text: s.quickAnswerLabel, level: 2 as const }, ...headingToc]
     : headingToc;
 
   return (
@@ -75,7 +77,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
       <main>
         <div className="mx-auto max-w-4xl px-4 pt-8 sm:px-6">
           <Link href="/blog" className="inline-flex items-center gap-1 text-sm font-bold text-blue-600 hover:underline">
-            ← All travel guides
+            {s.backToGuidesText}
           </Link>
           <div className="mt-6 flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-blue-600">
             <span className="rounded-md bg-blue-50 px-2.5 py-1">{post.category}</span>
@@ -100,9 +102,9 @@ export default async function Post({ params }: { params: { slug: string } }) {
 
         <div className="mx-auto max-w-6xl px-4 pb-20 pt-12 sm:px-6 lg:grid lg:grid-cols-[1fr_21rem] lg:gap-12">
           <div>
-            <TableOfContents items={toc} />
+            <TableOfContents items={toc} label={s.tocLabel} />
 
-            <QuickAnswer>{post.quickAnswer}</QuickAnswer>
+            <QuickAnswer label={s.quickAnswerLabel}>{post.quickAnswer}</QuickAnswer>
 
             <BlogPostBody
               content={contentHtml}

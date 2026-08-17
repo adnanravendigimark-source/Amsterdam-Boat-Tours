@@ -150,6 +150,8 @@ async function createTables() {
       id INTEGER PRIMARY KEY DEFAULT 1,
       title TEXT NOT NULL DEFAULT 'Privacy Policy',
       last_updated TEXT NOT NULL DEFAULT '',
+      last_updated_label TEXT NOT NULL DEFAULT 'Last updated: ',
+      empty_state_text TEXT NOT NULL DEFAULT E'This page hasn''t been filled in yet.',
       content JSONB NOT NULL DEFAULT '[]',
       no_index BOOLEAN NOT NULL DEFAULT false,
       no_follow BOOLEAN NOT NULL DEFAULT false,
@@ -183,6 +185,7 @@ async function createTables() {
       disclosure_body TEXT NOT NULL DEFAULT '',
       cta_text TEXT NOT NULL DEFAULT '',
       cta_button_label TEXT NOT NULL DEFAULT '',
+      contact_prompt_html TEXT NOT NULL DEFAULT '',
       meta_title TEXT NOT NULL DEFAULT '',
       meta_description TEXT NOT NULL DEFAULT '',
       canonical_url TEXT NOT NULL DEFAULT '',
@@ -202,6 +205,7 @@ async function createTables() {
       hero_heading TEXT NOT NULL DEFAULT '',
       hero_subheading TEXT NOT NULL DEFAULT '',
       email TEXT NOT NULL DEFAULT '',
+      email_label TEXT NOT NULL DEFAULT 'Email Us Directly',
       email_note TEXT NOT NULL DEFAULT '',
       reasons_heading TEXT NOT NULL DEFAULT '',
       reasons JSONB NOT NULL DEFAULT '[]',
@@ -283,6 +287,14 @@ async function addSeoColumns() {
 
   await sql`ALTER TABLE tours ADD COLUMN IF NOT EXISTS price_table_column1 TEXT NOT NULL DEFAULT ''`;
   await sql`ALTER TABLE tours ADD COLUMN IF NOT EXISTS price_table_feature TEXT NOT NULL DEFAULT ''`;
+
+  // Small admin-editable strings added alongside the "make everything
+  // editable" pass — About page's contact prompt, Contact page's email
+  // label, and Privacy Policy's "last updated" label + empty-state text.
+  await sql`ALTER TABLE about_page ADD COLUMN IF NOT EXISTS contact_prompt_html TEXT NOT NULL DEFAULT ''`;
+  await sql`ALTER TABLE contact_page ADD COLUMN IF NOT EXISTS email_label TEXT NOT NULL DEFAULT 'Email Us Directly'`;
+  await sql`ALTER TABLE privacy_policy ADD COLUMN IF NOT EXISTS last_updated_label TEXT NOT NULL DEFAULT 'Last updated: '`;
+  await sql`ALTER TABLE privacy_policy ADD COLUMN IF NOT EXISTS empty_state_text TEXT NOT NULL DEFAULT E'This page hasn''t been filled in yet.'`;
 
   // Stores the owner (.env ADMIN_EMAIL) account's password after it's
   // changed via /admin/account — see lib/adminPassword.ts. Without this

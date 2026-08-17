@@ -135,13 +135,10 @@ export default async function AboutPage() {
             </a>
           </div>
 
-          <p className="mt-8 text-sm text-slate-500">
-            Questions before you book? Reach out via our{" "}
-            <a href="/contact" className="font-bold text-blue-600 underline">
-              contact page
-            </a>
-            .
-          </p>
+          <div
+            className="rich-content mt-8 text-sm text-slate-500 [&_a]:font-bold [&_a]:text-blue-600 [&_a]:underline"
+            dangerouslySetInnerHTML={{ __html: about.contactPromptHtml }}
+          />
         </section>
       </main>
       <Footer />

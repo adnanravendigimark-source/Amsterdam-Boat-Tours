@@ -5,6 +5,7 @@ import { getHomepageContent } from "@/lib/homepage";
 
 export default async function FeaturedTour() {
   const content = await getHomepageContent();
+  const bookNowText = content.header.bookNowText;
   if (!content.showFeaturedTour) return null;
 
   const tours = await getTours();
@@ -33,7 +34,7 @@ export default async function FeaturedTour() {
           rel="noopener nofollow sponsored"
           className="shrink-0 rounded-xl bg-gradient-to-r from-blue-600 to-sky-600 px-4 py-2 text-xs font-bold text-white shadow-md shadow-blue-500/20"
         >
-          Book Now
+          {bookNowText}
         </a>
       </div>
     </div>

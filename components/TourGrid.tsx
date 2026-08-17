@@ -18,20 +18,19 @@ export default async function TourGrid() {
     <section id="tours" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <div className="max-w-3xl">
         <span className="inline-block text-xs font-bold uppercase tracking-widest text-blue-600">
-          Handpicked Options
+          {content.sections.tours.eyebrow}
         </span>
         <h2 className="mt-2 font-display text-3xl font-bold text-slate-900 sm:text-4xl">
-          Amsterdam Canal Cruises &amp; Tickets
+          {content.sections.tours.heading}
         </h2>
-        <p className="mt-3 text-base text-slate-600">
-          Curated canal cruise options — classic 1-hour sightseeing, evening wine & cheese in a heated saloon boat, and museum combos. Every cruise explores the UNESCO Canal Ring.
-        </p>
+        <p className="mt-3 text-base text-slate-600">{content.sections.tours.subheading}</p>
       </div>
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {orderedTours.map((tour) => (
           <TourCard
             key={tour.id}
             tour={tour}
+            bookNowText={content.header.bookNowText}
             recommended={
               content.showFeaturedTour && tour.id === content.featuredTourId
                 ? {

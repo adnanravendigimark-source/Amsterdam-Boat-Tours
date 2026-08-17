@@ -22,7 +22,7 @@ export default async function PracticalInfo() {
               ))}
             </tbody>
           </table>
-          <p className="mt-3 text-xs text-stone-400">Departures every 15–30 minutes across Amsterdam's primary cruise docks.</p>
+          <p className="mt-3 text-xs text-stone-400">{s.hoursNote}</p>
         </div>
 
         <div className="rounded-2xl border border-stone-200/80 bg-white p-6 shadow-sm">

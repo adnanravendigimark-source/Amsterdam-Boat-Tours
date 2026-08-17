@@ -6,6 +6,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import SafeImage from "@/components/SafeImage";
 import { getPosts } from "@/lib/posts";
 import { getBlogSeoSettings } from "@/lib/settings";
+import { getHomepageContent } from "@/lib/homepage";
 import { resolveRobots, resolveCanonical, resolveOg } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +25,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogIndexPage() {
-  const posts = await getPosts();
+  const [posts, { sections }] = await Promise.all([getPosts(), getHomepageContent()]);
+  const s = sections.blogPage;
   const [featured, ...rest] = posts;
 
   return (
@@ -33,19 +35,17 @@ export default async function BlogIndexPage() {
       <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20">
         <div className="text-center">
           <span className="inline-block rounded-md bg-blue-50 border border-blue-200/80 px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-600">
-            Canal Cruise Travel Guide
+            {s.eyebrow}
           </span>
           <h1 className="mt-3 font-display text-4xl font-bold text-slate-900 sm:text-5xl">
-            Amsterdam Canal Travel Tips &amp; Guides
+            {s.heading}
           </h1>
-          <p className="mx-auto mt-3 max-w-lg text-slate-600">
-            Practical advice to help you choose the best departure point, cruise route, and departure time.
-          </p>
+          <p className="mx-auto mt-3 max-w-lg text-slate-600">{s.subheading}</p>
         </div>
 
         {!featured && (
           <p className="mt-14 rounded-2xl border border-dashed border-slate-300 p-12 text-center text-sm text-slate-500">
-            No articles published yet — check back soon.
+            {s.emptyStateText}
           </p>
         )}
 
@@ -73,7 +73,7 @@ export default async function BlogIndexPage() {
               </h2>
               <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-slate-600">{featured.excerpt}</p>
               <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-blue-600">
-                Read the guide <span className="transition group-hover:translate-x-1">→</span>
+                {s.featuredLinkText} <span className="transition group-hover:translate-x-1">→</span>
               </span>
             </div>
           </Link>
@@ -113,14 +113,12 @@ export default async function BlogIndexPage() {
         </div>
 
         <div className="mt-16 flex flex-col items-center gap-4 rounded-2xl bg-gradient-to-r from-canal-navy to-slate-900 p-10 text-center text-white shadow-xl">
-          <p className="font-display text-2xl font-bold">
-            Ready to book your Amsterdam canal cruise?
-          </p>
+          <p className="font-display text-2xl font-bold">{s.ctaHeading}</p>
           <a
             href="/#tours"
             className="rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-7 py-3.5 text-sm font-bold text-white shadow-md transition hover:scale-[1.02]"
           >
-            Compare Amsterdam Canal Cruises &amp; Tickets →
+            {s.ctaButtonText}
           </a>
         </div>
       </main>
