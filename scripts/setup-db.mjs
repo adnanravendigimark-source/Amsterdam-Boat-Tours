@@ -78,6 +78,8 @@ async function createTables() {
       href_extra TEXT,
       featured BOOLEAN NOT NULL DEFAULT false,
       best_for TEXT NOT NULL DEFAULT '',
+      price_table_column1 TEXT NOT NULL DEFAULT '',
+      price_table_feature TEXT NOT NULL DEFAULT '',
       sort_order INTEGER NOT NULL DEFAULT 0
     )
   `;
@@ -276,6 +278,9 @@ async function addSeoColumns() {
   await sql`ALTER TABLE site_settings ADD COLUMN IF NOT EXISTS blog_og_title TEXT NOT NULL DEFAULT ''`;
   await sql`ALTER TABLE site_settings ADD COLUMN IF NOT EXISTS blog_og_description TEXT NOT NULL DEFAULT ''`;
   await sql`ALTER TABLE site_settings ADD COLUMN IF NOT EXISTS blog_og_image TEXT NOT NULL DEFAULT ''`;
+
+  await sql`ALTER TABLE tours ADD COLUMN IF NOT EXISTS price_table_column1 TEXT NOT NULL DEFAULT ''`;
+  await sql`ALTER TABLE tours ADD COLUMN IF NOT EXISTS price_table_feature TEXT NOT NULL DEFAULT ''`;
   console.log("SEO columns ready.");
 }
 

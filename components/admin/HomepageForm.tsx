@@ -18,6 +18,7 @@ import type {
   HoursRow,
   GalleryImage,
 } from "@/lib/homepage";
+import type { Tour } from "@/lib/data";
 
 const inputClass =
   "w-full rounded-lg border border-stone-300 px-3 py-2 text-sm focus:border-canal-blue focus:outline-none focus:ring-1 focus:ring-canal-blue";
@@ -81,7 +82,7 @@ function SectionCard({
   );
 }
 
-export default function HomepageForm({ initial }: { initial: HomepageContent }) {
+export default function HomepageForm({ initial, tours }: { initial: HomepageContent; tours: Tour[] }) {
   const router = useRouter();
   const [content, setContent] = useState<HomepageContent>(initial);
   const [activeTab, setActiveTab] = useState<TabKey>("content");
@@ -402,16 +403,77 @@ export default function HomepageForm({ initial }: { initial: HomepageContent }) 
             </Field>
           </SectionCard>
 
-          <SectionCard title="Price comparison intro" description="The table itself pulls live from Tours & Tickets — this is just the heading above it.">
+          <SectionCard title="Price comparison" description="The table rows pull live from Tours & Tickets — this covers the heading above it and the column headers on the table itself.">
             <Field label="Heading (H2)">
               <input value={content.sections.price.heading} onChange={(e) => updatePrice({ heading: e.target.value })} className={inputClass} />
             </Field>
             <Field label="Subheading">
               <RichTextEditor value={content.sections.price.subheading} onChange={(html) => updatePrice({ subheading: html })} minHeight="4rem" />
             </Field>
+            <div className="grid gap-5 sm:grid-cols-2">
+              <Field label="Column: item name" hint='e.g. "Cruise Option"'>
+                <input value={content.sections.price.itemLabel} onChange={(e) => updatePrice({ itemLabel: e.target.value })} className={inputClass} />
+              </Field>
+              <Field label="Column: price" hint='e.g. "Price"'>
+                <input value={content.sections.price.priceLabel} onChange={(e) => updatePrice({ priceLabel: e.target.value })} className={inputClass} />
+              </Field>
+              <Field label="Column 1" hint={'e.g. "Duration" — set per tour via its "Price table: Duration" field, or leave blank to use the tour\'s own Duration field.'}>
+                <input value={content.sections.price.column1Label} onChange={(e) => updatePrice({ column1Label: e.target.value })} className={inputClass} />
+              </Field>
+              <Field label="Column 2" hint='e.g. "Tasting / Drinks" — set per tour via its "Price table: Tasting / Drinks" field.'>
+                <input value={content.sections.price.column2Label} onChange={(e) => updatePrice({ column2Label: e.target.value })} className={inputClass} />
+              </Field>
+              <Field label="Column: best for" hint='e.g. "Best For"'>
+                <input value={content.sections.price.bestForLabel} onChange={(e) => updatePrice({ bestForLabel: e.target.value })} className={inputClass} />
+              </Field>
+            </div>
             <Field label="Small note under the table">
               <textarea rows={2} value={content.sections.price.note} onChange={(e) => updatePrice({ note: e.target.value })} className={inputClass} />
             </Field>
+
+            <div>
+              <p className={labelClass}>Live preview</p>
+              <p className="mb-2 text-xs text-stone-500">
+                Exactly what's on the site right now, row by row. Row content (title, price, features)
+                comes from each tour — edit it on the <Link href="/admin/tours" className="underline">Tours &amp; Tickets</Link> page.
+              </p>
+              {tours.length === 0 ? (
+                <p className="rounded-xl border border-stone-200 bg-stone-50 p-4 text-sm text-stone-500">
+                  No tours yet — add one on the Tours &amp; Tickets page to see it appear here.
+                </p>
+              ) : (
+                <div className="overflow-x-auto rounded-xl border border-stone-200">
+                  <table className="w-full min-w-[640px] border-collapse bg-white text-left text-xs">
+                    <thead>
+                      <tr className="bg-stone-100 text-stone-600">
+                        <th className="px-3 py-2 font-semibold">{content.sections.price.itemLabel || "—"}</th>
+                        <th className="px-3 py-2 font-semibold">{content.sections.price.priceLabel || "—"}</th>
+                        <th className="px-3 py-2 font-semibold">{content.sections.price.column1Label || "—"}</th>
+                        <th className="px-3 py-2 font-semibold">{content.sections.price.column2Label || "—"}</th>
+                        <th className="px-3 py-2 font-semibold">{content.sections.price.bestForLabel || "—"}</th>
+                        <th className="px-3 py-2 font-semibold"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tours.map((tour, i) => (
+                        <tr key={tour.id} className={`border-t border-stone-200 ${i % 2 ? "bg-stone-50" : ""}`}>
+                          <td className="px-3 py-2 font-medium text-stone-900">{tour.title}</td>
+                          <td className="px-3 py-2 text-stone-700">€{tour.price}</td>
+                          <td className="px-3 py-2 text-stone-700">{tour.priceTableColumn1 || tour.duration}</td>
+                          <td className="px-3 py-2 text-stone-700">{tour.priceTableFeature || "No"}</td>
+                          <td className="px-3 py-2 text-stone-700">{tour.bestFor}</td>
+                          <td className="px-3 py-2 text-right">
+                            <Link href={`/admin/tours/${tour.id}`} className="font-medium text-canal-blue hover:underline">
+                              Edit →
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
           </SectionCard>
 
           <SectionCard title="Footer" description="Shown at the bottom of every page." tone="sitewide">

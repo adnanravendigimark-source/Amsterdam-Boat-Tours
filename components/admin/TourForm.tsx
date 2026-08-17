@@ -267,6 +267,34 @@ export default function TourForm({
         />
       </div>
 
+      <div>
+        <label className={labelClass}>Price table: "Duration" column (optional)</label>
+        <input
+          value={tour.priceTableColumn1 || ""}
+          onChange={(e) => update("priceTableColumn1", e.target.value)}
+          className={inputClass}
+          placeholder="e.g. 1h 15m"
+        />
+        <p className="mt-1 text-xs text-stone-500">
+          Shown in the homepage price-comparison table's "Duration" column for this tour. Leave blank to
+          use the Duration field above.
+        </p>
+      </div>
+
+      <div>
+        <label className={labelClass}>Price table: "Tasting / Drinks" column (optional)</label>
+        <input
+          value={tour.priceTableFeature || ""}
+          onChange={(e) => update("priceTableFeature", e.target.value)}
+          className={inputClass}
+          placeholder="e.g. Dutch Wine & Cheese"
+        />
+        <p className="mt-1 text-xs text-stone-500">
+          Shown in the homepage price-comparison table's "Tasting / Drinks" column for this tour. Leave
+          blank to show "No".
+        </p>
+      </div>
+
       <label className="flex items-center gap-2 text-sm text-stone-700">
         <input
           type="checkbox"

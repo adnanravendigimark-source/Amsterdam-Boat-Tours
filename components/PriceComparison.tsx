@@ -21,11 +21,11 @@ export default async function PriceComparison() {
         <table className="w-full min-w-[700px] border-collapse text-left text-sm">
           <thead>
             <tr className="bg-canal-navy text-white">
-              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">Cruise Option</th>
-              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">Price</th>
-              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">Duration</th>
-              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">Tasting / Drinks</th>
-              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">Best For</th>
+              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">{s.itemLabel}</th>
+              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">{s.priceLabel}</th>
+              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">{s.column1Label}</th>
+              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">{s.column2Label}</th>
+              <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider">{s.bestForLabel}</th>
               <th className="px-6 py-4 font-semibold text-xs uppercase tracking-wider text-right"></th>
             </tr>
           </thead>
@@ -41,14 +41,8 @@ export default async function PriceComparison() {
                 <td className="px-6 py-4 font-bold text-blue-600">
                   €{tour.price} <span className="font-normal text-xs text-slate-400">/ person</span>
                 </td>
-                <td className="px-6 py-4 text-slate-600">{tour.duration}</td>
-                <td className="px-6 py-4 text-slate-600">
-                  {tour.id === "amsterdam-evening-wine-cheese-cruise"
-                    ? "Dutch Wine & Cheese"
-                    : tour.id === "amsterdam-canal-cruise-pancake-tasting"
-                    ? "Dutch Pancake Tasting"
-                    : "Sightseeing"}
-                </td>
+                <td className="px-6 py-4 text-slate-600">{tour.priceTableColumn1 || tour.duration}</td>
+                <td className="px-6 py-4 text-slate-600">{tour.priceTableFeature || "No"}</td>
                 <td className="px-6 py-4 text-slate-600">{tour.bestFor}</td>
                 <td className="px-6 py-4 text-right">
                   <a

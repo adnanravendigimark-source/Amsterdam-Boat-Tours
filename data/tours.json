@@ -35,7 +35,8 @@
     "hrefPath": "amsterdam-l36/amsterdam-evening-canal-cruise-wine-cheese-t500002",
     "hrefExtra": "",
     "featured": true,
-    "bestFor": "Couples and evening sightseeing"
+    "bestFor": "Couples and evening sightseeing",
+    "priceTableFeature": "Dutch Wine & Cheese"
   },
   {
     "id": "amsterdam-canal-cruise-pancake-tasting",
@@ -53,7 +54,8 @@
     "imageAlt": "A row of historic Dutch canal houses lining an Amsterdam canal",
     "hrefPath": "amsterdam-l36/amsterdam-canal-cruise-pancake-tasting-t500003",
     "hrefExtra": "",
-    "bestFor": "Travelers who want sightseeing plus a real Dutch treat"
+    "bestFor": "Travelers who want sightseeing plus a real Dutch treat",
+    "priceTableFeature": "Dutch Pancake Tasting"
   },
   {
     "id": "amsterdam-vangogh-canal-cruise-combo",

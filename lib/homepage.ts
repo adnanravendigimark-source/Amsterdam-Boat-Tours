@@ -70,6 +70,13 @@ export interface PriceSection {
   heading: string;
   subheading: string;
   note: string;
+  // Column headers for the price-comparison table below — admin-editable
+  // so this can be relabeled without a code change.
+  itemLabel: string;
+  priceLabel: string;
+  column1Label: string;
+  column2Label: string;
+  bestForLabel: string;
 }
 
 export interface HomepageSections {
@@ -296,6 +303,11 @@ export const DEFAULT_SECTIONS: HomepageSections = {
     subheading:
       "All four options side by side — pick the cruise that matches your itinerary, then book instantly online.",
     note: "Infants under 3 ride free; children (4–12) and youth receive discounted tickets on most departures — check each ticket's booking page for full details.",
+    itemLabel: "Cruise Option",
+    priceLabel: "Price",
+    column1Label: "Duration",
+    column2Label: "Tasting / Drinks",
+    bestForLabel: "Best For",
   },
 };
 
