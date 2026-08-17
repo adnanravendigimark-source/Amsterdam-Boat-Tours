@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import { SITE_URL } from "@/lib/site";
 import { resolveRobots } from "@/lib/seo";
@@ -108,6 +109,19 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
+      <head>
+        {/* Google tag (gtag.js) */}
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-SYMDM65LVH" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-SYMDM65LVH');
+          `}
+        </Script>
+      </head>
       <body className="font-body bg-stone-50 text-slate-900 antialiased selection:bg-blue-500 selection:text-white">
         {themeStyle && <style dangerouslySetInnerHTML={{ __html: themeStyle }} />}
         {children}
