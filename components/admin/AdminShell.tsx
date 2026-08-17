@@ -54,9 +54,8 @@ export default function AdminShell({
   return (
     <div className="flex min-h-screen bg-stone-100 font-body text-stone-900">
       <div
-        className={`shrink-0 overflow-hidden sm:transition-[width] sm:duration-200 sm:ease-in-out ${
-          collapsed ? "sm:w-0" : "sm:w-64"
-        } ${hydrated ? "" : "sm:w-64"}`}
+        className={`shrink-0 overflow-hidden sm:transition-[width] sm:duration-200 sm:ease-in-out ${collapsed ? "sm:w-0" : "sm:w-64"
+          } ${hydrated ? "" : "sm:w-64"}`}
       >
         <aside className="hidden h-full w-64 flex-col bg-stone-900 text-white sm:flex">
           {/* Sidebar is narrower than the public header, so this is a
@@ -110,9 +109,8 @@ export default function AdminShell({
                 <>
                   {sessionEmail}
                   <span
-                    className={`ml-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
-                      isAdmin ? "bg-gold-500/15 text-gold-600" : "bg-stone-200 text-stone-600"
-                    }`}
+                    className={`ml-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${isAdmin ? "bg-gold-500/15 text-gold-600" : "bg-stone-200 text-stone-600"
+                      }`}
                   >
                     {sessionRole}
                   </span>

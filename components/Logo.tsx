@@ -33,9 +33,8 @@ export default function Logo({
         </span>
         <div className="text-center leading-tight">
           <span
-            className={`block font-display text-2xl font-black tracking-[-0.03em] uppercase ${
-              isDark ? "text-white" : "text-slate-900"
-            }`}
+            className={`block font-display text-2xl font-black tracking-[-0.03em] uppercase ${isDark ? "text-white" : "text-slate-900"
+              }`}
           >
             Amsterdam
           </span>
@@ -63,18 +62,16 @@ export default function Logo({
   const wordmark = (
     <span className="hidden items-center gap-3.5 sm:flex">
       <span
-        className={`h-8 w-[1.5px] shrink-0 rounded-full ${
-          isDark
+        className={`h-8 w-[1.5px] shrink-0 rounded-full ${isDark
             ? "bg-gradient-to-b from-sky-400/80 to-blue-600/30"
             : "bg-gradient-to-b from-blue-600/60 to-sky-400/20"
-        }`}
+          }`}
         aria-hidden="true"
       />
       <div className="flex flex-col leading-[1.08]">
         <span
-          className={`block whitespace-nowrap font-display text-[1.18rem] font-black tracking-[-0.03em] uppercase ${
-            isDark ? "text-white" : "text-slate-900"
-          }`}
+          className={`block whitespace-nowrap font-display text-[1.18rem] font-black tracking-[-0.03em] uppercase ${isDark ? "text-white" : "text-slate-900"
+            }`}
         >
           Amsterdam
         </span>
