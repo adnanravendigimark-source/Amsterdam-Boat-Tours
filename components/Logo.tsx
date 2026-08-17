@@ -25,12 +25,16 @@ export default function Logo({
   if (variant === "stacked") {
     return (
       <Link href="/" className={`inline-flex flex-col items-center gap-3.5 ${className}`}>
-        <span className="relative block h-28 w-44 sm:h-32 sm:w-48 transition-transform duration-300 hover:scale-105">
+        {/* Sized to the boat artwork's actual ~3.58:1 aspect ratio (rather
+            than a taller box built for the old mark) so the illustration
+            fills its box edge-to-edge instead of shrinking inside empty
+            letterbox space. */}
+        <span className="relative block h-24 w-[344px] sm:h-28 sm:w-[401px] transition-transform duration-300 hover:scale-105">
           <Image
             src={customSrc || logo}
             alt={alt}
             fill
-            sizes="200px"
+            sizes="401px"
             className="object-contain"
             priority
           />
@@ -51,13 +55,13 @@ export default function Logo({
   }
 
   const image = (
-    <span className="relative block h-11 w-16 overflow-hidden sm:h-12 sm:w-20 transition-transform duration-300 group-hover:scale-105">
+    <span className="relative block h-12 w-[172px] overflow-hidden sm:h-14 sm:w-[200px] transition-transform duration-300 group-hover:scale-105">
       <Image
         src={customSrc || logo}
         alt={alt}
         fill
         priority
-        sizes="120px"
+        sizes="200px"
         className="object-contain"
       />
     </span>

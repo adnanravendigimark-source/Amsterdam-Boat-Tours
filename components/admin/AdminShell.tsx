@@ -63,8 +63,12 @@ export default function AdminShell({
               component's wordmark needs more width than 256px leaves room
               for and was overflowing the column. */}
           <div className="flex items-center gap-2.5 border-b border-white/10 px-5 py-5">
-            <span className="flex h-10 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md ring-1 ring-white/15">
-              <Image src={logo} alt="Amsterdam Boat Tours logo" className="h-full w-full object-contain" priority />
+            {/* No boxed/ring badge here anymore — the boat artwork is a
+                wide, flat silhouette rather than a square icon, so a small
+                ring-bordered square box was squashing it down to a sliver.
+                It reads better shown directly at its natural aspect ratio. */}
+            <span className="relative block h-9 w-24 shrink-0">
+              <Image src={logo} alt="Amsterdam Boat Tours logo" fill sizes="96px" className="object-contain" priority />
             </span>
             <div className="min-w-0">
               <p className="truncate font-display text-sm font-semibold italic text-white">{brandName}</p>
