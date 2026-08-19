@@ -1,33 +1,15 @@
 import { sql } from "./db";
 
-export interface AboutReason {
-  icon: string;
-  title: string;
-  body: string;
-}
-
 export interface AboutPageContent {
   heroEyebrow: string;
   heroHeading: string;
   heroSubheading: string;
   heroImage: string;
   heroImageAlt: string;
-  introHeading: string;
-  introParagraph1: string;
-  introParagraph2: string;
-  introImage: string;
-  introImageAlt: string;
-  reasonsHeading: string;
-  reasonsSubheading: string;
-  reasons: AboutReason[];
-  disclosureHeading: string;
-  disclosureBody: string;
-  ctaText: string;
-  ctaButtonLabel: string;
-  // Small line under the CTA box pointing to the Contact page — rich text
-  // so the "contact page" link inside it stays editable too. See
-  // app/about/page.tsx.
-  contactPromptHtml: string;
+  // One flowing rich-text field for the whole page body — written and
+  // edited just like a blog post's article content (see
+  // components/admin/AboutForm.tsx / TiptapArticleEditor).
+  content: string;
   metaTitle: string;
   metaDescription: string;
   canonicalUrl: string;
@@ -45,28 +27,24 @@ const DEFAULT_ABOUT: AboutPageContent = {
     "We help travelers book the right Amsterdam canal sightseeing, wine & cheese, and combo cruise online — curated from licensed operators, explained in plain language.",
   heroImage: "https://images.unsplash.com/photo-1755589066709-ec12ec11baa1?q=80&w=2000&auto=format&fit=crop",
   heroImageAlt: "Classic canal cruise boat gliding along Amsterdam canals past gabled townhouses",
-  introHeading: "Why We Built an Amsterdam Canal Cruise Guide",
-  introParagraph1:
-    "We built this site around one belief: exploring Amsterdam from the water is the single best way to understand the city's 17th-century Golden Age architecture and layout — but only if you book the right boat. With dozens of docks scattered across Damrak, Rokin, and the Anne Frank House, finding the right departure shouldn't be confusing.",
-  introParagraph2:
-    "We are an independent Amsterdam canal cruise guide — not an official boat operator. We compare classic 1-hour sightseeing cruises, evening wine & cheese saloon boats, and museum combo tickets from licensed operators, currently via GetYourGuide, pointing you directly to the top experiences.",
-  introImage: "https://images.unsplash.com/photo-1759720694996-5f6b3435fe5a?q=80&w=1000&auto=format&fit=crop",
-  introImageAlt: "Amsterdam canal houses and bridge glowing at dusk",
-  reasonsHeading: "How We Pick Our Amsterdam Canal Cruises",
-  reasonsSubheading: "Every cruise listed on this site is screened against four criteria before it earns a spot.",
-  reasons: [
-    { icon: "ShieldCheckIcon", title: "Licensed, Established Operators", body: "Every cruise we list runs with certified Dutch canal boat operators — not unregulated third-party resellers." },
-    { icon: "StarIcon", title: "Real Review Volume", body: "We only list canal cruises with thousands of verified customer reviews and high customer satisfaction ratings." },
-    { icon: "LockIcon", title: "Transparent Pricing", body: "The price you see on each tour card is the full price you pay — no unexpected booking surcharges at checkout." },
-    { icon: "HeadsetIcon", title: "Honest, Clear Info", body: "We tell you exactly what is included on each boat — from audio headsets in 19 languages to Dutch wine and cheese pairings." },
-  ],
-  disclosureHeading: "A Note on How We Earn",
-  disclosureBody:
-    "When you book an Amsterdam canal cruise through a link on this site, we may earn a small affiliate commission from the operator at no extra cost to you. This is how we keep the site free and independently maintained without banner ads.",
-  ctaText: "Ready to book your Amsterdam canal cruise?",
-  ctaButtonLabel: "Compare Amsterdam Boat Tours",
-  contactPromptHtml:
-    "Questions before you book? Reach out via our <a href=\"/contact\">contact page</a>.",
+  content: `<h2>Our Mission</h2>
+<p>We built this site around one belief: exploring Amsterdam from the water is the single best way to understand the city's 17th-century Golden Age architecture and layout — but only if you book the right boat. With dozens of docks scattered across Damrak, Rokin, and the Anne Frank House, finding the right departure shouldn't be confusing.</p>
+<p>We are an independent Amsterdam canal cruise guide — not an official boat operator. We compare classic 1-hour sightseeing cruises, evening wine &amp; cheese saloon boats, and museum combo tickets from licensed operators, pointing you directly to the top experiences.</p>
+<h2>How We Choose Our Amsterdam Canal Cruises</h2>
+<p>Every cruise listed on this site is screened against four criteria before it earns a spot.</p>
+<ul>
+<li><strong>Licensed, Established Operators</strong> — Every cruise we list runs with certified Dutch canal boat operators, not unregulated third-party resellers.</li>
+<li><strong>Real Review Volume</strong> — We only list canal cruises with thousands of verified customer reviews and high customer satisfaction ratings.</li>
+<li><strong>Transparent Pricing</strong> — The price you see on each tour card is the full price you pay, with no unexpected booking surcharges at checkout.</li>
+<li><strong>Honest, Clear Info</strong> — We tell you exactly what is included on each boat, from audio headsets in 19 languages to Dutch wine and cheese pairings.</li>
+</ul>
+<h2>Independent Amsterdam Canal Cruise Guide</h2>
+<p>This is an independent guide, not an official canal cruise operator or municipal ticketing authority. Bookings made through links on this site are processed by GetYourGuide, our trusted third-party booking partner, and are subject to GetYourGuide's own pricing, availability, and cancellation terms.</p>
+<h2>Our Content</h2>
+<p>We aim to write practical, honest guides rather than oversold sales copy, so you know what a cruise actually includes before you book. Tour details, prices, and availability can change, so always check the booking page for the most current information before you travel.</p>
+<h2>Affiliate Disclosure</h2>
+<p>When you book an Amsterdam canal cruise through a link on this site, we may earn a small affiliate commission from the operator at no extra cost to you. This is how we keep the site free and independently maintained without banner ads.</p>
+<p>Have questions before you book? Reach out via our <a href="/contact">contact page</a>.</p>`,
   metaTitle: "About Us | Amsterdam Canal Cruise Tour & Ticket Booking Guide",
   metaDescription:
     "Who curates our Amsterdam canal sightseeing and evening cruises online, how we select licensed operators, and why booking ahead saves time.",
@@ -78,19 +56,6 @@ const DEFAULT_ABOUT: AboutPageContent = {
   ogImage: "",
 };
 
-function parseReasons(value: unknown): AboutReason[] {
-  if (Array.isArray(value)) return value as AboutReason[];
-  if (typeof value === "string") {
-    try {
-      const parsed = JSON.parse(value);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  }
-  return [];
-}
-
 function rowToAbout(row: any): AboutPageContent {
   return {
     heroEyebrow: row.hero_eyebrow ?? DEFAULT_ABOUT.heroEyebrow,
@@ -98,19 +63,7 @@ function rowToAbout(row: any): AboutPageContent {
     heroSubheading: row.hero_subheading ?? DEFAULT_ABOUT.heroSubheading,
     heroImage: row.hero_image ?? DEFAULT_ABOUT.heroImage,
     heroImageAlt: row.hero_image_alt ?? DEFAULT_ABOUT.heroImageAlt,
-    introHeading: row.intro_heading ?? DEFAULT_ABOUT.introHeading,
-    introParagraph1: row.intro_paragraph_1 ?? DEFAULT_ABOUT.introParagraph1,
-    introParagraph2: row.intro_paragraph_2 ?? DEFAULT_ABOUT.introParagraph2,
-    introImage: row.intro_image ?? DEFAULT_ABOUT.introImage,
-    introImageAlt: row.intro_image_alt ?? DEFAULT_ABOUT.introImageAlt,
-    reasonsHeading: row.reasons_heading ?? DEFAULT_ABOUT.reasonsHeading,
-    reasonsSubheading: row.reasons_subheading ?? DEFAULT_ABOUT.reasonsSubheading,
-    reasons: parseReasons(row.reasons).length ? parseReasons(row.reasons) : DEFAULT_ABOUT.reasons,
-    disclosureHeading: row.disclosure_heading ?? DEFAULT_ABOUT.disclosureHeading,
-    disclosureBody: row.disclosure_body ?? DEFAULT_ABOUT.disclosureBody,
-    ctaText: row.cta_text ?? DEFAULT_ABOUT.ctaText,
-    ctaButtonLabel: row.cta_button_label ?? DEFAULT_ABOUT.ctaButtonLabel,
-    contactPromptHtml: row.contact_prompt_html ?? DEFAULT_ABOUT.contactPromptHtml,
+    content: row.content ?? DEFAULT_ABOUT.content,
     metaTitle: row.meta_title || DEFAULT_ABOUT.metaTitle,
     metaDescription: row.meta_description || DEFAULT_ABOUT.metaDescription,
     canonicalUrl: row.canonical_url || "",
@@ -145,16 +98,12 @@ export async function saveAboutPage(data: AboutPageContent): Promise<void> {
   await sql`
     INSERT INTO about_page (
       id, hero_eyebrow, hero_heading, hero_subheading, hero_image, hero_image_alt,
-      intro_heading, intro_paragraph_1, intro_paragraph_2, intro_image, intro_image_alt,
-      reasons_heading, reasons_subheading, reasons,
-      disclosure_heading, disclosure_body, cta_text, cta_button_label, contact_prompt_html,
+      content,
       meta_title, meta_description, canonical_url,
       no_index, no_follow, og_title, og_description, og_image
     ) VALUES (
       1, ${data.heroEyebrow}, ${data.heroHeading}, ${data.heroSubheading}, ${data.heroImage}, ${data.heroImageAlt},
-      ${data.introHeading}, ${data.introParagraph1}, ${data.introParagraph2}, ${data.introImage}, ${data.introImageAlt},
-      ${data.reasonsHeading}, ${data.reasonsSubheading}, ${JSON.stringify(data.reasons || [])}::jsonb,
-      ${data.disclosureHeading}, ${data.disclosureBody}, ${data.ctaText}, ${data.ctaButtonLabel}, ${data.contactPromptHtml},
+      ${data.content},
       ${data.metaTitle || ""}, ${data.metaDescription || ""}, ${data.canonicalUrl || ""},
       ${!!data.noIndex}, ${!!data.noFollow}, ${data.ogTitle || ""}, ${data.ogDescription || ""}, ${data.ogImage || ""}
     )
@@ -164,19 +113,7 @@ export async function saveAboutPage(data: AboutPageContent): Promise<void> {
       hero_subheading = EXCLUDED.hero_subheading,
       hero_image = EXCLUDED.hero_image,
       hero_image_alt = EXCLUDED.hero_image_alt,
-      intro_heading = EXCLUDED.intro_heading,
-      intro_paragraph_1 = EXCLUDED.intro_paragraph_1,
-      intro_paragraph_2 = EXCLUDED.intro_paragraph_2,
-      intro_image = EXCLUDED.intro_image,
-      intro_image_alt = EXCLUDED.intro_image_alt,
-      reasons_heading = EXCLUDED.reasons_heading,
-      reasons_subheading = EXCLUDED.reasons_subheading,
-      reasons = EXCLUDED.reasons,
-      disclosure_heading = EXCLUDED.disclosure_heading,
-      disclosure_body = EXCLUDED.disclosure_body,
-      cta_text = EXCLUDED.cta_text,
-      cta_button_label = EXCLUDED.cta_button_label,
-      contact_prompt_html = EXCLUDED.contact_prompt_html,
+      content = EXCLUDED.content,
       meta_title = EXCLUDED.meta_title,
       meta_description = EXCLUDED.meta_description,
       canonical_url = EXCLUDED.canonical_url,
