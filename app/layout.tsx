@@ -1,3 +1,4 @@
+import AffiliateClickTracker from "@/components/AffiliateClickTracker";
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
@@ -21,21 +22,22 @@ const bodyFont = Plus_Jakarta_Sans({
 });
 
 const DEFAULT_OG_IMAGE =
-  "https://images.unsplash.com/photo-1755589066709-ec12ec11baa1?q=80&w=2400&auto=format&fit=crop";
+  "https://vel8aqzfqfybmsb2.public.blob.vercel-storage.com/uploads/amsterdam-canal-boat-hero-M7TeLyUpOHh3doGlrxzdwr4smtU1SL.jpg";
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Amsterdam Boat Tours",
+  name: "Amsterdam Boat Cruise",
   url: SITE_URL,
+  logo: `${SITE_URL}/Logo.png`,
   description:
-    "Independent guide comparing Amsterdam canal sightseeing cruises, evening wine & cheese saloon cruises, and combo tickets from licensed operators.",
+    "Independent guide comparing Amsterdam canal cruise tickets — sightseeing, evening and drinks cruises — bookable on GetYourGuide.",
 };
 
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Amsterdam Boat Tours",
+  name: "Amsterdam Boat Cruise",
   url: SITE_URL,
 };
 
@@ -45,11 +47,11 @@ export function generateMetadata(): Metadata {
   return {
     metadataBase: new URL(SITE_URL),
     title: {
-      default: "Amsterdam Canal Cruise Tours & Tickets (2026)",
-      template: "%s | Amsterdam Boat Tours",
+      default: "Amsterdam Canal Cruise Tickets 2026: Compare 3 Cruises",
+      template: "%s | Amsterdam Boat Cruise",
     },
     description:
-      "Compare Amsterdam canal sightseeing cruises, evening wine & cheese cruises, and museum combos. Instant online booking, free cancellation on most tickets.",
+      "Compare Amsterdam canal cruise tickets — guided, evening and drinks cruises — with prices checked on GetYourGuide.",
     keywords: [
       "Amsterdam canal cruise",
       "Amsterdam boat tours",
@@ -68,17 +70,17 @@ export function generateMetadata(): Metadata {
     openGraph: {
       title: "Amsterdam Canal Cruise Tours & Tickets | Sightseeing + Evening Cruises",
       description:
-        "Sightseeing, wine & cheese, and combo cruises through Amsterdam's UNESCO canal ring. Compare prices and book online.",
+        "Guided, evening and drinks cruises through Amsterdam's canal ring. Compare prices and book on GetYourGuide.",
       type: "website",
       url: SITE_URL,
-      siteName: "Amsterdam Boat Tours",
+      siteName: "Amsterdam Boat Cruise",
       images: [{ url: DEFAULT_OG_IMAGE, width: 2400, height: 1350, alt: "Amsterdam canal cruise boat on the water" }],
     },
     twitter: {
       card: "summary_large_image",
       title: "Amsterdam Canal Cruise Tours & Tickets | Sightseeing + Evening Cruises",
       description:
-        "Sightseeing, wine & cheese, and combo cruises through Amsterdam's UNESCO canal ring. Compare prices and book online.",
+        "Guided, evening and drinks cruises through Amsterdam's canal ring. Compare prices and book on GetYourGuide.",
       images: [DEFAULT_OG_IMAGE],
     },
   };
@@ -132,6 +134,7 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
+        <AffiliateClickTracker />
       </body>
     </html>
   );

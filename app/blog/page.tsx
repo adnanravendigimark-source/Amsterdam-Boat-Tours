@@ -8,14 +8,14 @@ import { WaveBoatIcon } from "@/components/icons";
 import { getPosts } from "@/lib/posts";
 import { getBlogSeoSettings } from "@/lib/settings";
 import { getHomepageContent } from "@/lib/homepage";
-import { resolveRobots, resolveCanonical, resolveOg } from "@/lib/seo";
+import { resolveRobots, resolveCanonical, resolveOg, pageTitle } from "@/lib/seo";
 
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getBlogSeoSettings();
   const og = resolveOg(settings, { title: settings.metaTitle, description: settings.metaDescription });
   return {
-    title: settings.metaTitle,
+    title: pageTitle(settings.metaTitle),
     description: settings.metaDescription,
     alternates: { canonical: resolveCanonical("/blog", settings.canonicalUrl) },
     robots: resolveRobots(settings.noIndex, settings.noFollow),
@@ -36,7 +36,7 @@ export default async function BlogIndexPage() {
         <section className="relative overflow-hidden bg-canal-navy text-white">
           <div className="absolute inset-0">
             <SafeImage
-              src={heroImage || "https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?q=80&w=2400&auto=format&fit=crop"}
+              src={heroImage || "https://vel8aqzfqfybmsb2.public.blob.vercel-storage.com/uploads/amsterdam-canal-blog-hero-MfEce7TiDjMlfCqldqylN7GC7KiR8I.jpg"}
               alt={heroImageAlt || "Amsterdam canal at dusk"}
               fill
               priority

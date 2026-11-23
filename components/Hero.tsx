@@ -1,16 +1,93 @@
-import Image from "next/image";
 import SafeImage from "./SafeImage";
 import { getHomepageContent } from "@/lib/homepage";
+import { getTours, hasPrice } from "@/lib/data";
+import { formatCheckedDate } from "@/lib/checkedDate";
+import s from "./hero.module.css";
+
+type Fact = { text: string; icon: "price" | "cancel" | "time" | "star" };
+
+// Pulls every hour figure out of a duration string: "1–1.5 hours" -> [1, 1.5].
+function hours(duration?: string): number[] {
+  if (!duration || !/hour/i.test(duration)) return [];
+  return (duration.match(/\d+(?:[.,]\d+)?/g) || []).map((n) => Number(n.replace(",", ".")));
+}
+
+const fmt = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(1).replace(/\.0$/, ""));
+
+function FactIcon({ name }: { name: Fact["icon"] }) {
+  const p = {
+    className: s.factIcon,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+  if (name === "price")
+    return (
+      <svg {...p} aria-hidden="true">
+        <path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z" />
+        <circle cx="7.5" cy="7.5" r="1.5" />
+      </svg>
+    );
+  if (name === "cancel")
+    return (
+      <svg {...p} aria-hidden="true">
+        <rect x="3" y="4.5" width="18" height="16" rx="2" />
+        <path d="M3 9.5h18M8 2.5v4M16 2.5v4M9 15l2 2 4-4" />
+      </svg>
+    );
+  if (name === "time")
+    return (
+      <svg {...p} aria-hidden="true">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 2" />
+      </svg>
+    );
+  return (
+    <svg {...p} aria-hidden="true">
+      <path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z" />
+    </svg>
+  );
+}
 
 export default async function Hero() {
   const content = await getHomepageContent();
-  const gallery = content.heroGallery;
+  const tours = await getTours();
+
+  // Facts: only what the database already states.
+  const facts: Fact[] = [];
+
+  const priced = tours.filter(hasPrice);
+  if (priced.length) {
+    const min = Math.min(...priced.map((t) => t.price));
+    const checked = formatCheckedDate(priced.map((t) => t.priceChecked || "").sort().pop());
+    facts.push({ text: checked ? `From €${min} per adult, checked ${checked}` : `From €${min} per adult`, icon: "price" });
+  }
+
+  const cancellations = Array.from(new Set(tours.map((t) => t.cancellation?.trim() || "")));
+  if (tours.length && cancellations.length === 1 && cancellations[0]) {
+    facts.push({ text: cancellations[0], icon: "cancel" });
+  }
+
+  const allHours = tours.flatMap((t) => hours(t.duration));
+  if (allHours.length) {
+    const lo = Math.min(...allHours);
+    const hi = Math.max(...allHours);
+    facts.push({
+      text: lo === hi ? `${fmt(lo)} hour${lo === 1 ? "" : "s"} on the water` : `${fmt(lo)}–${fmt(hi)} hours on the water`,
+      icon: "time",
+    });
+  }
+
+  if (content.ratingValue.trim()) {
+    facts.push({ text: [content.ratingValue, content.ratingCount].filter(Boolean).join(", "), icon: "star" });
+  }
+
   return (
-    <section
-      id="top"
-      className="relative flex min-h-[calc(100dvh-4rem)] flex-col justify-center overflow-hidden bg-canal-navy text-white"
-    >
-      <div className="absolute inset-0">
+    <section id="top" className={s.hero}>
+      <div className={s.media}>
         {content.heroVideo ? (
           // eslint-disable-next-line jsx-a11y/media-has-caption
           <video
@@ -20,7 +97,8 @@ export default async function Hero() {
             muted
             loop
             playsInline
-            className="absolute inset-0 h-full w-full object-cover object-center"
+            preload="none"
+            className={s.video}
           />
         ) : (
           <SafeImage
@@ -29,72 +107,41 @@ export default async function Hero() {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-center"
+            quality={80}
+            className={s.img}
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-canal-navy via-canal-navy/80 to-canal-navy/40" />
-        <div className="absolute inset-0 bg-mosaic mix-blend-soft-light" aria-hidden="true" />
       </div>
+      <div className={s.tint} aria-hidden="true" />
 
-      <div className="relative mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-        <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-500/15 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-sky-200 backdrop-blur-md shadow-sm">
-          <span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" />
-          {content.heroBadge}
-        </div>
+      <div className={s.inner}>
+        <div className={s.copy}>
+          <h1 className={s.title}>{content.heroHeading}</h1>
+          {content.heroSubheading && (
+            <div className={s.lede} dangerouslySetInnerHTML={{ __html: content.heroSubheading }} />
+          )}
 
-        <h1 className="mt-5 max-w-3xl font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.15] tracking-tight drop-shadow-sm">
-          {content.heroHeading}
-        </h1>
-        <div
-          className="rich-content rich-content-invert mt-4 max-w-2xl text-base text-slate-200 drop-shadow-sm sm:text-lg leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: content.heroSubheading }}
-        />
-
-        <div className="mt-8 flex flex-wrap items-center gap-4">
-          <a
-            href={content.heroCtaPrimaryHref}
-            className="group inline-flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-7 py-3.5 text-sm font-bold text-white shadow-xl shadow-blue-900/40 transition-all duration-200 hover:scale-[1.02] hover:shadow-blue-600/40"
-          >
-            {content.heroCtaPrimaryText}
-            <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
-          </a>
-          <a
-            href={content.heroCtaSecondaryHref}
-            className="rounded-xl border border-white/25 bg-white/10 px-6 py-3.5 text-sm font-bold text-white backdrop-blur-md transition hover:bg-white/20"
-          >
-            {content.heroCtaSecondaryText}
-          </a>
-
-          <div className="ml-auto flex items-center gap-3.5 rounded-2xl border border-white/20 bg-white/10 px-5 py-3 backdrop-blur-md shadow-lg shadow-black/10">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-400/20 text-xl text-amber-300">
-              ★
-            </div>
-            <div className="text-left leading-tight">
-              <p className="text-base font-bold text-white">{content.ratingValue}</p>
-              <p className="text-xs text-slate-300">{content.ratingCount}</p>
-            </div>
+          <div className={s.actions}>
+            <a href={content.heroCtaPrimaryHref} className={s.primary}>
+              {content.heroCtaPrimaryText}
+            </a>
+            {content.heroCtaSecondaryText && (
+              <a href={content.heroCtaSecondaryHref} className={s.secondary}>
+                {content.heroCtaSecondaryText}
+              </a>
+            )}
           </div>
-        </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-          {gallery.map((img, i) => (
-            <div
-              key={img.label + i}
-              className="group relative h-24 overflow-hidden rounded-2xl border border-white/15 shadow-xl shadow-black/20 sm:h-28 lg:h-32 transition-transform duration-300 hover:scale-[1.03]"
-            >
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                sizes="(min-width: 640px) 25vw, 50vw"
-                className="object-cover transition duration-500 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <span className="absolute bottom-2.5 left-3 text-xs font-bold text-white drop-shadow">
-                {img.label}
-              </span>
-            </div>
-          ))}
+          {facts.length > 0 && (
+            <ul className={s.facts}>
+              {facts.map((f) => (
+                <li key={f.text} className={s.fact}>
+                  <FactIcon name={f.icon} />
+                  <span>{f.text}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </section>

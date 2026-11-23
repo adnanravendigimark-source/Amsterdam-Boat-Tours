@@ -5,7 +5,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { MailIcon } from "@/components/icons";
 import { getContactPage } from "@/lib/contact";
 import { getIconComponent } from "@/lib/iconMap";
-import { resolveRobots, resolveCanonical, resolveOg } from "@/lib/seo";
+import { resolveRobots, resolveCanonical, resolveOg, pageTitle } from "@/lib/seo";
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
     { title: contact.metaTitle, description: contact.metaDescription }
   );
   return {
-    title: contact.metaTitle,
+    title: pageTitle(contact.metaTitle),
     description: contact.metaDescription,
     alternates: { canonical: resolveCanonical("/contact", contact.canonicalUrl) },
     robots: resolveRobots(contact.noIndex, contact.noFollow),

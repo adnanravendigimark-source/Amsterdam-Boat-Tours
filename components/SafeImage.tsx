@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image, { ImageProps } from "next/image";
 
 const FALLBACK_IMAGE =
-  "https://images.unsplash.com/photo-1755589066709-ec12ec11baa1?q=80&w=900&auto=format&fit=crop";
+  "https://vel8aqzfqfybmsb2.public.blob.vercel-storage.com/uploads/amsterdam-canal-boat-hero-M7TeLyUpOHh3doGlrxzdwr4smtU1SL.jpg";
 
 export default function SafeImage({
   src,

@@ -1,18 +1,18 @@
 {
-  "heroBadge": "⚓ Certified operators · Free cancellation · Instant confirmation",
-  "heroHeading": "Amsterdam Canal Cruise Tours — See Amsterdam From the Water",
-  "heroSubheading": "Glide past 17th-century canal mansions, the Skinny Bridge, and the Anne Frank House on a sightseeing or evening cruise through UNESCO-listed canals. Book online — instant confirmation, free cancellation on most tickets.",
-  "heroImage": "https://images.unsplash.com/photo-1755589066709-ec12ec11baa1?q=80&w=2400&auto=format&fit=crop",
+  "heroBadge": "Compare 3 canal cruises · Free cancellation up to 24 hours before",
+  "heroHeading": "Amsterdam Canal Cruise Tickets",
+  "heroSubheading": "Three canal cruises, compared side by side with checked prices.",
+  "heroImage": "https://vel8aqzfqfybmsb2.public.blob.vercel-storage.com/uploads/amsterdam-canal-boat-hero-M7TeLyUpOHh3doGlrxzdwr4smtU1SL.jpg",
   "heroImageAlt": "A classic Amsterdam canal cruise boat gliding along the UNESCO canal ring past historic gabled townhouses",
-  "ratingValue": "4.45 / 5",
-  "ratingCount": "48,000+ verified reviews",
+  "ratingValue": "",
+  "ratingCount": "",
   "showFeaturedTour": true,
   "featuredTourId": "amsterdam-1-hour-canal-cruise",
   "featuredBadgeLabel": "Most Popular",
-  "featuredUrgencyText": "Best Price · Limited Spots Available",
+  "featuredUrgencyText": "",
   "featuredReasons": [
-    "48,000+ verified reviews — rated 4.45 / 5 on GetYourGuide",
-    "Departs every 15–30 minutes near Amsterdam Centraal Station",
-    "Free cancellation up to 24 hours before departure"
+    "4.5★ from 27,381 reviews on GetYourGuide (checked 23 Nov 2026)",
+    "Live guide in English",
+    "Free cancellation up to 24 hours before"
   ]
 }

@@ -1,9 +1,11 @@
-import { getTours } from "@/lib/data";
+import { getTours, hasPrice } from "@/lib/data";
+import { formatCheckedDate } from "@/lib/checkedDate";
 import { getHomepageContent } from "@/lib/homepage";
 
 export default async function PriceComparison() {
   const [tours, { sections }] = await Promise.all([getTours(), getHomepageContent()]);
   const s = sections.price;
+  const checked = formatCheckedDate(tours.map((t) => t.priceChecked || "").sort().pop());
   return (
     <section id="prices" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <div className="max-w-3xl">
@@ -39,7 +41,13 @@ export default async function PriceComparison() {
               >
                 <td className="px-6 py-4 font-semibold text-slate-900">{tour.title}</td>
                 <td className="px-6 py-4 font-bold text-blue-600">
-                  €{tour.price} <span className="font-normal text-xs text-slate-400">/ person</span>
+                  {hasPrice(tour) ? (
+                    <>
+                      from €{tour.price} <span className="font-normal text-xs text-slate-400">/ person</span>
+                    </>
+                  ) : (
+                    <span className="font-semibold text-slate-600">See prices</span>
+                  )}
                 </td>
                 <td className="px-6 py-4 text-slate-600">{tour.priceTableColumn1 || tour.duration}</td>
                 <td className="px-6 py-4 text-slate-600">{tour.priceTableFeature || "No"}</td>
@@ -49,6 +57,8 @@ export default async function PriceComparison() {
                     href={tour.href}
                     target="_blank"
                     rel="noopener nofollow sponsored"
+                    data-placement="price_table"
+                    data-tour-id={tour.id}
                     className="inline-flex rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition hover:scale-[1.02]"
                   >
                     {s.bookLabel}
@@ -59,7 +69,10 @@ export default async function PriceComparison() {
           </tbody>
         </table>
       </div>
-      <p className="mt-3.5 text-xs text-slate-400">{s.note}</p>
+      <p className="mt-3.5 text-xs text-slate-500">
+        {s.note}
+        {checked ? ` Prices checked ${checked}.` : ""}
+      </p>
     </section>
   );
 }

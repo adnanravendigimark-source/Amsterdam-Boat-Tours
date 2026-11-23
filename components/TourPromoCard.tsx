@@ -1,6 +1,6 @@
 import SafeImage from "./SafeImage";
-import StarRating from "./StarRating";
-import type { Tour } from "@/lib/data";
+import { hasPrice, type Tour } from "@/lib/data";
+import ProviderRating from "./ProviderRating";
 
 export default function TourPromoCard({
   tour,
@@ -22,18 +22,19 @@ export default function TourPromoCard({
         </span>
         <p className="mt-1 font-display text-lg font-bold text-slate-900">{tour.title}</p>
         <div className="mt-1.5 flex items-center gap-2 text-xs font-medium text-slate-600">
-          <StarRating rating={tour.rating} showValue reviewCount={tour.reviews} size="xs" />
-          <span>·</span>
-          <span>from €{tour.price}/person</span>
+          <ProviderRating rating={tour.rating} reviews={tour.reviews} source={tour.ratingSource} />
+          {hasPrice(tour) && <span>· from €{tour.price}/person</span>}
         </div>
       </div>
       <a
         href={tour.href}
         target="_blank"
         rel="noopener nofollow sponsored"
+        data-placement="post_promo"
+        data-tour-id={tour.id}
         className="shrink-0 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-6 py-3 text-center text-sm font-bold text-white shadow-md shadow-blue-600/20 transition hover:scale-[1.02] hover:shadow-blue-600/35"
       >
-        {bookNowText}
+        {tour.ctaLabel || bookNowText}
       </a>
     </div>
   );

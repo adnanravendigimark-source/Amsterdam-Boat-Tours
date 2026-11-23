@@ -245,9 +245,9 @@ export interface HomepageContent {
 
 export const DEFAULT_HEADER: HeaderContent = {
   logoImage: "",
-  logoAlt: "Amsterdam Boat Tours",
+  logoAlt: "Amsterdam Boat Cruise",
   logoLine1: "Amsterdam",
-  logoLine2: "Boat Tours",
+  logoLine2: "Boat Cruise",
   bookNowText: "Book Now",
   navLinks: [
     { label: "Home", href: "/" },
@@ -286,7 +286,7 @@ export const DEFAULT_FOOTER: FooterContent = {
   addressLine1: "Damrak 26 (near Centraal Station)",
   addressLine2: "1012 LG Amsterdam, Netherlands",
   copyrightText:
-    "Amsterdam Boat Tours. All prices shown in EUR and subject to change by the boat operator.",
+    "Amsterdam Boat Cruise. All prices shown in EUR and subject to change by the boat operator.",
 };
 
 export const DEFAULT_THEME: ThemeColors = {
@@ -321,10 +321,10 @@ export const DEFAULT_GALLERY: GalleryImage[] = [
 
 export const DEFAULT_SECTIONS: HomepageSections = {
   tours: {
-    eyebrow: "Handpicked Options",
+    eyebrow: "Compare Tickets",
     heading: "Amsterdam Canal Cruises & Tickets",
     subheading:
-      "Curated canal cruise options — classic 1-hour sightseeing, evening wine & cheese in a heated saloon boat, and museum combos. Every cruise explores the UNESCO Canal Ring.",
+      "Canal cruises bookable on GetYourGuide, compared side by side.",
   },
   highlights: {
     eyebrow: "Why the Canals",
@@ -374,29 +374,20 @@ export const DEFAULT_SECTIONS: HomepageSections = {
       "Which of Amsterdam's 1,500+ bridges has the famous Seven Bridges view from the water",
       "Why narrow facades were built to minimize property tax based on canal frontage",
     ],
-    note: "Cruises run with multilingual audio commentary (up to 19 languages), so you always know what you're looking at as it passes. Boats feature covered, heated saloon seating, so weather rarely cancels a departure.",
+    note: "Commentary depends on the cruise — a live guide, a skipper or a digital guide on your phone. Routes vary with canal traffic.",
     extraHeading: "Where you can board",
-    extraItems: [
-      { name: "Damrak & Centraal Station", note: "Directly opposite Amsterdam Centraal — the primary dock for standard and evening cruises" },
-      { name: "Anne Frank House Pier", note: "Along Prinsengracht, convenient after visiting the Anne Frank House and the Jordaan" },
-      { name: "Rokin Pier", note: "In the central shopping heart, near Dam Square and the flower market" },
-    ],
-    ctaText: "Convinced? The 1-hour classic canal cruise starts at €18/person and departs every 15–30 minutes.",
+    extraItems: [{ name: "Pier shown on your ticket", note: "The meeting point depends on the cruise and option you book" }],
+    ctaText: "Ready to choose? Compare the three cruises and their prices above.",
     ctaButtonText: "Book the Canal Cruise →",
     ctaHref: "#tours",
   },
   tower: {
-    eyebrow: "Evening Cruise with Wine & Cheese",
-    heading: "See Amsterdam's Canals Glowing After Dark",
+    eyebrow: "Evening Cruise",
+    heading: "See Amsterdam's Canals After Dark",
     body:
-      "The concentric canals transform once the sun sets. Historic brick facades reflect on the calm water, <strong>arched stone bridges are illuminated with thousands of fairy lights</strong>, and the evening departure includes unlimited Dutch wines, craft beers, and authentic cheeses inside a cozy saloon boat — an unforgettable night on the water.",
-    bullets: [
-      "Dutch cheese tasting, fine wine, beer, and traditional jenever included on board",
-      "Over 1,500 illuminated bridges and glowing canal townhouses after dusk",
-      "Cozy, heated covered boat with open viewing areas",
-      "Best photo light: 20 minutes following sunset during the blue hour",
-    ],
-    ctaButtonText: "See Evening Wine & Cheese Cruise",
+      "On an evening cruise the canal houses and bridges are lit up and the city is quieter.",
+    bullets: [],
+    ctaButtonText: "See evening cruises",
     ctaHref: "#tours",
     images: [
       {
@@ -422,16 +413,15 @@ export const DEFAULT_SECTIONS: HomepageSections = {
     ],
   },
   practical: {
-    hoursHeading: "Cruise Timetables (2026)",
+    hoursHeading: "Before You Book",
     hours: [
-      { range: "April – October (Summer)", time: "9:00 AM – 10:30 PM (departs every 15–20 mins)" },
-      { range: "November – March (Winter)", time: "10:00 AM – 9:00 PM (departs every 30 mins)" },
+      { range: "Times and piers", time: "Shown when you check availability and on your ticket" },
     ],
-    hoursNote: "Departures every 15–30 minutes across Amsterdam's primary cruise docks.",
-    addressHeading: "Primary Boarding Points",
+    hoursNote: "Departure times and the exact pier depend on the cruise and option you book.",
+    addressHeading: "Where You Board",
     address:
-      "Damrak Pier 5 — 1012 LG Amsterdam (opposite Centraal Station). Trams 4, 14, 24.\nAnne Frank Pier — Prinsengracht 263, Westermarkt tram stop.\nRokin Pier — Rokin 38, near Dam Square & Rokin Metro Station.",
-    metro: "Arrive 15 minutes before your time slot — check your voucher for your exact pier number.",
+      "Your exact pier is listed on your ticket.",
+    metro: "Arrive about 15 minutes before your time slot.",
     bestTimeHeading: "Best Time for a Cruise",
     bestTimeBody:
       "Late afternoon into golden hour provides the finest sunlight for canal house photos. Weekday mornings before 11:30 AM offer the quietest canals with fewer boats.",
@@ -440,8 +430,8 @@ export const DEFAULT_SECTIONS: HomepageSections = {
     eyebrow: "Transparent Comparison",
     heading: "Compare & Choose Your Amsterdam Cruise",
     subheading:
-      "All four options side by side — pick the cruise that matches your itinerary, then book instantly online.",
-    note: "Infants under 3 ride free; children (4–12) and youth receive discounted tickets on most departures — check each ticket's booking page for full details.",
+      "All three cruises side by side — prices, length and what's included.",
+    note: "Child prices and age rules vary by cruise (the booze cruise is 18+) — check each booking page.",
     itemLabel: "Cruise Option",
     priceLabel: "Price",
     column1Label: "Duration",
@@ -489,12 +479,12 @@ export const DEFAULT_SECTIONS: HomepageSections = {
 };
 
 const DEFAULT_HOMEPAGE_CONTENT: HomepageContent = {
-  heroBadge: "⚓ Certified operators · Free cancellation · Instant confirmation",
-  heroHeading: "Amsterdam Canal Cruise Tours — See Amsterdam From the Water",
+  heroBadge: "Compare 3 canal cruises · Free cancellation up to 24 hours before",
+  heroHeading: "Amsterdam Canal Cruise Tickets",
   heroSubheading:
     "Glide past 17th-century canal mansions, the Skinny Bridge, and the Anne Frank House on a sightseeing or evening cruise through UNESCO-listed canals. Book online — instant confirmation, free cancellation on most tickets.",
   heroImage:
-    "https://images.unsplash.com/photo-1755589066709-ec12ec11baa1?q=80&w=2400&auto=format&fit=crop",
+    "https://vel8aqzfqfybmsb2.public.blob.vercel-storage.com/uploads/amsterdam-canal-boat-hero-M7TeLyUpOHh3doGlrxzdwr4smtU1SL.jpg",
   heroImageAlt: "A classic Amsterdam canal cruise boat gliding along the UNESCO canal ring past historic gabled townhouses",
   heroVideo: "",
   heroGallery: DEFAULT_GALLERY,
@@ -502,15 +492,14 @@ const DEFAULT_HOMEPAGE_CONTENT: HomepageContent = {
   heroCtaPrimaryHref: "#tours",
   heroCtaSecondaryText: "See Cruise Prices",
   heroCtaSecondaryHref: "#prices",
-  ratingValue: "4.45 / 5",
-  ratingCount: "48,000+ reviews",
+  ratingValue: "",
+  ratingCount: "",
   showFeaturedTour: true,
   featuredTourId: "amsterdam-1-hour-canal-cruise",
   featuredBadgeLabel: "Recommended",
-  featuredUrgencyText: "Best Price · Limited Availability",
+  featuredUrgencyText: "",
   featuredReasons: [
-    "Our most-booked cruise — 48,000+ reviews, averaging 4.45 stars",
-    "Departs every 15–30 minutes, all day near Centraal Station",
+    "Live guide in English",
     "Free cancellation up to 24 hours before departure",
   ],
   sections: DEFAULT_SECTIONS,

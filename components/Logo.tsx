@@ -7,9 +7,9 @@ export default function Logo({
   variant = "compact",
   theme = "light",
   src = "",
-  alt = "Amsterdam Boat Tours",
+  alt = "Amsterdam Boat Cruise",
   line1 = "Amsterdam",
-  line2 = "Boat Tours",
+  line2 = "Boat Cruise",
 }: {
   className?: string;
   variant?: "compact" | "stacked";

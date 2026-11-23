@@ -1,6 +1,6 @@
 import SafeImage from "./SafeImage";
 import StarRating from "./StarRating";
-import { getTours } from "@/lib/data";
+import { getTours, hasPrice } from "@/lib/data";
 import { getHomepageContent } from "@/lib/homepage";
 
 export default async function FeaturedTour() {
@@ -21,20 +21,24 @@ export default async function FeaturedTour() {
         <div className="min-w-0 flex-1">
           <p className="truncate text-xs font-bold leading-tight text-slate-900">{tour.title}</p>
           <div className="mt-0.5 flex items-center gap-2 text-[11px] text-slate-500">
-            <StarRating rating={tour.rating} showValue size="xs" />
-            <span>·</span>
-            <span>
-              from <span className="font-bold text-slate-900">€{tour.price}</span>
-            </span>
+            {tour.rating > 0 && <StarRating rating={tour.rating} showValue size="xs" />}
+            {tour.rating > 0 && hasPrice(tour) && <span>·</span>}
+            {hasPrice(tour) && (
+              <span>
+                from <span className="font-bold text-slate-900">€{tour.price}</span>
+              </span>
+            )}
           </div>
         </div>
         <a
           href={tour.href}
           target="_blank"
           rel="noopener nofollow sponsored"
+          data-placement="sticky_mobile"
+          data-tour-id={tour.id}
           className="shrink-0 rounded-xl bg-gradient-to-r from-blue-600 to-sky-600 px-4 py-2 text-xs font-bold text-white shadow-md shadow-blue-500/20"
         >
-          {bookNowText}
+          {tour.ctaLabel || bookNowText}
         </a>
       </div>
     </div>

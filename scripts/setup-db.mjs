@@ -3,7 +3,7 @@
 // What it does:
 //   1. Creates every table the app needs, if they don't already exist.
 //   2. If a table is empty, seeds it from the matching file in /data (the
-//      real Amsterdam Boat Tours starter content) so the site has
+//      real Amsterdam Boat Cruise starter content) so the site has
 //      real tours/posts/FAQs/homepage copy from the first run.
 //
 // How to run it:
@@ -305,6 +305,17 @@ async function addSeoColumns() {
   console.log("SEO columns ready.");
 }
 
+async function addFactCheckColumns() {
+  console.log("Ensuring fact-check columns exist on tours/homepage...");
+  await sql`ALTER TABLE tours ADD COLUMN IF NOT EXISTS rating_source TEXT NOT NULL DEFAULT 'GetYourGuide'`;
+  await sql`ALTER TABLE tours ADD COLUMN IF NOT EXISTS last_checked DATE`;
+  await sql`ALTER TABLE tours ADD COLUMN IF NOT EXISTS price_checked DATE`;
+  await sql`ALTER TABLE homepage ADD COLUMN IF NOT EXISTS rating_checked DATE`;
+  await sql`ALTER TABLE tours ADD COLUMN IF NOT EXISTS cta_label TEXT NOT NULL DEFAULT ''`;
+  await sql`ALTER TABLE posts ADD COLUMN IF NOT EXISTS last_checked DATE`;
+  await sql`ALTER TABLE tours ADD COLUMN IF NOT EXISTS cancellation TEXT NOT NULL DEFAULT ''`;
+}
+
 async function addHomepageCmsColumns() {
   console.log("Ensuring homepage CMS columns exist...");
   await sql`ALTER TABLE homepage ADD COLUMN IF NOT EXISTS hero_gallery JSONB NOT NULL DEFAULT '[]'`;
@@ -512,7 +523,7 @@ async function seedSiteSettings() {
     console.log("site_settings: already configured — skipping seed.");
     return;
   }
-  const blogTitle = "Amsterdam Canal Cruise Guides & Tips | Amsterdam Boat Tours";
+  const blogTitle = "Amsterdam Canal Cruise Guides & Tips | Amsterdam Boat Cruise";
   const blogDescription =
     "Practical guides for Amsterdam canal cruises — daytime sightseeing vs. evening wine & cheese cruise, best times to book, routes, and tips.";
   await sql`
@@ -555,7 +566,7 @@ async function seedAboutPage() {
     disclosureBody:
       "When you book an Amsterdam canal cruise through a link on this site, we may earn a small affiliate commission from the operator at no extra cost to you. This is how we keep the site free and independently maintained without banner ads.",
     ctaText: "Ready to book your Amsterdam canal cruise?",
-    ctaButtonLabel: "Compare Amsterdam Boat Tours",
+    ctaButtonLabel: "Compare Amsterdam Boat Cruise",
     metaTitle: "About Us | Amsterdam Canal Cruise Tour & Ticket Booking Guide",
     metaDescription:
       "Who curates our Amsterdam canal sightseeing and evening cruises online, how we select licensed operators, and why booking ahead saves time.",
@@ -601,8 +612,8 @@ async function seedContactPage() {
     footerNote:
       "Already have a booking? Contact the cruise operator directly via your confirmation email — they handle modifications and cancellations directly.",
     ctaHeading: "Not booked yet?",
-    ctaButtonLabel: "Compare Amsterdam Boat Tours & Tickets",
-    metaTitle: "Contact Us | Amsterdam Boat Tours",
+    ctaButtonLabel: "Compare Amsterdam Boat Cruise & Tickets",
+    metaTitle: "Contact Us | Amsterdam Boat Cruise",
     metaDescription:
       "Questions about booking an Amsterdam canal sightseeing cruise, evening cruise, or tickets online? Reach out directly — including for partnership inquiries.",
   };
@@ -627,6 +638,7 @@ async function main() {
   await addHomepageCmsColumns();
   await addBlogCmsColumns();
   await addMediaLibraryTable();
+  await addFactCheckColumns();
   await seedTours();
   await seedPosts();
   await seedHomepage();

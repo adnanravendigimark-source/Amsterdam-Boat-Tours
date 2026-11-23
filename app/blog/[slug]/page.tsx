@@ -1,3 +1,4 @@
+import { formatCheckedDate } from "@/lib/checkedDate";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
@@ -11,7 +12,7 @@ import { CalendarIcon, ClockPayIcon, TicketIcon } from "@/components/icons";
 import { getPost, getPosts } from "@/lib/posts";
 import { getHomepageContent } from "@/lib/homepage";
 import { getRedirectTarget } from "@/lib/redirects";
-import { resolveRobots, resolveCanonical, resolveOg, buildArticleJsonLd } from "@/lib/seo";
+import { resolveRobots, resolveCanonical, resolveOg, buildArticleJsonLd, pageTitle } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { extractTableOfContents } from "@/lib/tableOfContents";
 
@@ -36,7 +37,7 @@ export async function generateMetadata({
     { title: post.metaTitle, description: post.metaDescription, image: post.image }
   );
   return {
-    title: post.metaTitle,
+    title: pageTitle(post.metaTitle || post.title),
     description: post.metaDescription,
     alternates: { canonical: resolveCanonical(`/blog/${params.slug}`, post.canonicalUrl) },
     robots: resolveRobots(post.noIndex, post.noFollow),
@@ -59,7 +60,7 @@ function formatDate(iso: string) {
 
 function getAuthorParts(author: string) {
   const [namePart, rolePart] = (author || "").split("/").map((s) => s.trim());
-  const name = namePart || "Amsterdam Boat Tours";
+  const name = namePart || "Amsterdam Boat Cruise";
   const role = rolePart || "";
   const initials =
     name
@@ -93,10 +94,10 @@ export default async function Post({ params }: { params: { slug: string } }) {
     description: post.metaDescription,
     image: post.image,
     datePublished: post.date,
-    dateModified: post.updatedAt || post.date,
+    dateModified: [post.updatedAt || post.date, post.lastChecked || ""].sort().pop() || post.date,
     url: `${SITE_URL}/blog/${post.slug}`,
-    authorName: post.author || "Amsterdam Boat Tours",
-    siteName: "Amsterdam Boat Tours",
+    authorName: post.author || "Amsterdam Boat Cruise",
+    siteName: "Amsterdam Boat Cruise",
   });
 
   const { toc: headingToc, html: contentHtml } = extractTableOfContents(post.content);
@@ -158,6 +159,11 @@ export default async function Post({ params }: { params: { slug: string } }) {
                 <ClockPayIcon className="h-4 w-4 text-canal-blue" />
                 {post.readTime}
               </span>
+              {post.lastChecked && (
+                <span className="inline-flex items-center gap-1.5 text-emerald-700">
+                  Facts checked {formatCheckedDate(post.lastChecked)}
+                </span>
+              )}
               <span className="inline-flex items-center gap-2">
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 text-[10px] font-bold text-white">
                   {author.initials}

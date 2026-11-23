@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import LoginForm from "@/components/admin/LoginForm";
 
 export const metadata = {
-  title: "Admin Login | Amsterdam Boat Tours",
+  title: "Admin Login | Amsterdam Boat Cruise",
   robots: { index: false, follow: false, nocache: true },
 };
 
@@ -11,7 +11,7 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-stone-900 px-4">
       <div className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-xl">
         <p className="text-center font-display text-lg font-bold text-stone-900">
-          Amsterdam Boat Tours
+          Amsterdam Boat Cruise
         </p>
         <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-canal-orange">
           Content Admin

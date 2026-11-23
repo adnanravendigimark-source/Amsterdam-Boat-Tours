@@ -38,15 +38,15 @@ const DEFAULT_CONTACT: ContactPageContent = {
   emailNote: "We typically reply within 1–2 business days.",
   reasonsHeading: "What we can help with",
   reasons: [
-    { icon: "HeadsetIcon", title: "Booking Help", body: "Not sure whether to book the standard 1-hour sightseeing cruise, evening wine & cheese, or museum combo? Ask us before you book." },
+    { icon: "HeadsetIcon", title: "Booking Help", body: "Not sure whether to book the guided cruise, the evening cruise or the adults-only booze cruise? Ask us before you book." },
     { icon: "BriefcaseIcon", title: "Partnerships & Affiliates", body: "Boat operators, tourism boards, and affiliate partners — reach out about listing or collaboration opportunities." },
     { icon: "MailIcon", title: "General Inquiries", body: "Site feedback, content corrections, or travel tips regarding Amsterdam canal tours." },
   ],
   footerNote:
     "Already have a booking? Contact the cruise operator directly via your confirmation email — they handle modifications and cancellations directly.",
   ctaHeading: "Not booked yet?",
-  ctaButtonLabel: "Compare Amsterdam Boat Tours & Tickets",
-  metaTitle: "Contact Us | Amsterdam Boat Tours",
+  ctaButtonLabel: "Compare Amsterdam Boat Cruise & Tickets",
+  metaTitle: "Contact Us | Amsterdam Boat Cruise",
   metaDescription:
     "Questions about booking an Amsterdam canal sightseeing cruise, evening cruise, or tickets online? Reach out directly — including for partnership inquiries.",
   canonicalUrl: "",

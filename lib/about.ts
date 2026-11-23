@@ -24,19 +24,19 @@ const DEFAULT_ABOUT: AboutPageContent = {
   heroEyebrow: "About Us",
   heroHeading: "Your Independent Guide to Amsterdam Canal Cruise Tickets",
   heroSubheading:
-    "We help travelers book the right Amsterdam canal sightseeing, wine & cheese, and combo cruise online — curated from licensed operators, explained in plain language.",
-  heroImage: "https://images.unsplash.com/photo-1755589066709-ec12ec11baa1?q=80&w=2000&auto=format&fit=crop",
+    "We help travellers compare Amsterdam canal cruises — sightseeing, evening and drinks cruises — explained in plain language.",
+  heroImage: "https://vel8aqzfqfybmsb2.public.blob.vercel-storage.com/uploads/amsterdam-canal-boat-hero-M7TeLyUpOHh3doGlrxzdwr4smtU1SL.jpg",
   heroImageAlt: "Classic canal cruise boat gliding along Amsterdam canals past gabled townhouses",
   content: `<h2>Our Mission</h2>
 <p>We built this site around one belief: exploring Amsterdam from the water is the single best way to understand the city's 17th-century Golden Age architecture and layout — but only if you book the right boat. With dozens of docks scattered across Damrak, Rokin, and the Anne Frank House, finding the right departure shouldn't be confusing.</p>
-<p>We are an independent Amsterdam canal cruise guide — not an official boat operator. We compare classic 1-hour sightseeing cruises, evening wine &amp; cheese saloon boats, and museum combo tickets from licensed operators, pointing you directly to the top experiences.</p>
+<p>We are an independent Amsterdam canal cruise guide — not an official boat operator. We compare canal cruises bookable on GetYourGuide — sightseeing, evening and drinks cruises — and link you straight to the listing.</p>
 <h2>How We Choose Our Amsterdam Canal Cruises</h2>
 <p>Every cruise listed on this site is screened against four criteria before it earns a spot.</p>
 <ul>
-<li><strong>Licensed, Established Operators</strong> — Every cruise we list runs with certified Dutch canal boat operators, not unregulated third-party resellers.</li>
-<li><strong>Real Review Volume</strong> — We only list canal cruises with thousands of verified customer reviews and high customer satisfaction ratings.</li>
-<li><strong>Transparent Pricing</strong> — The price you see on each tour card is the full price you pay, with no unexpected booking surcharges at checkout.</li>
-<li><strong>Honest, Clear Info</strong> — We tell you exactly what is included on each boat, from audio headsets in 19 languages to Dutch wine and cheese pairings.</li>
+<li><strong>Bookable on GetYourGuide</strong> — Every cruise listed here is sold through GetYourGuide, with the operator named on each listing.</li>
+<li><strong>Real Review Volume</strong> — We only list cruises with thousands of reviews on GetYourGuide, and show the rating and review count with the date we checked them.</li>
+<li><strong>Prices With a Date</strong> — Prices are "from" prices per adult with the date we checked them. The price on the booking page is the one that counts.</li>
+<li><strong>Honest, Clear Info</strong> — We say what's included on each cruise — guide type, languages, drinks options and age rules — as the listing states it.</li>
 </ul>
 <h2>Independent Amsterdam Canal Cruise Guide</h2>
 <p>This is an independent guide, not an official canal cruise operator or municipal ticketing authority. Bookings made through links on this site are processed by GetYourGuide, our trusted third-party booking partner, and are subject to GetYourGuide's own pricing, availability, and cancellation terms.</p>

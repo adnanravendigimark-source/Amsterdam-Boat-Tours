@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-23T08:00:00Z",
+  "title": "Design System: Amsterdam Boat Cruise",
+  "extensions": {
+    "colorMeta": {
+      "royal-blue": { "role": "primary", "displayName": "Royal Sapphire", "canonical": "#2563eb", "tonalRamp": ["#172554", "#1e3a8a", "#1d4ed8", "#2563eb", "#3b82f6", "#60a5fa", "#bfdbfe", "#eff6ff"] },
+      "canal-blue": { "role": "primary", "displayName": "Canal Blue", "canonical": "#0284c7", "tonalRamp": ["#082f49", "#0c4a6e", "#075985", "#0284c7", "#0ea5e9", "#38bdf8", "#bae6fd", "#f0f9ff"] },
+      "midnight-navy": { "role": "secondary", "displayName": "Midnight Navy", "canonical": "#091b3d", "tonalRamp": ["#040c1c", "#091b3d", "#13295a", "#1e3a75", "#3a5590", "#6b82b0", "#b3c0da", "#eef1f7"] },
+      "lantern-amber": { "role": "tertiary", "displayName": "Lantern Amber", "canonical": "#f59e0b", "tonalRamp": ["#451a03", "#78350f", "#b45309", "#d97706", "#f59e0b", "#fbbf24", "#fde68a", "#fffbeb"] },
+      "paper": { "role": "neutral", "displayName": "Warm Paper", "canonical": "#fafaf9", "tonalRamp": ["#1c1917", "#44403c", "#78716c", "#a8a29e", "#d6d3d1", "#e7e5e4", "#f5f5f4", "#fafaf9"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero H1 only." },
+      "headline": { "displayName": "Headline", "purpose": "Section H2s." },
+      "title": { "displayName": "Title", "purpose": "Card and promo titles." },
+      "body": { "displayName": "Body", "purpose": "Paragraphs and guide text." },
+      "label": { "displayName": "Label", "purpose": "Eyebrows, table headers, ribbons, 'from' labels." }
+    },
+    "shadows": [
+      { "name": "rest", "value": "0 1px 2px rgba(0,0,0,0.05)", "purpose": "Cards and table at rest." },
+      { "name": "lift", "value": "0 20px 25px -5px rgba(30,58,138,0.05)", "purpose": "Card hover, with translateY(-4px)." },
+      { "name": "button", "value": "0 4px 6px -1px rgba(37,99,235,0.2)", "purpose": "Primary buttons." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "300ms cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Card lift, link underline, button scale." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    { "name": "Primary Button", "kind": "button", "refersTo": "button-primary", "description": "Every booking action; solid royal blue.",
+      "html": "<button class=\"ds-btn-primary\">Check dates</button>",
+      "css": ".ds-btn-primary{background:#2563eb;color:#fff;font:700 0.875rem/1 'Plus Jakarta Sans',system-ui,sans-serif;padding:10px 20px;border:0;border-radius:12px;box-shadow:0 4px 6px -1px rgba(37,99,235,.2);transition:transform .2s,box-shadow .2s}.ds-btn-primary:hover{transform:scale(1.02);box-shadow:0 10px 15px -3px rgba(37,99,235,.3)}.ds-btn-primary:focus-visible{outline:2px solid #2563eb;outline-offset:2px}" },
+    { "name": "Ribbon", "kind": "chip", "refersTo": "chip-ribbon", "description": "Short label on a tour image.",
+      "html": "<span class=\"ds-ribbon\">★ Bestseller</span>",
+      "css": ".ds-ribbon{display:inline-flex;gap:4px;background:#2563eb;color:#fff;font:700 0.75rem/1 'Plus Jakarta Sans',sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:8px}" },
+    { "name": "Tour Card", "kind": "card", "refersTo": "card-tour", "description": "Compact cruise card with attributed rating and dated 'from' price.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-img\"></div><div class=\"ds-card-body\"><h3>Amsterdam Evening (Sunset) Canal Cruise</h3><p class=\"ds-meta\">4.8★ · 5,655 reviews on GetYourGuide · 1 hour</p><div class=\"ds-foot\"><span><small>from</small><b>€17</b></span><button class=\"ds-btn\">See evening times</button></div></div></article>",
+      "css": ".ds-card{width:300px;background:#fff;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.05);transition:transform .3s,box-shadow .3s;font-family:'Plus Jakarta Sans',sans-serif}.ds-card:hover{transform:translateY(-4px);box-shadow:0 20px 25px -5px rgba(30,58,138,.05)}.ds-card-img{aspect-ratio:16/10;background:linear-gradient(#0284c7,#091b3d)}.ds-card-body{padding:20px}.ds-card h3{font:700 1.125rem/1.35 Outfit,sans-serif;color:#0f172a;margin:0}.ds-meta{font-size:.75rem;color:#475569;margin:8px 0 16px}.ds-foot{display:flex;justify-content:space-between;align-items:end;border-top:1px solid #f1f5f9;padding-top:16px}.ds-foot small{display:block;font-size:11px;font-weight:700;text-transform:uppercase;color:#94a3b8}.ds-foot b{font:700 1.5rem Outfit,sans-serif;color:#0f172a}.ds-btn{background:#2563eb;color:#fff;border:0;border-radius:12px;padding:10px 16px;font-weight:700}" },
+    { "name": "Header Nav", "kind": "nav", "description": "Sticky white header with grow-in underline on hover.",
+      "html": "<nav class=\"ds-nav\"><b>Amsterdam Boat Cruise</b><a href=\"#\">Cruises</a><a href=\"#\">Prices</a><a href=\"#\">Guides</a></nav>",
+      "css": ".ds-nav{display:flex;gap:28px;align-items:center;height:64px;padding:0 20px;background:rgba(255,255,255,.95);border-bottom:1px solid #e2e8f0;font:600 .875rem 'Plus Jakarta Sans',sans-serif}.ds-nav b{font-family:Outfit,sans-serif;color:#091b3d;margin-right:auto}.ds-nav a{color:#334155;text-decoration:none;position:relative;padding:4px 0}.ds-nav a:hover{color:#2563eb}.ds-nav a::after{content:'';position:absolute;left:0;bottom:0;height:2px;width:0;background:#2563eb;transition:width .3s}.ds-nav a:hover::after{width:100%}" },
+    { "name": "Price Table Header", "kind": "custom", "refersTo": "table-header", "description": "Navy header row of the price comparison.",
+      "html": "<table class=\"ds-table\"><tr><th>Cruise</th><th>Price</th><th>Length</th></tr><tr><td>Evening Cruise</td><td class=\"p\">from €17</td><td>1 hour</td></tr></table>",
+      "css": ".ds-table{border-collapse:collapse;border-radius:16px;overflow:hidden;font:400 .875rem 'Plus Jakarta Sans',sans-serif}.ds-table th{background:#091b3d;color:#fff;text-transform:uppercase;font-size:.75rem;letter-spacing:.08em;text-align:left;padding:14px 20px}.ds-table td{padding:14px 20px;border-top:1px solid #f1f5f9}.ds-table .p{color:#2563eb;font-weight:700}" }
+  ],
+  "narrative": {
+    "northStar": "Canal Daylight",
+    "overview": "Amsterdam Boat Cruise is a bright, clear ticket-comparison site: water-blue accents on white and warm paper, midnight-navy anchors for dark sections, and amber reserved for ratings. Components are warm and tactile: solid fills, softly rounded corners and paper-like cards with a light lift.",
+    "keyCharacteristics": ["Bright royal blue as the one action colour, on white and warm-paper surfaces", "Midnight navy for dark bands", "Amber only for rating stars", "Outfit headings, Plus Jakarta Sans body text", "Soft corners (12–16px) and light shadows; calm, honest booking cues"],
+    "rules": [
+      { "name": "The One Action Colour Rule", "body": "Every booking action is royal blue. Canal blue, navy and amber never sit on a booking button.", "section": "colors" },
+      { "name": "The Amber Is For Stars Rule", "body": "Amber marks ratings only. It isn't used for warnings, badges or urgency.", "section": "colors" },
+      { "name": "The Two Faces Rule", "body": "Outfit for headings, Plus Jakarta Sans for everything else. No third font.", "section": "typography" },
+      { "name": "The No Glow Rule", "body": "The glow shadows exist in config but aren't used in new work. Depth comes from lift, not light.", "section": "elevation" }
+    ],
+    "dos": ["Do use royal blue (#2563eb) as a solid fill for every booking button in new work.", "Do show prices as \"from €X\" with the date they were checked, and ratings as attributed text.", "Do keep cards white on warm paper (#fafaf9) with 16px corners and a hairline border.", "Do use real canal photography."],
+    "donts": ["Don't use tourist clichés as decoration: tulips, clogs, windmills, cartoon cheese.", "Don't add urgency or pressure: \"Limited spots\", countdowns, \"only X left\".", "Don't introduce new blue→indigo→sky gradients or glow shadows.", "Don't use amber or brick orange on booking buttons."]
+  }
+}

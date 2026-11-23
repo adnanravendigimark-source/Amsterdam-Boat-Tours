@@ -1,0 +1,174 @@
+/* Hallmark · v2.0.0 · system: DESIGN.md (locked, Canal Daylight) · shape: simple photo hero, left-aligned copy, one action · genre: editorial · job: book a cruise on GetYourGuide · signature: the real canal-boat photo with the checked "from €17" fact beside the action · deal: none (design.md) */
+/* Hallmark · pre-emit critique: P4 H5 E4 S4 R5 V3 · weakest: V, a plain photo hero by the owner's request; cut the slideshow, rings, wipe and frosted title to earn R5 */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--c-navy);
+  color: var(--c-white);
+  font-family: var(--font-body-stack);
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.img {
+  object-fit: cover;
+  object-position: center 60%;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tint {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    var(--c-scrim-strong) 0%,
+    var(--c-scrim) 45%,
+    var(--c-scrim-soft) 80%
+  );
+}
+
+.inner {
+  max-width: 80rem;
+  margin-inline: auto;
+  padding: clamp(56px, 10vh, 104px) clamp(20px, 5vw, 64px) clamp(48px, 8vh, 88px);
+}
+
+.copy {
+  max-width: 36rem;
+}
+
+.title {
+  margin: 0;
+  min-width: 0;
+  font-family: var(--font-display-stack);
+  font-weight: 700;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  overflow-wrap: break-word;
+}
+
+.lede {
+  margin-top: 16px;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--c-on-photo);
+}
+
+.lede :global(p) {
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  margin-top: 28px;
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  background: var(--c-royal);
+  color: var(--c-white);
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-button);
+  transition: background-color var(--dur-short) var(--ease-out);
+}
+
+.primary:hover {
+  background: var(--c-sapphire);
+}
+
+.primary:active {
+  background: var(--c-navy);
+}
+
+.secondary {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--c-white);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+}
+
+.secondary:hover {
+  text-decoration-thickness: 2.5px;
+}
+
+.primary:focus-visible,
+.secondary:focus-visible {
+  outline: 3px solid var(--c-white);
+  outline-offset: 3px;
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9375rem;
+  color: var(--c-on-photo);
+}
+
+.fact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.factIcon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 640px) {
+  .tint {
+    background: linear-gradient(180deg, var(--c-scrim) 0%, var(--c-scrim-strong) 100%);
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .secondary {
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  .facts {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary {
+    transition: none;
+  }
+}

@@ -17,9 +17,21 @@ export function resolveRobots(
 
 export function resolveCanonical(path: string, override?: string | null): string {
   const trimmed = (override || "").trim();
-  if (trimmed) return trimmed;
+  if (trimmed && isOwnHttpsUrl(trimmed)) return trimmed;
   const cleanPath = path === "/" ? "" : path;
   return `${SITE_URL}${cleanPath}`;
+}
+
+// An admin-entered canonical is only honoured when it points at this site
+// over https. A typo'd or foreign domain would tell Google to credit another
+// site with the page, so anything else falls back to the page's own URL.
+function isOwnHttpsUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && url.host === new URL(SITE_URL).host;
+  } catch {
+    return false;
+  }
 }
 
 export interface OgFields {
@@ -79,4 +91,28 @@ export function buildArticleJsonLd(article: {
     publisher: { "@type": "Organization", name: article.siteName },
     mainEntityOfPage: { "@type": "WebPage", "@id": article.url },
   };
+}
+
+// Every page's <title>. The root layout's template appends the brand, but
+// admins often type it into the SEO title already, which produced
+// "… | Amsterdam Boat Tours | Amsterdam Boat Tours". This
+// returns an absolute title instead: the admin's text as-is when it already
+// names the brand, otherwise with the brand appended only if the result
+// stays within Google's ~60-character display width.
+export const SITE_BRAND = "Amsterdam Boat Cruise";
+// The site's previous name; stripped from admin-typed titles so it never
+// appears next to (or instead of) the current brand.
+const LEGACY_BRANDS = ["Amsterdam Boat Tours"];
+const TITLE_MAX = 60;
+
+export function pageTitle(raw: string): { absolute: string } {
+  let title = (raw || "").trim();
+  for (const legacy of LEGACY_BRANDS) {
+    title = title.replace(new RegExp(`\\s*[|\\-–—]\\s*${legacy}\\s*`, "gi"), " ").trim();
+  }
+  if (!title) return { absolute: SITE_BRAND };
+  const fold = (v: string) => v.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  if (fold(title).includes(fold(SITE_BRAND))) return { absolute: title };
+  const withBrand = `${title} | ${SITE_BRAND}`;
+  return { absolute: withBrand.length <= TITLE_MAX ? withBrand : title };
 }

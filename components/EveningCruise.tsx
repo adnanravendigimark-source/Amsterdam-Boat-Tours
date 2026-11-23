@@ -29,6 +29,9 @@ export default async function EveningCruise() {
           </ul>
           <a
             href={s.ctaHref}
+            {...(/^https?:\/\//i.test(s.ctaHref)
+              ? { target: "_blank", rel: "noopener nofollow sponsored", "data-placement": "evening_section" }
+              : {})}
             className="mt-8 inline-flex rounded-xl bg-canal-blue px-7 py-3.5 text-sm font-semibold text-white shadow-md shadow-canal-blue/25 transition hover:bg-canal-blue/90 hover:scale-[1.02]"
           >
             {s.ctaButtonText}

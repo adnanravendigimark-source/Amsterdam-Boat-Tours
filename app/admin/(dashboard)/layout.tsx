@@ -21,7 +21,7 @@ export default async function AdminDashboardLayout({ children }: { children: Rea
       pages={pages}
       sessionEmail={session?.email}
       sessionRole={session?.role}
-      brandName="Amsterdam Boat Tours"
+      brandName="Amsterdam Boat Cruise"
       brandColorClass="text-canal-orange"
       avatarColorClass="bg-canal-ink"
     >

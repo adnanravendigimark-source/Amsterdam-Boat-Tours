@@ -1,6 +1,8 @@
-import { getTours } from "@/lib/data";
+import { getTours, hasPrice } from "@/lib/data";
 import { getHomepageContent } from "@/lib/homepage";
-import TourCard from "./TourCard";
+import { formatCheckedDate } from "@/lib/checkedDate";
+import CruiseChooser, { type ChooserTour } from "./CruiseChooser";
+import s from "./chooser.module.css";
 
 export default async function TourGrid() {
   const content = await getHomepageContent();
@@ -14,35 +16,43 @@ export default async function TourGrid() {
       })
     : tours;
 
+  const latest = tours.map((t) => t.priceChecked || "").sort().pop();
+  const checked = formatCheckedDate(latest);
+  const bookNowText = content.header.bookNowText || "Check dates";
+
+  const chooserTours: ChooserTour[] = orderedTours.map((tour) => ({
+    id: tour.id,
+    title: tour.title,
+    image: tour.image,
+    imageAlt: tour.imageAlt,
+    price: hasPrice(tour) ? tour.price : null,
+    originalPrice: tour.originalPrice,
+    rating: tour.rating,
+    reviews: tour.reviews,
+    ratingSource: tour.ratingSource,
+    duration: tour.duration,
+    cancellation: tour.cancellation,
+    href: tour.href,
+    ctaLabel: tour.ctaLabel || bookNowText,
+    badge:
+      content.showFeaturedTour && tour.id === content.featuredTourId && content.featuredBadgeLabel
+        ? content.featuredBadgeLabel
+        : tour.ribbon,
+    featured: content.showFeaturedTour && tour.id === content.featuredTourId,
+  }));
+
   return (
-    <section id="tours" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-      <div className="max-w-3xl">
-        <span className="inline-block text-xs font-bold uppercase tracking-widest text-blue-600">
-          {content.sections.tours.eyebrow}
-        </span>
-        <h2 className="mt-2 font-display text-3xl font-bold text-slate-900 sm:text-4xl">
-          {content.sections.tours.heading}
-        </h2>
-        <p className="mt-3 text-base text-slate-600">{content.sections.tours.subheading}</p>
+    <section id="tours" className={s.section}>
+      <div className={s.head}>
+        <h2 className={s.heading}>{content.sections.tours.heading}</h2>
+        {content.sections.tours.subheading && <p className={s.sub}>{content.sections.tours.subheading}</p>}
       </div>
-      <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {orderedTours.map((tour) => (
-          <TourCard
-            key={tour.id}
-            tour={tour}
-            bookNowText={content.header.bookNowText}
-            recommended={
-              content.showFeaturedTour && tour.id === content.featuredTourId
-                ? {
-                    badgeLabel: content.featuredBadgeLabel,
-                    reasons: content.featuredReasons,
-                    urgencyText: content.featuredUrgencyText,
-                  }
-                : undefined
-            }
-          />
-        ))}
-      </div>
+      <CruiseChooser tours={chooserTours} />
+      {checked && (
+        <p className={s.note}>
+          Prices are &ldquo;from&rdquo; prices per adult on GetYourGuide, checked {checked}. The price on the booking page is the one that counts.
+        </p>
+      )}
     </section>
   );
 }

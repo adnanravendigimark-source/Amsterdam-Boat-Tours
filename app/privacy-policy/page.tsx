@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getPrivacyPolicy } from "@/lib/legal";
-import { resolveRobots, resolveCanonical, resolveOg } from "@/lib/seo";
+import { resolveRobots, resolveCanonical, resolveOg, pageTitle } from "@/lib/seo";
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
     { title: policy.metaTitle, description: policy.metaDescription }
   );
   return {
-    title: policy.metaTitle,
+    title: pageTitle(policy.metaTitle),
     description: policy.metaDescription,
     alternates: { canonical: resolveCanonical("/privacy-policy", policy.canonicalUrl) },
     robots: resolveRobots(policy.noIndex, policy.noFollow),

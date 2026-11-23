@@ -12,7 +12,8 @@ import BlogSection from "@/components/BlogSection";
 import Footer from "@/components/Footer";
 import { getTours } from "@/lib/data";
 import { getHomepageContent } from "@/lib/homepage";
-import { resolveRobots, resolveCanonical, resolveOg, stripHtml } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
+import { resolveRobots, resolveCanonical, resolveOg, stripHtml, pageTitle } from "@/lib/seo";
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
     { title: homepage.heroHeading, description: stripHtml(homepage.heroSubheading), image: homepage.heroImage }
   );
   return {
-    ...(homepage.metaTitle.trim() ? { title: homepage.metaTitle } : {}),
+    ...(homepage.metaTitle.trim() ? { title: pageTitle(homepage.metaTitle) } : {}),
     ...(homepage.metaDescription.trim() ? { description: homepage.metaDescription } : {}),
     alternates: { canonical: resolveCanonical("/", homepage.canonicalUrl) },
     robots: resolveRobots(homepage.noIndex, homepage.noFollow),
@@ -32,32 +33,27 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
+  // Structured data for this page. Deliberately no Product/AggregateRating:
+  // the cruises are sold by GetYourGuide, not this site, and Google's review
+  // snippet rules don't allow marking up ratings collected elsewhere. The
+  // canals are what the page is about; the cruises are listed by name and link.
   const tours = await getTours();
-  const productJsonLd = tours
-    .filter((t) => t.featured)
-    .map((t) => ({
-      "@context": "https://schema.org",
-      "@type": "Product",
-      name: t.title,
-      description: t.description.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(),
-      // Google Search Console's Merchant listings check flags Product
-      // structured data missing an "image" as a critical error — t.image
-      // is already an absolute URL (Unsplash/Blob), so no SITE_URL prefix
-      // needed here.
-      image: t.image,
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: t.rating,
-        reviewCount: t.reviews,
-      },
-      offers: {
-        "@type": "Offer",
-        priceCurrency: "EUR",
-        price: t.price,
-        availability: "https://schema.org/InStock",
-        url: t.href,
-      },
-    }));
+  const pageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${SITE_URL}/#webpage`,
+    url: SITE_URL,
+    about: {
+      "@type": "TouristAttraction",
+      name: "Amsterdam canal cruises",
+      containedInPlace: { "@type": "City", name: "Amsterdam", sameAs: "https://en.wikipedia.org/wiki/Amsterdam" },
+      sameAs: ["https://en.wikipedia.org/wiki/Canals_of_Amsterdam"],
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: tours.map((t, i) => ({ "@type": "ListItem", position: i + 1, name: t.title, url: t.href })),
+    },
+  };
 
   return (
     <>
@@ -75,13 +71,10 @@ export default async function HomePage() {
         <div className="h-20 sm:hidden" aria-hidden="true" />
       </main>
       <Footer />
-      {productJsonLd.map((data, i) => (
-        <script
-          key={i}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-        />
-      ))}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd).replace(/</g, "\\u003c") }}
+      />
     </>
   );
 }

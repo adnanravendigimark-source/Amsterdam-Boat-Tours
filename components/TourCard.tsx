@@ -1,7 +1,7 @@
 import SafeImage from "./SafeImage";
 import StarRating from "./StarRating";
-import type { Tour } from "@/lib/data";
-import { LockIcon } from "./icons";
+import { hasPrice, type Tour } from "@/lib/data";
+import ProviderRating from "./ProviderRating";
 
 export default function TourCard({
   tour,
@@ -42,9 +42,11 @@ export default function TourCard({
           </span>
         )}
 
-        <div className="absolute bottom-3 left-3 flex items-center gap-1.5 rounded-lg bg-white/95 px-2.5 py-1 text-xs font-bold text-slate-900 shadow-md backdrop-blur-md">
-          <StarRating rating={tour.rating} showValue reviewCount={tour.reviews} size="xs" />
-        </div>
+        {tour.rating > 0 && (
+          <div className="absolute bottom-3 left-3 flex items-center gap-1.5 rounded-lg bg-white/95 px-2.5 py-1 text-xs font-bold text-slate-900 shadow-md backdrop-blur-md">
+            <StarRating rating={tour.rating} showValue size="xs" />
+          </div>
+        )}
       </div>
 
       {/* Content */}
@@ -70,50 +72,61 @@ export default function TourCard({
           ))}
         </div>
 
-        {tour.duration && <p className="mt-2 text-xs font-medium text-slate-500">⏱ {tour.duration}</p>}
+        <div className="mt-3 space-y-1 text-xs text-slate-600">
+          <ProviderRating rating={tour.rating} reviews={tour.reviews} source={tour.ratingSource} />
+          {tour.duration && <p className="font-medium text-slate-500">⏱ {tour.duration}</p>}
+          {tour.cancellation && <p className="font-medium text-emerald-700">{tour.cancellation}</p>}
+        </div>
 
         {/* Footer */}
         {recommended ? (
           <div className="mt-auto border-t border-blue-100 pt-4">
             <div className="flex items-end justify-between gap-2">
-              <div>
-                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">from</p>
-                <span className="font-display text-2xl font-bold text-slate-900">€{tour.price}</span>
-              </div>
+              {hasPrice(tour) ? (
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">from</p>
+                  <span className="font-display text-2xl font-bold text-slate-900">€{tour.price}</span>
+                </div>
+              ) : (
+                <span className="text-sm font-semibold text-slate-600">See prices</span>
+              )}
               <a
                 href={tour.href}
                 target="_blank"
                 rel="noopener nofollow sponsored"
+                data-placement="tour_card"
+                data-tour-id={tour.id}
                 className="flex shrink-0 items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-600/25 transition hover:scale-[1.02] hover:shadow-blue-600/40"
               >
-                {bookNowText}
+                {tour.ctaLabel || bookNowText}
               </a>
             </div>
-            {recommended.urgencyText && (
-              <p className="mt-2.5 flex items-center gap-1 text-[11px] font-semibold text-blue-600">
-                <LockIcon className="h-3 w-3" /> {recommended.urgencyText}
-              </p>
-            )}
           </div>
         ) : (
           <div className="mt-auto flex items-end justify-between border-t border-slate-100 pt-4">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">from</p>
-              <div className="flex items-baseline gap-2">
-                {tour.originalPrice && (
-                  <span className="text-sm text-slate-400 line-through">€{tour.originalPrice}</span>
-                )}
-                <span className="font-display text-2xl font-bold text-slate-900">€{tour.price}</span>
-                <span className="text-xs text-slate-500">/ person</span>
+            {hasPrice(tour) ? (
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">from</p>
+                <div className="flex items-baseline gap-2">
+                  {tour.originalPrice && tour.originalPrice > tour.price && (
+                    <span className="text-sm text-slate-400 line-through">€{tour.originalPrice}</span>
+                  )}
+                  <span className="font-display text-2xl font-bold text-slate-900">€{tour.price}</span>
+                  <span className="text-xs text-slate-500">/ person</span>
+                </div>
               </div>
-            </div>
+            ) : (
+              <span className="text-sm font-semibold text-slate-600">See prices</span>
+            )}
             <a
               href={tour.href}
               target="_blank"
               rel="noopener nofollow sponsored"
+              data-placement="tour_card"
+              data-tour-id={tour.id}
               className="rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-600/20 transition hover:scale-[1.02] hover:shadow-blue-600/30"
             >
-              {bookNowText}
+              {tour.ctaLabel || bookNowText}
             </a>
           </div>
         )}

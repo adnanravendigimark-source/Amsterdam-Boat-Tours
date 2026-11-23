@@ -12,9 +12,9 @@ export interface BlogSeoSettings {
 }
 
 const DEFAULT_SETTINGS: BlogSeoSettings = {
-  metaTitle: "Amsterdam Canal Cruise Guides & Tips | Amsterdam Boat Tours",
+  metaTitle: "Amsterdam Canal Cruise Guides & Tips | Amsterdam Boat Cruise",
   metaDescription:
-    "Practical guides for Amsterdam canal cruises — daytime sightseeing vs. evening wine & cheese cruise, best times to book, routes, and tips.",
+    "Practical guides for Amsterdam canal cruises — day or night, where to board, what you'll see and whether it's worth it.",
   canonicalUrl: "",
   noIndex: false,
   noFollow: false,
