@@ -18,7 +18,7 @@ export default function TableOfContents({
           <li key={item.id}>
             <a
               href={`#${item.id}`}
-              className="flex items-center gap-2 font-medium text-stone-700 transition hover:text-canal-orange hover:translate-x-0.5"
+              className="flex min-h-11 items-center gap-2 font-medium text-stone-700 transition-colors hover:text-canal-orange sm:min-h-0"
             >
               <span aria-hidden="true" className="text-canal-blue font-bold">
                 ›

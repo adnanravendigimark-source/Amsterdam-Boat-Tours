@@ -11,6 +11,7 @@ import {
   type HomepageContent,
 } from "@/lib/homepage";
 import { dbErrorMessage } from "@/lib/db";
+import { requirePageAccess } from "@/lib/session";
 
 // Force this route to always run as a live serverless function rather than
 // get statically optimized at build time — Next.js can otherwise pre-render
@@ -20,6 +21,8 @@ import { dbErrorMessage } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const denied = await requirePageAccess("homepage");
+  if (denied) return denied;
   return NextResponse.json(await getHomepageContent());
 }
 
@@ -31,6 +34,8 @@ export async function GET() {
 // still posts the full HomepageContent shape — see each save function in
 // lib/homepage.ts for why that split exists.
 async function PUTHandler(req: Request) {
+  const denied = await requirePageAccess("homepage");
+  if (denied) return denied;
   // Whole handler wrapped in one try/catch — not just the DB call — so a
   // malformed body or any unexpected error still comes back as a real JSON
   // error the admin UI can show, instead of a platform error page that

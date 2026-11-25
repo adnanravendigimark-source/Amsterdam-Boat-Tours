@@ -43,7 +43,7 @@ export default function BlogIndexSidebar({
           value={searchQuery || ""}
           onChange={(e) => onSearchChange && onSearchChange(e.target.value)}
           placeholder="Search articles..."
-          className="w-full bg-transparent px-3.5 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none"
+          className="w-full min-h-11 bg-transparent px-3.5 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none"
         />
         <button
           type="button"
@@ -66,7 +66,7 @@ export default function BlogIndexSidebar({
                   key={cat.name}
                   type="button"
                   onClick={() => onSelectCategory && onSelectCategory(isSelected ? "All" : cat.name)}
-                  className={`flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-xs font-semibold transition ${
+                  className={`flex w-full min-h-11 items-center justify-between rounded-lg px-2.5 py-2 text-xs font-semibold transition ${
                     isSelected
                       ? "bg-blue-50 text-blue-700 font-bold"
                       : "text-slate-700 hover:bg-stone-100 hover:text-blue-600"
@@ -127,7 +127,7 @@ export default function BlogIndexSidebar({
         <p className="mt-1.5 text-xs leading-relaxed text-slate-600">{ctaBody}</p>
         <a
           href="/#tours"
-          className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:scale-[1.02]"
+          className="mt-4 inline-flex min-h-11 items-center gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 px-5 py-2.5 text-xs font-bold text-white shadow-sm transition-colors"
         >
           {ctaButtonText}
         </a>

@@ -1,9 +1,10 @@
 import { getFaqs } from "@/lib/data";
 import { getHomepageContent } from "@/lib/homepage";
+import { jsonLd, safeHtml } from "@/lib/safeHtml";
 
 export default async function FAQSection() {
   const [faqs, { sections }] = await Promise.all([getFaqs(), getHomepageContent()]);
-  const jsonLd = {
+  const faqJsonLdData = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: faqs.map((f) => ({
@@ -28,9 +29,9 @@ export default async function FAQSection() {
         {faqs.map((f) => (
           <details
             key={f.question}
-            className="group rounded-2xl border border-stone-200/80 bg-white p-6 shadow-sm transition-all duration-200 open:border-canal-blue/40 open:shadow-md"
+            className="group rounded-2xl border border-stone-200/80 bg-white p-6 shadow-sm transition-[box-shadow,border-color] duration-200 open:border-canal-blue/40 open:shadow-md"
           >
-            <summary className="flex cursor-pointer list-none items-center justify-between font-semibold text-stone-900">
+            <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between font-semibold text-stone-900">
               <span className="text-base">{f.question}</span>
               <span className="ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-stone-100 text-stone-600 transition group-open:rotate-45 group-open:bg-canal-blue group-open:text-white">
                 +
@@ -38,14 +39,14 @@ export default async function FAQSection() {
             </summary>
             <div
               className="rich-content mt-4 text-sm leading-relaxed text-stone-600 border-t border-stone-100 pt-4"
-              dangerouslySetInnerHTML={{ __html: f.answer }}
+              dangerouslySetInnerHTML={{ __html: safeHtml(f.answer) }}
             />
           </details>
         ))}
       </div>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(faqJsonLdData) }}
       />
     </section>
   );

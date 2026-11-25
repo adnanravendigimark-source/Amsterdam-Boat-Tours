@@ -1,3 +1,4 @@
+import { sanitizeHrefs } from "./safeHref";
 import { sql } from "./db";
 
 export interface GalleryImage {
@@ -282,9 +283,11 @@ export const DEFAULT_FOOTER: FooterContent = {
       ],
     },
   ],
-  addressHeading: "Main Boarding Pier",
-  addressLine1: "Damrak 26 (near Centraal Station)",
-  addressLine2: "1012 LG Amsterdam, Netherlands",
+  // No fixed boarding pier: each cruise departs from the pier on its ticket.
+  // Left empty so the footer hides the block unless an admin fills it in.
+  addressHeading: "",
+  addressLine1: "",
+  addressLine2: "",
   copyrightText:
     "Amsterdam Boat Cruise. All prices shown in EUR and subject to change by the boat operator.",
 };
@@ -597,7 +600,7 @@ function rowToHomepage(row: any): HomepageContent {
 export async function getHomepageContent(): Promise<HomepageContent> {
   try {
     const rows = await sql`SELECT * FROM homepage WHERE id = 1 LIMIT 1`;
-    return rows.length ? rowToHomepage(rows[0]) : DEFAULT_HOMEPAGE_CONTENT;
+    return rows.length ? sanitizeHrefs(rowToHomepage(rows[0])) : DEFAULT_HOMEPAGE_CONTENT;
   } catch {
     return DEFAULT_HOMEPAGE_CONTENT;
   }
@@ -609,8 +612,8 @@ export async function getSiteChrome(): Promise<{ header: HeaderContent; footer: 
     if (!rows.length) return { header: DEFAULT_HEADER, footer: DEFAULT_FOOTER, theme: DEFAULT_THEME };
     const row = rows[0] as any;
     return {
-      header: parseJsonWithDefault<HeaderContent>(row.header_json, DEFAULT_HEADER),
-      footer: parseJsonWithDefault<FooterContent>(row.footer_json, DEFAULT_FOOTER),
+      header: sanitizeHrefs(parseJsonWithDefault<HeaderContent>(row.header_json, DEFAULT_HEADER)),
+      footer: sanitizeHrefs(parseJsonWithDefault<FooterContent>(row.footer_json, DEFAULT_FOOTER)),
       theme: parseJsonWithDefault<ThemeColors>(row.theme_json, DEFAULT_THEME),
     };
   } catch {

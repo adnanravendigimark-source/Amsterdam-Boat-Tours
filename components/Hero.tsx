@@ -3,6 +3,7 @@ import { getHomepageContent } from "@/lib/homepage";
 import { getTours, hasPrice } from "@/lib/data";
 import { formatCheckedDate } from "@/lib/checkedDate";
 import s from "./hero.module.css";
+import { safeHtml } from "@/lib/safeHtml";
 
 type Fact = { text: string; icon: "price" | "cancel" | "time" | "star" };
 
@@ -118,7 +119,7 @@ export default async function Hero() {
         <div className={s.copy}>
           <h1 className={s.title}>{content.heroHeading}</h1>
           {content.heroSubheading && (
-            <div className={s.lede} dangerouslySetInnerHTML={{ __html: content.heroSubheading }} />
+            <div className={s.lede} dangerouslySetInnerHTML={{ __html: safeHtml(content.heroSubheading) }} />
           )}
 
           <div className={s.actions}>

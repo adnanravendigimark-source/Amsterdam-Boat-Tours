@@ -2,6 +2,7 @@ import { withSiteRevalidate } from "@/lib/revalidateSite";
 import { NextResponse } from "next/server";
 import { getBlogSeoSettings, saveBlogSeoSettings } from "@/lib/settings";
 import { dbErrorMessage } from "@/lib/db";
+import { requirePageAccess } from "@/lib/session";
 
 // Force this route to always run as a live serverless function rather than
 // get statically optimized at build time — Next.js can otherwise pre-render
@@ -17,10 +18,14 @@ export const dynamic = "force-dynamic";
 // route only covers the Blog listing page's SEO fields.
 
 export async function GET() {
+  const denied = await requirePageAccess("pages");
+  if (denied) return denied;
   return NextResponse.json(await getBlogSeoSettings());
 }
 
 async function PUTHandler(req: Request) {
+  const denied = await requirePageAccess("pages");
+  if (denied) return denied;
   const body = await req.json().catch(() => null);
   const data = {
     metaTitle: body?.metaTitle || "",

@@ -1,3 +1,4 @@
+import { safeHref } from "./safeHref";
 import { sql } from "./db";
 import postsSeed from "@/data/posts.json";
 import { toIsoDate } from "./checkedDate";
@@ -112,7 +113,7 @@ function rowToPost(row: any): Post {
     ctaHeading: row.cta_heading || DEFAULT_CTA_HEADING,
     ctaBody: row.cta_body || DEFAULT_CTA_BODY,
     ctaButtonText: row.cta_button_text || DEFAULT_CTA_BUTTON_TEXT,
-    ctaButtonHref: row.cta_button_href || DEFAULT_CTA_BUTTON_HREF,
+    ctaButtonHref: safeHref(row.cta_button_href || DEFAULT_CTA_BUTTON_HREF),
     focusKeyword: row.focus_keyword || "",
     noIndex: !!row.no_index,
     noFollow: !!row.no_follow,

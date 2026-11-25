@@ -59,11 +59,6 @@ export default function CruiseChooser({ tours }: { tours: ChooserTour[] }) {
                 <>
                   <span className={s.from}>from</span>
                   <span className={s.amount}>€{tour.price}</span>
-                  {tour.originalPrice && tour.originalPrice > tour.price && (
-                    <del className={s.was}>
-                      <span className="sr-only">was </span>€{tour.originalPrice}
-                    </del>
-                  )}
                 </>
               ) : (
                 <span className={s.from}>See prices</span>

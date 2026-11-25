@@ -2,6 +2,8 @@ import SafeImage from "./SafeImage";
 import StarRating from "./StarRating";
 import { hasPrice, type Tour } from "@/lib/data";
 import ProviderRating from "./ProviderRating";
+import { safeHtml } from "@/lib/safeHtml";
+import { ClockPayIcon } from "./icons";
 
 export default function TourCard({
   tour,
@@ -18,9 +20,9 @@ export default function TourCard({
 }) {
   return (
     <div
-      className={`group flex h-full flex-col overflow-hidden rounded-2xl bg-white transition-all duration-300 hover:-translate-y-1 ${
+      className={`group flex h-full flex-col overflow-hidden rounded-2xl bg-white transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${
         recommended
-          ? "border-2 border-blue-600 shadow-lg shadow-blue-500/10 hover:shadow-2xl hover:shadow-blue-500/20 ring-1 ring-blue-500/20"
+          ? "border-2 border-blue-600 shadow-lg hover:shadow-xl ring-1 ring-blue-500/20"
           : "border border-slate-200/80 shadow-sm hover:border-blue-500/40 hover:shadow-xl hover:shadow-blue-900/5"
       }`}
     >
@@ -36,8 +38,8 @@ export default function TourCard({
         <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/10" />
 
         {(recommended || tour.ribbon) && (
-          <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-lg bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-md">
-            <span>★</span>
+          <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-lg bg-blue-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-md">
+            <span aria-hidden="true">★</span>
             {recommended ? recommended.badgeLabel : tour.ribbon}
           </span>
         )}
@@ -56,7 +58,7 @@ export default function TourCard({
         </h3>
         <div
           className="rich-content mt-1 line-clamp-2 min-h-[2.5rem] text-sm text-slate-600 [&>p]:m-0 [&>p]:line-clamp-2"
-          dangerouslySetInnerHTML={{ __html: tour.description }}
+          dangerouslySetInnerHTML={{ __html: safeHtml(tour.description) }}
         />
 
         {/* First 3 admin "Includes" items, boxed. */}
@@ -66,7 +68,7 @@ export default function TourCard({
               key={item}
               className="flex items-start gap-2 rounded-md bg-slate-50 px-2.5 py-1.5 text-[11.5px] text-slate-700 border border-slate-100"
             >
-              <span className="mt-0.5 text-blue-600 font-bold shrink-0">✓</span>
+              <span aria-hidden="true" className="mt-0.5 text-blue-600 font-bold shrink-0">✓</span>
               <span className="leading-tight font-medium line-clamp-1">{item}</span>
             </div>
           ))}
@@ -74,7 +76,7 @@ export default function TourCard({
 
         <div className="mt-3 space-y-1 text-xs text-slate-600">
           <ProviderRating rating={tour.rating} reviews={tour.reviews} source={tour.ratingSource} />
-          {tour.duration && <p className="font-medium text-slate-500">⏱ {tour.duration}</p>}
+          {tour.duration && <p className="inline-flex items-center gap-1.5 font-medium text-slate-500"><ClockPayIcon className="h-3.5 w-3.5" />{tour.duration}</p>}
           {tour.cancellation && <p className="font-medium text-emerald-700">{tour.cancellation}</p>}
         </div>
 
@@ -84,7 +86,7 @@ export default function TourCard({
             <div className="flex items-end justify-between gap-2">
               {hasPrice(tour) ? (
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">from</p>
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">from</p>
                   <span className="font-display text-2xl font-bold text-slate-900">€{tour.price}</span>
                 </div>
               ) : (
@@ -96,7 +98,7 @@ export default function TourCard({
                 rel="noopener nofollow sponsored"
                 data-placement="tour_card"
                 data-tour-id={tour.id}
-                className="flex shrink-0 items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-600/25 transition hover:scale-[1.02] hover:shadow-blue-600/40"
+                className="flex shrink-0 items-center gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 px-5 py-2.5 text-sm font-bold text-white shadow-md transition-colors"
               >
                 {tour.ctaLabel || bookNowText}
               </a>
@@ -106,11 +108,8 @@ export default function TourCard({
           <div className="mt-auto flex items-end justify-between border-t border-slate-100 pt-4">
             {hasPrice(tour) ? (
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">from</p>
+                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">from</p>
                 <div className="flex items-baseline gap-2">
-                  {tour.originalPrice && tour.originalPrice > tour.price && (
-                    <span className="text-sm text-slate-400 line-through">€{tour.originalPrice}</span>
-                  )}
                   <span className="font-display text-2xl font-bold text-slate-900">€{tour.price}</span>
                   <span className="text-xs text-slate-500">/ person</span>
                 </div>
@@ -124,7 +123,7 @@ export default function TourCard({
               rel="noopener nofollow sponsored"
               data-placement="tour_card"
               data-tour-id={tour.id}
-              className="rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-600/20 transition hover:scale-[1.02] hover:shadow-blue-600/30"
+              className="rounded-xl bg-blue-600 hover:bg-blue-700 px-5 py-2.5 text-sm font-bold text-white shadow-md transition-colors"
             >
               {tour.ctaLabel || bookNowText}
             </a>

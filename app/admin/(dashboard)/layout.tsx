@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { getSession } from "@/lib/session";
 import AdminShell from "@/components/admin/AdminShell";
 
@@ -12,6 +13,9 @@ export const metadata: Metadata = {
 
 export default async function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
+  // Middleware already redirects signed-out visitors, but pages must not rely
+  // on a single layer (e.g. CVE-2025-29927 skips middleware entirely).
+  if (!session) redirect("/admin/login");
   const isAdmin = session?.role === "admin";
   const pages = session?.pages || [];
 

@@ -1,10 +1,12 @@
 import { getHomepageContent } from "@/lib/homepage";
 import { getTours } from "@/lib/data";
 import HomepageForm from "@/components/admin/HomepageForm";
+import { requirePageView } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminHomepagePage() {
+  await requirePageView("homepage");
   const [content, tours] = await Promise.all([getHomepageContent(), getTours()]);
 
   return (

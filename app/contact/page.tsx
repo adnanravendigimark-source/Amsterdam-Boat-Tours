@@ -6,6 +6,7 @@ import { MailIcon } from "@/components/icons";
 import { getContactPage } from "@/lib/contact";
 import { getIconComponent } from "@/lib/iconMap";
 import { resolveRobots, resolveCanonical, resolveOg, pageTitle } from "@/lib/seo";
+import { safeHtml } from "@/lib/safeHtml";
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -40,7 +41,7 @@ export default async function ContactPage() {
           </h1>
           <div
             className="rich-content mx-auto mt-3 max-w-md text-slate-600"
-            dangerouslySetInnerHTML={{ __html: contact.heroSubheading }}
+            dangerouslySetInnerHTML={{ __html: safeHtml(contact.heroSubheading) }}
           />
         </div>
 
@@ -50,10 +51,10 @@ export default async function ContactPage() {
             <MailIcon className="h-7 w-7" />
           </span>
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-400">{contact.emailLabel}</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">{contact.emailLabel}</p>
             <a
               href={`mailto:${contact.email}`}
-              className="mt-1 block break-all font-display text-2xl font-bold text-blue-600 hover:underline"
+              className="mt-1 block break-words font-display text-xl sm:text-2xl font-bold text-blue-600 hover:underline"
             >
               {contact.email}
             </a>
@@ -73,7 +74,7 @@ export default async function ContactPage() {
                 <p className="mt-4 text-sm font-bold text-slate-900">{title}</p>
                 <div
                   className="rich-content mt-1.5 text-xs text-slate-600 leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: body }}
+                  dangerouslySetInnerHTML={{ __html: safeHtml(body) }}
                 />
               </div>
             );
@@ -82,14 +83,14 @@ export default async function ContactPage() {
 
         <div
           className="rich-content mt-12 border-t border-slate-200/80 pt-8 text-center text-sm text-slate-500"
-          dangerouslySetInnerHTML={{ __html: contact.footerNote }}
+          dangerouslySetInnerHTML={{ __html: safeHtml(contact.footerNote) }}
         />
 
         <div className="mt-10 flex flex-col items-center gap-4 rounded-2xl bg-gradient-to-r from-canal-navy to-slate-900 p-8 text-center text-white shadow-xl">
           <p className="text-base font-bold">{contact.ctaHeading}</p>
           <a
             href="/#tours"
-            className="rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-7 py-3 text-sm font-bold text-white shadow-md transition hover:scale-[1.02]"
+            className="rounded-xl bg-blue-600 hover:bg-blue-700 px-7 py-3 text-sm font-bold text-white shadow-md transition-colors"
           >
             {contact.ctaButtonLabel} →
           </a>

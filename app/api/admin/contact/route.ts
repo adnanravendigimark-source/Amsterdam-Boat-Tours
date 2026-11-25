@@ -2,6 +2,7 @@ import { withSiteRevalidate } from "@/lib/revalidateSite";
 import { NextResponse } from "next/server";
 import { getContactPage, saveContactPage, type ContactPageContent } from "@/lib/contact";
 import { dbErrorMessage } from "@/lib/db";
+import { requirePageAccess } from "@/lib/session";
 
 // Force this route to always run as a live serverless function rather than
 // get statically optimized at build time — see the identical comment on
@@ -9,10 +10,14 @@ import { dbErrorMessage } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const denied = await requirePageAccess("contact");
+  if (denied) return denied;
   return NextResponse.json(await getContactPage());
 }
 
 async function PUTHandler(req: Request) {
+  const denied = await requirePageAccess("contact");
+  if (denied) return denied;
   try {
     const body = (await req.json().catch(() => null)) as ContactPageContent | null;
     if (!body) {

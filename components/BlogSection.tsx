@@ -52,7 +52,7 @@ export default async function BlogSection() {
                   <span className="inline-flex rounded-full bg-blue-50 px-2.5 py-0.5 font-bold uppercase tracking-wide text-canal-blue">
                     {post.category}
                   </span>
-                  {post.readTime && <span className="text-slate-400 font-medium">{post.readTime}</span>}
+                  {post.readTime && <span className="text-slate-500 font-medium">{post.readTime}</span>}
                 </div>
                 <h3 className="mt-3 font-display text-xl font-bold leading-snug text-slate-900 group-hover:text-canal-blue transition-colors">
                   <Link href={`/blog/${post.slug}`}>{post.title}</Link>
@@ -77,7 +77,7 @@ export default async function BlogSection() {
         <div className="mt-10 text-center md:hidden">
           <Link
             href="/blog"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-sky-600 px-6 py-3 text-sm font-bold text-white transition shadow-sm"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-blue-600 hover:bg-blue-700 px-6 py-3 text-sm font-bold text-white transition-colors shadow-sm"
           >
             <span>{s.viewAllText}</span>
             <span aria-hidden="true">→</span>

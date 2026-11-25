@@ -7,6 +7,7 @@ import { resolveRobots } from "@/lib/seo";
 import { getSiteChrome } from "@/lib/homepage";
 import { hexToRgbTriplet } from "@/lib/color";
 import "./globals.css";
+import { jsonLd } from "@/lib/safeHtml";
 
 
 const displayFont = Outfit({
@@ -27,9 +28,10 @@ const DEFAULT_OG_IMAGE =
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": `${SITE_URL}/#organization`,
   name: "Amsterdam Boat Cruise",
   url: SITE_URL,
-  logo: `${SITE_URL}/Logo.png`,
+  logo: { "@type": "ImageObject", url: `${SITE_URL}/Logo.png` },
   description:
     "Independent guide comparing Amsterdam canal cruise tickets — sightseeing, evening and drinks cruises — bookable on GetYourGuide.",
 };
@@ -37,8 +39,10 @@ const organizationJsonLd = {
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
   name: "Amsterdam Boat Cruise",
   url: SITE_URL,
+  publisher: { "@id": `${SITE_URL}/#organization` },
 };
 
 export function generateMetadata(): Metadata {
@@ -128,11 +132,11 @@ export default async function RootLayout({
         {children}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLd(organizationJsonLd) }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLd(websiteJsonLd) }}
         />
         <AffiliateClickTracker />
       </body>

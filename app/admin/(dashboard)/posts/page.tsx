@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { getPosts } from "@/lib/posts";
-import { getSession } from "@/lib/session";
+import { getSession, requirePageView } from "@/lib/session";
 import DeleteButton from "@/components/admin/DeleteButton";
 import SafeImage from "@/components/SafeImage";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminPostsPage() {
+  await requirePageView("posts");
   const posts = await getPosts();
   const session = await getSession();
   const isAdmin = session?.role === "admin";

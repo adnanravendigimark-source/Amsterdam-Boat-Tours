@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { type BreadcrumbItem, buildBreadcrumbJsonLd } from "@/lib/seo";
+import { jsonLd } from "@/lib/safeHtml";
 
 export default function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   if (!items || items.length === 0) return null;
-  const jsonLd = buildBreadcrumbJsonLd(items);
+  const breadcrumbJsonLdData = buildBreadcrumbJsonLd(items);
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbJsonLdData) }}
       />
       <nav aria-label="Breadcrumb" className="mx-auto max-w-6xl px-4 pt-4 sm:px-6 text-xs text-slate-500 font-medium">
         <ol className="flex flex-wrap items-center gap-1.5">

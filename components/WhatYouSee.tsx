@@ -1,4 +1,5 @@
 import { getHomepageContent } from "@/lib/homepage";
+import { safeHtml } from "@/lib/safeHtml";
 
 export default async function WhatYouSee() {
   const { sections } = await getHomepageContent();
@@ -14,7 +15,7 @@ export default async function WhatYouSee() {
           <h2 className="mt-2 font-display text-3xl font-bold text-slate-900 sm:text-4xl">{s.heading}</h2>
           <div
             className="rich-content mt-3 text-base text-slate-600"
-            dangerouslySetInnerHTML={{ __html: s.intro }}
+            dangerouslySetInnerHTML={{ __html: safeHtml(s.intro) }}
           />
         </div>
 
@@ -43,7 +44,7 @@ export default async function WhatYouSee() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-4 text-xs text-slate-400">{s.note}</p>
+              <p className="mt-4 text-xs text-slate-500">{s.note}</p>
             </div>
           </div>
         </div>
@@ -69,7 +70,7 @@ export default async function WhatYouSee() {
           </div>
           <a
             href={s.ctaHref}
-            className="shrink-0 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-7 py-3 text-sm font-bold text-white shadow-md transition-all hover:scale-[1.02]"
+            className="shrink-0 rounded-xl bg-blue-600 hover:bg-blue-700 px-7 py-3 text-sm font-bold text-white shadow-md transition-colors"
           >
             {s.ctaButtonText}
           </a>

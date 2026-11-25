@@ -3,10 +3,12 @@ import { getPost } from "@/lib/posts";
 import { getTours } from "@/lib/data";
 import { getAllRedirects } from "@/lib/redirects";
 import PostForm from "@/components/admin/PostForm";
+import { requirePageView } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
 export default async function EditPostPage({ params }: { params: { slug: string } }) {
+  await requirePageView("posts");
   const post = await getPost(params.slug);
   if (!post) notFound();
   const [tours, redirects] = await Promise.all([getTours(), getAllRedirects()]);

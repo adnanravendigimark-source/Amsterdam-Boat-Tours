@@ -2,6 +2,7 @@ import { withSiteRevalidate } from "@/lib/revalidateSite";
 import { NextResponse } from "next/server";
 import { getPrivacyPolicy, savePrivacyPolicy } from "@/lib/legal";
 import { dbErrorMessage } from "@/lib/db";
+import { requirePageAccess } from "@/lib/session";
 
 // Force this route to always run as a live serverless function rather than
 // get statically optimized at build time — Next.js can otherwise pre-render
@@ -11,10 +12,14 @@ import { dbErrorMessage } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const denied = await requirePageAccess("privacy");
+  if (denied) return denied;
   return NextResponse.json(await getPrivacyPolicy());
 }
 
 async function PUTHandler(req: Request) {
+  const denied = await requirePageAccess("privacy");
+  if (denied) return denied;
   const body = await req.json().catch(() => null);
   const title = (body?.title || "").trim();
   const lastUpdatedLabel = body?.lastUpdatedLabel ?? "";

@@ -77,6 +77,10 @@ export function buildArticleJsonLd(article: {
   dateModified?: string;
   url: string;
   authorName: string;
+  /** True when authorName is a real person (posts.author set), not the brand fallback. */
+  authorIsPerson?: boolean;
+  /** Page describing the author (the About page). */
+  authorUrl?: string;
   siteName: string;
 }) {
   return {
@@ -87,8 +91,15 @@ export function buildArticleJsonLd(article: {
     ...(article.image ? { image: [article.image] } : {}),
     datePublished: article.datePublished,
     dateModified: article.dateModified || article.datePublished,
-    author: { "@type": "Organization", name: article.authorName },
-    publisher: { "@type": "Organization", name: article.siteName },
+    author: article.authorIsPerson
+      ? { "@type": "Person", name: article.authorName, ...(article.authorUrl ? { url: article.authorUrl } : {}) }
+      : { "@type": "Organization", name: article.authorName },
+    publisher: {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: article.siteName,
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/Logo.png` },
+    },
     mainEntityOfPage: { "@type": "WebPage", "@id": article.url },
   };
 }

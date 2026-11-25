@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getSafeUsers } from "@/lib/users";
 import UserEditForm from "@/components/admin/UserEditForm";
+import { requirePageView } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
@@ -8,6 +9,7 @@ export const dynamic = "force-dynamic";
 // modal from /admin/users (see components/admin/UsersList.tsx). Left in
 // place as a working direct-link fallback rather than removed.
 export default async function EditUserPage({ params }: { params: { id: string } }) {
+  await requirePageView("admin-only");
   const users = await getSafeUsers();
   const user = users.find((u) => u.id === params.id);
   if (!user) notFound();

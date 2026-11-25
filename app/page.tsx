@@ -14,6 +14,7 @@ import { getTours } from "@/lib/data";
 import { getHomepageContent } from "@/lib/homepage";
 import { SITE_URL } from "@/lib/site";
 import { resolveRobots, resolveCanonical, resolveOg, stripHtml, pageTitle } from "@/lib/seo";
+import { jsonLd } from "@/lib/safeHtml";
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -73,7 +74,7 @@ export default async function HomePage() {
       <Footer />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd).replace(/</g, "\\u003c") }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(pageJsonLd) }}
       />
     </>
   );

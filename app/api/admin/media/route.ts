@@ -2,6 +2,7 @@ import { withSiteRevalidate } from "@/lib/revalidateSite";
 import { NextResponse } from "next/server";
 import { getMediaLibrary, recordMediaUpload } from "@/lib/media";
 import { getMediaUsageMap } from "@/lib/mediaUsage";
+import { requirePageAccess } from "@/lib/session";
 
 // Force this route to always run as a live serverless function rather than
 // get statically optimized at build time — same reasoning as upload/route.ts.
@@ -16,6 +17,8 @@ export const dynamic = "force-dynamic";
 // image URL — so the picker can show whether an image is safe to ignore or
 // still live somewhere.
 export async function GET() {
+  const denied = await requirePageAccess("any-content");
+  if (denied) return denied;
   const [items, usage] = await Promise.all([getMediaLibrary(), getMediaUsageMap()]);
   const withUsage = items.map((item) => ({ ...item, usedIn: usage[item.url] || [] }));
   return NextResponse.json({ items: withUsage });
@@ -28,6 +31,8 @@ export async function GET() {
 // blank; `recordMediaUpload`'s ON CONFLICT (url) DO NOTHING makes this safe
 // to call repeatedly (e.g. every image insert) without creating duplicates.
 async function POSTHandler(req: Request) {
+  const denied = await requirePageAccess("any-content");
+  if (denied) return denied;
   let url = "";
   try {
     const body = await req.json();

@@ -1,10 +1,12 @@
 import { getHomepageContent } from "@/lib/homepage";
 import { getTours } from "@/lib/data";
 import RecommendedTourForm from "@/components/admin/RecommendedTourForm";
+import { requirePageView } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminRecommendedTourPage() {
+  await requirePageView("homepage");
   const content = await getHomepageContent();
   const tours = await getTours();
 

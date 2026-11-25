@@ -13,7 +13,10 @@ function decodeAttr(value: string): string {
 
 function optimizable(src: string): boolean {
   if (src.startsWith("/_next/image")) return false;
-  if (!(src.startsWith("https://") || (src.startsWith("/") && !src.startsWith("//")))) return false;
+  // Only hosts next.config.mjs allows the optimizer to fetch (Vercel Blob) and
+  // same-site paths; any other https image is left as a plain <img>.
+  const sameSite = src.startsWith("/") && !src.startsWith("//");
+  if (!sameSite && !/^https:\/\/[a-z0-9-]+\.public\.blob\.vercel-storage\.com\//i.test(src)) return false;
   return !/\.svg(\?|#|$)/i.test(src);
 }
 

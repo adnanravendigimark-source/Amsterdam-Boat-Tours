@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { getPosts, savePosts, type Post } from "@/lib/posts";
 import { dbErrorMessage } from "@/lib/db";
+import { requirePageAccess } from "@/lib/session";
 
 // Force this route to always run as a live serverless function rather than
 // get statically optimized at build time — Next.js can otherwise pre-render
@@ -12,10 +13,14 @@ import { dbErrorMessage } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const denied = await requirePageAccess("posts");
+  if (denied) return denied;
   return NextResponse.json(await getPosts());
 }
 
 async function POSTHandler(req: Request) {
+  const denied = await requirePageAccess("posts");
+  if (denied) return denied;
   const body = (await req.json()) as Post;
 
   if (!body.slug || !body.title) {

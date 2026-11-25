@@ -1,9 +1,11 @@
 import { getAboutPage } from "@/lib/about";
 import AboutForm from "@/components/admin/AboutForm";
+import { requirePageView } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminAboutPage() {
+  await requirePageView("about");
   const about = await getAboutPage();
 
   return (

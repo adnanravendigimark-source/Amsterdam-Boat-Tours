@@ -1,6 +1,7 @@
 import { getTours, hasPrice } from "@/lib/data";
 import { formatCheckedDate } from "@/lib/checkedDate";
 import { getHomepageContent } from "@/lib/homepage";
+import { safeHtml } from "@/lib/safeHtml";
 
 export default async function PriceComparison() {
   const [tours, { sections }] = await Promise.all([getTours(), getHomepageContent()]);
@@ -15,7 +16,7 @@ export default async function PriceComparison() {
         <h2 className="mt-2 font-display text-3xl font-bold text-slate-900 sm:text-4xl">{s.heading}</h2>
         <div
           className="rich-content mt-3 text-base text-slate-600"
-          dangerouslySetInnerHTML={{ __html: s.subheading }}
+          dangerouslySetInnerHTML={{ __html: safeHtml(s.subheading) }}
         />
       </div>
 
@@ -43,7 +44,7 @@ export default async function PriceComparison() {
                 <td className="px-6 py-4 font-bold text-blue-600">
                   {hasPrice(tour) ? (
                     <>
-                      from €{tour.price} <span className="font-normal text-xs text-slate-400">/ person</span>
+                      from €{tour.price} <span className="font-normal text-xs text-slate-500">/ person</span>
                     </>
                   ) : (
                     <span className="font-semibold text-slate-600">See prices</span>
@@ -59,7 +60,7 @@ export default async function PriceComparison() {
                     rel="noopener nofollow sponsored"
                     data-placement="price_table"
                     data-tour-id={tour.id}
-                    className="inline-flex rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition hover:scale-[1.02]"
+                    className="inline-flex min-h-11 items-center rounded-xl bg-blue-600 hover:bg-blue-700 px-4 py-2 text-xs font-bold text-white shadow-sm transition-colors"
                   >
                     {s.bookLabel}
                   </a>

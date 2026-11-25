@@ -32,7 +32,7 @@ export default function TourPromoCard({
         rel="noopener nofollow sponsored"
         data-placement="post_promo"
         data-tour-id={tour.id}
-        className="shrink-0 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-6 py-3 text-center text-sm font-bold text-white shadow-md shadow-blue-600/20 transition hover:scale-[1.02] hover:shadow-blue-600/35"
+        className="shrink-0 rounded-xl bg-blue-600 hover:bg-blue-700 px-6 py-3 text-center text-sm font-bold text-white shadow-md transition-colors"
       >
         {tour.ctaLabel || bookNowText}
       </a>

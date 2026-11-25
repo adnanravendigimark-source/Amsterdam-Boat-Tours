@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getPrivacyPolicy } from "@/lib/legal";
 import { resolveRobots, resolveCanonical, resolveOg, pageTitle } from "@/lib/seo";
+import { safeHtml } from "@/lib/safeHtml";
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -41,7 +42,7 @@ export default async function PrivacyPolicyPage() {
                 <h2 className="font-display text-xl font-semibold text-stone-900">{block.text}</h2>
               )}
               {block.type === "paragraph" && (
-                <div className="rich-content max-w-none" dangerouslySetInnerHTML={{ __html: block.text || "" }} />
+                <div className="rich-content max-w-none" dangerouslySetInnerHTML={{ __html: safeHtml(block.text) }} />
               )}
               {block.type === "list" && (
                 <ul className="list-disc space-y-2 pl-5">

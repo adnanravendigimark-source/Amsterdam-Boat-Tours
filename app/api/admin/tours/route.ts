@@ -2,6 +2,7 @@ import { withSiteRevalidate } from "@/lib/revalidateSite";
 import { NextResponse } from "next/server";
 import { getToursRaw, saveTours, type TourRecord } from "@/lib/data";
 import { DB_ERROR_MESSAGE } from "@/lib/db";
+import { requirePageAccess } from "@/lib/session";
 
 // Force this route to always run as a live serverless function rather than
 // get statically optimized at build time — Next.js can otherwise pre-render
@@ -11,10 +12,14 @@ import { DB_ERROR_MESSAGE } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const denied = await requirePageAccess("tours");
+  if (denied) return denied;
   return NextResponse.json(await getToursRaw());
 }
 
 async function POSTHandler(req: Request) {
+  const denied = await requirePageAccess("tours");
+  if (denied) return denied;
   const body = (await req.json()) as TourRecord;
 
   if (!body.id || !body.title) {

@@ -1,9 +1,11 @@
 import { getContactPage } from "@/lib/contact";
 import ContactForm from "@/components/admin/ContactForm";
+import { requirePageView } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminContactPage() {
+  await requirePageView("contact");
   const contact = await getContactPage();
 
   return (

@@ -21,7 +21,7 @@ export default async function NotFound() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
             href={s.primaryButtonHref}
-            className="rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-6 py-3 text-sm font-bold text-white shadow-md transition hover:scale-[1.02]"
+            className="rounded-xl bg-blue-600 hover:bg-blue-700 px-6 py-3 text-sm font-bold text-white shadow-md transition-colors"
           >
             {s.primaryButtonText}
           </Link>

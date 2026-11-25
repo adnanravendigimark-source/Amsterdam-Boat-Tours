@@ -1,5 +1,6 @@
 import { withSiteRevalidate } from "@/lib/revalidateSite";
 import { NextResponse } from "next/server";
+import { requirePageAccess } from "@/lib/session";
 
 // Force this route to always run as a live serverless function rather than
 // get statically optimized at build time — Next.js can otherwise pre-render
@@ -12,10 +13,14 @@ export const dynamic = "force-dynamic";
 // kept only so the folder isn't empty; both handlers are disabled rather
 // than left functional.
 export async function GET() {
+  const denied = await requirePageAccess("homepage");
+  if (denied) return denied;
   return NextResponse.json({ error: "Not found" }, { status: 404 });
 }
 
 async function PUTHandler() {
+  const denied = await requirePageAccess("homepage");
+  if (denied) return denied;
   return NextResponse.json({ error: "Not found" }, { status: 404 });
 }
 

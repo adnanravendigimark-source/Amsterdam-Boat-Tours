@@ -369,6 +369,22 @@ async function addMediaLibraryTable() {
   console.log("media_library table ready.");
 }
 
+// Failed admin sign-ins, for rate limiting (lib/loginThrottle.ts also creates
+// this on first use, so a deploy that skips this script still works).
+async function addLoginAttemptsTable() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS login_attempts (
+      id BIGSERIAL PRIMARY KEY,
+      email TEXT NOT NULL,
+      ip TEXT NOT NULL,
+      attempted_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )
+  `;
+  await sql`CREATE INDEX IF NOT EXISTS login_attempts_email_at ON login_attempts (email, attempted_at)`;
+  await sql`CREATE INDEX IF NOT EXISTS login_attempts_ip_at ON login_attempts (ip, attempted_at)`;
+  console.log("login_attempts table ready.");
+}
+
 async function seedTours() {
   const [{ count }] = await sql`SELECT COUNT(*)::int AS count FROM tours`;
   if (count > 0) {
@@ -638,6 +654,7 @@ async function main() {
   await addHomepageCmsColumns();
   await addBlogCmsColumns();
   await addMediaLibraryTable();
+  await addLoginAttemptsTable();
   await addFactCheckColumns();
   await seedTours();
   await seedPosts();

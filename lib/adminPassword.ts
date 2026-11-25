@@ -1,3 +1,4 @@
+import { createHash, timingSafeEqual } from "crypto";
 import { sql } from "./db";
 import { hashPassword, verifyPassword } from "./passwords";
 
@@ -20,6 +21,13 @@ export async function setAdminPasswordHash(plainPassword: string): Promise<void>
   `;
 }
 
+/** Constant-time comparison; hashing first makes both sides the same length. */
+function sameSecret(a: string, b: string): boolean {
+  const ha = createHash("sha256").update(a).digest();
+  const hb = createHash("sha256").update(b).digest();
+  return timingSafeEqual(ha, hb);
+}
+
 export async function verifyOwnerPassword(candidate: string): Promise<boolean> {
   const dbHash = await getAdminPasswordHash();
   const envPw = process.env.ADMIN_PASSWORD;
@@ -33,7 +41,7 @@ export async function verifyOwnerPassword(candidate: string): Promise<boolean> {
   // meant to be a break-glass credential the owner can always reset from
   // Vercel, so it must remain valid even after a DB hash has been set.
   if (dbHash && verifyPassword(candidate, dbHash)) return true;
-  if (envPw && candidate === envPw) return true;
+  if (envPw && sameSecret(candidate, envPw)) return true;
 
   return false;
 }

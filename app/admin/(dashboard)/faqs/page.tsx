@@ -1,9 +1,11 @@
 import { getFaqs } from "@/lib/data";
 import FaqsForm from "@/components/admin/FaqsForm";
+import { requirePageView } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminFaqsPage() {
+  await requirePageView("faqs");
   const faqs = await getFaqs();
 
   return (

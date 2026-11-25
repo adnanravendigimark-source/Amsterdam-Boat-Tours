@@ -1,5 +1,6 @@
 import TourForm from "@/components/admin/TourForm";
 import type { TourRecord } from "@/lib/data";
+import { requirePageView } from "@/lib/session";
 
 const blank: TourRecord = {
   id: "",
@@ -21,7 +22,8 @@ const blank: TourRecord = {
   bestFor: "",
 };
 
-export default function NewTourPage() {
+export default async function NewTourPage() {
+  await requirePageView("tours");
   return (
     <div>
       <h1 className="font-display text-2xl font-bold text-stone-900">Add Tour</h1>

@@ -1,7 +1,7 @@
 import { withSiteRevalidate } from "@/lib/revalidateSite";
 import { NextResponse } from "next/server";
 import { getToursRaw, saveTours, type TourRecord } from "@/lib/data";
-import { getSession } from "@/lib/session";
+import { getSession, requirePageAccess } from "@/lib/session";
 import { dbErrorMessage } from "@/lib/db";
 
 // Force this route to always run as a live serverless function rather than
@@ -12,12 +12,16 @@ import { dbErrorMessage } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
+  const denied = await requirePageAccess("tours");
+  if (denied) return denied;
   const tour = (await getToursRaw()).find((t) => t.id === params.id);
   if (!tour) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(tour);
 }
 
 async function PUTHandler(req: Request, { params }: { params: { id: string } }) {
+  const denied = await requirePageAccess("tours");
+  if (denied) return denied;
   const body = (await req.json()) as TourRecord;
   const tours = await getToursRaw();
   const idx = tours.findIndex((t) => t.id === params.id);
@@ -33,6 +37,8 @@ async function PUTHandler(req: Request, { params }: { params: { id: string } }) 
 }
 
 async function DELETEHandler(_req: Request, { params }: { params: { id: string } }) {
+  const denied = await requirePageAccess("tours");
+  if (denied) return denied;
   const session = await getSession();
   if (!session || session.role !== "admin") {
     return NextResponse.json({ error: "Only admins can delete." }, { status: 403 });

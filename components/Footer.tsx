@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Logo from "./Logo";
 import { getSiteChrome } from "@/lib/homepage";
+import { safeHtml } from "@/lib/safeHtml";
 
 export default async function Footer() {
   const { header, footer } = await getSiteChrome();
@@ -12,7 +13,7 @@ export default async function Footer() {
             <Logo variant="stacked" theme="dark" line1={header.logoLine1} line2={header.logoLine2} />
             <div
               className="mt-5 max-w-sm text-sm leading-relaxed text-stone-300 rich-content rich-content-invert"
-              dangerouslySetInnerHTML={{ __html: footer.tagline }}
+              dangerouslySetInnerHTML={{ __html: safeHtml(footer.tagline) }}
             />
           </div>
 
@@ -22,10 +23,10 @@ export default async function Footer() {
                 <p className="text-xs font-bold uppercase tracking-widest text-sky-400">
                   {column.title}
                 </p>
-                <ul className="mt-4 space-y-2.5 text-sm text-stone-300">
+                <ul className="mt-2 space-y-0 text-sm text-stone-300 sm:mt-4 sm:space-y-2.5">
                   {column.links.map((link) => (
                     <li key={link.href + link.label}>
-                      <Link href={link.href} className="hover:text-white hover:underline transition-colors">
+                      <Link href={link.href} className="inline-flex min-h-11 items-center hover:text-white hover:underline transition-colors sm:min-h-0">
                         {link.label}
                       </Link>
                     </li>
@@ -34,16 +35,20 @@ export default async function Footer() {
               </div>
             ))}
 
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-sky-400">
-                {footer.addressHeading}
-              </p>
-              <p className="mt-4 text-sm leading-relaxed text-stone-300">
-                {footer.addressLine1}
-                <br />
-                {footer.addressLine2}
-              </p>
-            </div>
+            {((footer.addressLine1 || "").trim() || (footer.addressLine2 || "").trim()) && (
+              <div>
+                {(footer.addressHeading || "").trim() && (
+                  <p className="text-xs font-bold uppercase tracking-widest text-sky-400">
+                    {footer.addressHeading}
+                  </p>
+                )}
+                <p className="mt-4 text-sm leading-relaxed text-stone-300">
+                  {footer.addressLine1}
+                  {(footer.addressLine1 || "").trim() && (footer.addressLine2 || "").trim() && <br />}
+                  {footer.addressLine2}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 

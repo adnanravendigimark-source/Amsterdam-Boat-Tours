@@ -47,7 +47,7 @@ export default function MobileNav({
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-label={open ? "Close menu" : "Open menu"}
-        className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-700 transition hover:bg-slate-100"
+        className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-slate-700 transition hover:bg-slate-100"
       >
         <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6" stroke="currentColor" strokeWidth={1.8}>
           {open ? (
@@ -82,7 +82,7 @@ export default function MobileNav({
               <Link
                 href={ctaHref}
                 onClick={() => setOpen(false)}
-                className="block rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-5 py-3 text-center text-sm font-bold text-white shadow-md shadow-blue-600/20"
+                className="block rounded-xl bg-blue-600 hover:bg-blue-700 px-5 py-3 text-center text-sm font-bold text-white shadow-md"
               >
                 {ctaText}
               </Link>

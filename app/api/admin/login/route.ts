@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { createSessionToken, ADMIN_COOKIE_NAME, type Session } from "@/lib/auth";
+import { createSessionToken, ADMIN_COOKIE_NAME, SESSION_MAX_AGE_SECONDS, type Session } from "@/lib/auth";
+import { clearLoginFailures, isLoginThrottled, recordLoginFailure } from "@/lib/loginThrottle";
 import { verifyUserCredentials } from "@/lib/users";
 import { verifyOwnerPassword } from "@/lib/adminPassword";
 import { PAGE_KEYS } from "@/lib/pageAccess";
@@ -12,13 +13,19 @@ import { DB_ERROR_MESSAGE } from "@/lib/db";
 // them in production even though the code is correct.
 export const dynamic = "force-dynamic";
 
-// Verifies a Turnstile token with Cloudflare's siteverify endpoint. Returns
-// true if TURNSTILE_SECRET_KEY isn't set at all (captcha not configured —
-// don't lock everyone out), false for any actual failure/error so a bad or
-// missing token always blocks the login.
+// Verifies a Turnstile token with Cloudflare's siteverify endpoint. In local
+// development a missing TURNSTILE_SECRET_KEY skips the check; in production it
+// fails closed, so a lost env var can never silently remove the captcha.
+// Any verification failure or error blocks the login.
 async function verifyCaptcha(token: string, ip: string | null): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) return true;
+  if (!secret) {
+    if (process.env.NODE_ENV === "production") {
+      console.error("[turnstile] TURNSTILE_SECRET_KEY is not set in production; refusing logins.");
+      return false;
+    }
+    return true;
+  }
   if (!token) return false;
 
   try {
@@ -72,6 +79,13 @@ export async function POST(req: Request) {
     );
   }
 
+  if (await isLoginThrottled(email, ip)) {
+    return NextResponse.json(
+      { error: "Too many failed sign-in attempts. Wait 15 minutes and try again." },
+      { status: 429, headers: { "Retry-After": "900" } }
+    );
+  }
+
   const rootEmail = process.env.ADMIN_EMAIL;
 
   if (!rootEmail) {
@@ -104,17 +118,29 @@ export async function POST(req: Request) {
   }
 
   if (!session) {
+    await recordLoginFailure(email, ip);
     return NextResponse.json({ error: "Invalid email or password." }, { status: 401 });
   }
 
-  const token = await createSessionToken(session);
+  await clearLoginFailures(email, ip);
+
+  let token: string;
+  try {
+    token = await createSessionToken(session);
+  } catch (err) {
+    console.error("[login] could not create a session", err instanceof Error ? err.message : err);
+    return NextResponse.json(
+      { error: "Sign-in is not configured on the server (ADMIN_SESSION_SECRET)." },
+      { status: 500 }
+    );
+  }
   const res = NextResponse.json({ ok: true, role: session.role });
   res.cookies.set(ADMIN_COOKIE_NAME, token, {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
     path: "/",
-    maxAge: 60 * 60 * 8, // 8 hours
+    maxAge: SESSION_MAX_AGE_SECONDS, // 8 hours, matches the expiry inside the token
   });
   return res;
 }

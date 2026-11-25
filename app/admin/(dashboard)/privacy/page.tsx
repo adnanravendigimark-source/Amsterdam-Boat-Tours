@@ -1,9 +1,11 @@
 import { getPrivacyPolicy } from "@/lib/legal";
 import PrivacyPolicyForm from "@/components/admin/PrivacyPolicyForm";
+import { requirePageView } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminPrivacyPolicyPage() {
+  await requirePageView("privacy");
   const policy = await getPrivacyPolicy();
 
   return (

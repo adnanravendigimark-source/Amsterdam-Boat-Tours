@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { getHomepageContent } from "@/lib/homepage";
+import { safeHtml } from "@/lib/safeHtml";
 
 export default async function EveningCruise() {
   const { sections } = await getHomepageContent();
@@ -10,17 +11,17 @@ export default async function EveningCruise() {
       <div className="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:items-center">
         <div>
           <span className="inline-flex items-center gap-1.5 rounded-md bg-canal-blue/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-canal-blue">
-            <span>✨</span> {s.eyebrow}
+            {s.eyebrow}
           </span>
           <h2 className="mt-3 font-display text-3xl font-bold text-stone-900 sm:text-4xl">{s.heading}</h2>
           <div
             className="rich-content mt-4 text-base text-stone-600"
-            dangerouslySetInnerHTML={{ __html: s.body }}
+            dangerouslySetInnerHTML={{ __html: safeHtml(s.body) }}
           />
           <ul className="mt-6 space-y-3.5 text-sm font-medium text-stone-700">
             {s.bullets.map((bullet, i) => (
               <li key={i} className="flex items-center gap-3">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-canal-blue/10 text-canal-blue text-xs font-bold">
+                <span aria-hidden="true" className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-canal-blue/10 text-canal-blue text-xs font-bold">
                   ✓
                 </span>
                 {bullet}
@@ -32,7 +33,7 @@ export default async function EveningCruise() {
             {...(/^https?:\/\//i.test(s.ctaHref)
               ? { target: "_blank", rel: "noopener nofollow sponsored", "data-placement": "evening_section" }
               : {})}
-            className="mt-8 inline-flex rounded-xl bg-canal-blue px-7 py-3.5 text-sm font-semibold text-white shadow-md shadow-canal-blue/25 transition hover:bg-canal-blue/90 hover:scale-[1.02]"
+            className="mt-8 inline-flex rounded-xl bg-blue-600 px-7 py-3.5 text-sm font-bold text-white shadow-md transition-colors hover:bg-blue-700"
           >
             {s.ctaButtonText}
           </a>

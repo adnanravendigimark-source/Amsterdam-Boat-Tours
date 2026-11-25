@@ -2,6 +2,7 @@ import { withSiteRevalidate } from "@/lib/revalidateSite";
 import { NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import { recordMediaUpload } from "@/lib/media";
+import { requirePageAccess } from "@/lib/session";
 
 // Force this route to always run as a live serverless function rather than
 // get statically optimized at build time — Next.js can otherwise pre-render
@@ -16,6 +17,8 @@ export const dynamic = "force-dynamic";
 // a read-only filesystem at runtime — this works identically in local dev
 // and in production as long as BLOB_READ_WRITE_TOKEN is set.
 async function POSTHandler(req: Request) {
+  const denied = await requirePageAccess("any-content");
+  if (denied) return denied;
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
     return NextResponse.json(
       {

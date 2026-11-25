@@ -45,6 +45,9 @@ export async function middleware(req: NextRequest) {
   const isAdminApi = pathname.startsWith("/api/admin") && pathname !== "/api/admin/login";
   const isAdminArea = pathname.startsWith("/admin") || pathname.startsWith("/api/admin");
 
+  // Only the admin login page/API reach here unauthenticated (see matcher):
+  // public pages no longer pass through middleware, so Vercel can cache them.
+  // Admin saves purge the cache via revalidatePath("/", "layout").
   if (!isAdminPage && !isAdminApi) {
     const res = withNoCache(NextResponse.next());
     return isAdminArea ? withNoIndex(res) : res;
@@ -87,5 +90,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/admin", "/admin/:path*", "/api/admin/:path*"],
 };

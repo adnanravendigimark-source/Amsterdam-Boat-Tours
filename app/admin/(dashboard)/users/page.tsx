@@ -1,11 +1,12 @@
 import { getSafeUsers } from "@/lib/users";
-import { getSession } from "@/lib/session";
+import { getSession, requirePageView } from "@/lib/session";
 import UserForm from "@/components/admin/UserForm";
 import UsersList from "@/components/admin/UsersList";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminUsersPage() {
+  await requirePageView("admin-only");
   const users = await getSafeUsers();
   const session = await getSession();
   const rootEmail = process.env.ADMIN_EMAIL || "";

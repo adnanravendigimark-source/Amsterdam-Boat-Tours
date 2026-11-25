@@ -1,10 +1,12 @@
 import PostForm from "@/components/admin/PostForm";
 import { getTours } from "@/lib/data";
 import type { Post } from "@/lib/posts";
+import { requirePageView } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
 export default async function NewPostPage() {
+  await requirePageView("posts");
   const tours = await getTours();
 
   const today = new Date().toISOString().slice(0, 10);

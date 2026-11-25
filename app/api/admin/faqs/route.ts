@@ -2,6 +2,7 @@ import { withSiteRevalidate } from "@/lib/revalidateSite";
 import { NextResponse } from "next/server";
 import { getFaqs, saveFaqs, type FAQ } from "@/lib/data";
 import { DB_ERROR_MESSAGE } from "@/lib/db";
+import { requirePageAccess } from "@/lib/session";
 
 // Force this route to always run as a live serverless function rather than
 // get statically optimized at build time — Next.js can otherwise pre-render
@@ -11,10 +12,14 @@ import { DB_ERROR_MESSAGE } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const denied = await requirePageAccess("faqs");
+  if (denied) return denied;
   return NextResponse.json(await getFaqs());
 }
 
 async function PUTHandler(req: Request) {
+  const denied = await requirePageAccess("faqs");
+  if (denied) return denied;
   const body = (await req.json()) as FAQ[];
   if (!Array.isArray(body)) {
     return NextResponse.json({ error: "Expected an array of FAQs." }, { status: 400 });

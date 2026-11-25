@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { getPosts, getPost, savePosts, type Post } from "@/lib/posts";
 import { recordSlugRename } from "@/lib/redirects";
-import { getSession } from "@/lib/session";
+import { getSession, requirePageAccess } from "@/lib/session";
 import { dbErrorMessage } from "@/lib/db";
 
 // Force this route to always run as a live serverless function rather than
@@ -14,12 +14,16 @@ import { dbErrorMessage } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export async function GET(_req: Request, { params }: { params: { slug: string } }) {
+  const denied = await requirePageAccess("posts");
+  if (denied) return denied;
   const post = await getPost(params.slug);
   if (!post) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(post);
 }
 
 async function PUTHandler(req: Request, { params }: { params: { slug: string } }) {
+  const denied = await requirePageAccess("posts");
+  if (denied) return denied;
   const body = (await req.json()) as Post;
   const posts = await getPosts();
   const idx = posts.findIndex((p) => p.slug === params.slug);
@@ -66,6 +70,8 @@ async function PUTHandler(req: Request, { params }: { params: { slug: string } }
 }
 
 async function DELETEHandler(_req: Request, { params }: { params: { slug: string } }) {
+  const denied = await requirePageAccess("posts");
+  if (denied) return denied;
   const session = await getSession();
   if (!session || session.role !== "admin") {
     return NextResponse.json({ error: "Only admins can delete." }, { status: 403 });

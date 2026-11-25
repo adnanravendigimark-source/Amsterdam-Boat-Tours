@@ -8,7 +8,8 @@ import { WaveBoatIcon } from "@/components/icons";
 import { getPosts } from "@/lib/posts";
 import { getBlogSeoSettings } from "@/lib/settings";
 import { getHomepageContent } from "@/lib/homepage";
-import { resolveRobots, resolveCanonical, resolveOg, pageTitle } from "@/lib/seo";
+import { resolveRobots, resolveCanonical, resolveOg, pageTitle, buildBreadcrumbJsonLd } from "@/lib/seo";
+import { jsonLd } from "@/lib/safeHtml";
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -49,6 +50,7 @@ export default async function BlogIndexPage() {
 
           <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 text-center sm:text-left">
             {/* Breadcrumb */}
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(buildBreadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Blog", path: "/blog" }])) }} />
             <nav aria-label="Breadcrumb" className="text-xs font-medium text-stone-200/70">
               <ol className="flex items-center justify-center sm:justify-start gap-1.5">
                 <li>

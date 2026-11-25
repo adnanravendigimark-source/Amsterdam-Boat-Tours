@@ -60,7 +60,7 @@ export default function BlogSidebar({
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search articles..."
-          className="w-full bg-transparent px-3.5 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none"
+          className="w-full min-h-11 bg-transparent px-3.5 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none"
         />
         <button
           type="submit"
@@ -120,7 +120,7 @@ export default function BlogSidebar({
         <p className="mt-1.5 text-xs leading-relaxed text-slate-600">{ctaBody}</p>
         <a
           href="/#tours"
-          className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:scale-[1.02]"
+          className="mt-4 inline-flex min-h-11 items-center gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 px-5 py-2.5 text-xs font-bold text-white shadow-sm transition-colors"
         >
           {ctaButtonText}
         </a>
@@ -145,7 +145,7 @@ export default function BlogSidebar({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email..."
-                className="w-full bg-transparent px-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none"
+                className="w-full min-h-11 bg-transparent px-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none"
               />
               <button
                 type="submit"

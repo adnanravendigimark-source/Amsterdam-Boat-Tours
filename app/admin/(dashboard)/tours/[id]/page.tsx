@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
 import { getToursRaw } from "@/lib/data";
 import TourForm from "@/components/admin/TourForm";
+import { requirePageView } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
 export default async function EditTourPage({ params }: { params: { id: string } }) {
+  await requirePageView("tours");
   const tours = await getToursRaw();
   const tour = tours.find((t) => t.id === params.id);
   if (!tour) notFound();

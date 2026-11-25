@@ -1,5 +1,6 @@
 import { getIndexingOverview } from "@/lib/indexing";
 import IndexingManager from "@/components/admin/IndexingManager";
+import { requirePageView } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
@@ -7,6 +8,7 @@ export const dynamic = "force-dynamic";
 // every content section, not just one, so it isn't gated by the normal
 // per-section PAGE_KEYS the way Homepage/Posts/etc. are.
 export default async function AdminIndexingPage() {
+  await requirePageView("admin-only");
   const rows = await getIndexingOverview();
 
   return (

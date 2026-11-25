@@ -103,7 +103,7 @@ export default function BlogSearchGrid({
               id="sort-select"
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value as "newest" | "oldest")}
-              className="appearance-none rounded-lg border border-stone-300 bg-white py-1.5 pl-3 pr-8 text-xs font-semibold text-slate-800 shadow-sm transition hover:border-canal-blue focus:border-canal-blue focus:outline-none cursor-pointer"
+              className="min-h-11 appearance-none rounded-lg border border-stone-300 bg-white py-1.5 pl-3 pr-8 text-xs font-semibold text-slate-800 shadow-sm transition hover:border-canal-blue focus:border-canal-blue focus:outline-none cursor-pointer"
             >
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
@@ -126,7 +126,7 @@ export default function BlogSearchGrid({
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-canal-blue/40 hover:shadow-md"
+              className="group flex flex-col overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-sm transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 hover:border-canal-blue/40 hover:shadow-md"
             >
               <div className="relative aspect-[16/10] overflow-hidden bg-stone-100">
                 <SafeImage
@@ -203,7 +203,7 @@ export default function BlogSearchGrid({
             ) {
               if (p === 2 || p === totalPages - 1) {
                 return (
-                  <span key={p} className="px-1 text-xs text-slate-400">
+                  <span key={p} className="px-1 text-xs text-slate-500">
                     ...
                   </span>
                 );

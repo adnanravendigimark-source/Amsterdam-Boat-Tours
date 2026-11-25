@@ -36,7 +36,7 @@ export default async function FeaturedTour() {
           rel="noopener nofollow sponsored"
           data-placement="sticky_mobile"
           data-tour-id={tour.id}
-          className="shrink-0 rounded-xl bg-gradient-to-r from-blue-600 to-sky-600 px-4 py-2 text-xs font-bold text-white shadow-md shadow-blue-500/20"
+          className="inline-flex min-h-11 shrink-0 items-center rounded-xl bg-blue-600 hover:bg-blue-700 px-4 py-2 text-xs font-bold text-white shadow-md"
         >
           {tour.ctaLabel || bookNowText}
         </a>

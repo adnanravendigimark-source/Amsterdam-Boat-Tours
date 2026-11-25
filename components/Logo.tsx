@@ -36,7 +36,7 @@ export default function Logo({
             fill
             sizes="344px"
             className="object-contain"
-            priority
+            loading="eager"
           />
         </span>
         <div className="text-center leading-tight">
@@ -60,7 +60,7 @@ export default function Logo({
         src={customSrc || logo}
         alt={alt}
         fill
-        priority
+        loading="eager"
         sizes="143px"
         className="object-contain"
       />

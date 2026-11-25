@@ -4,7 +4,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SafeImage from "@/components/SafeImage";
 import { getAboutPage } from "@/lib/about";
-import { resolveRobots, resolveCanonical, resolveOg, pageTitle } from "@/lib/seo";
+import { resolveRobots, resolveCanonical, resolveOg, pageTitle, buildBreadcrumbJsonLd } from "@/lib/seo";
+import { safeHtml, jsonLd } from "@/lib/safeHtml";
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -49,6 +50,7 @@ export default async function AboutPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-canal-navy via-canal-navy/80 to-transparent" />
           </div>
           <div className="relative mx-auto max-w-6xl px-4 py-16 text-center sm:px-6 sm:py-20">
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(buildBreadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "About Us", path: "/about" }])) }} />
             <nav aria-label="Breadcrumb" className="text-xs font-medium text-stone-200/70">
               <ol className="flex items-center justify-center gap-1.5">
                 <li>
@@ -70,7 +72,7 @@ export default async function AboutPage() {
             </h1>
             <div
               className="rich-content rich-content-invert mx-auto mt-4 max-w-lg text-sm leading-relaxed text-stone-200/90 sm:text-base"
-              dangerouslySetInnerHTML={{ __html: about.heroSubheading }}
+              dangerouslySetInnerHTML={{ __html: safeHtml(about.heroSubheading) }}
             />
           </div>
         </section>
@@ -79,7 +81,7 @@ export default async function AboutPage() {
         <div className="mx-auto max-w-2xl px-4 py-14 sm:px-6 sm:py-20">
           <div
             className="rich-content leading-relaxed text-slate-600"
-            dangerouslySetInnerHTML={{ __html: about.content }}
+            dangerouslySetInnerHTML={{ __html: safeHtml(about.content) }}
           />
         </div>
       </main>

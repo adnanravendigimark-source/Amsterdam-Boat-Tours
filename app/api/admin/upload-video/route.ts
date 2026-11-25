@@ -2,6 +2,7 @@ import { withSiteRevalidate } from "@/lib/revalidateSite";
 import { NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import { recordMediaUpload } from "@/lib/media";
+import { requirePageAccess } from "@/lib/session";
 
 // Force this route to always run as a live serverless function rather than
 // get statically optimized at build time — see app/api/admin/upload/route.ts
@@ -15,6 +16,8 @@ export const dynamic = "force-dynamic";
 // since every other upload field in the admin expects an image and the
 // size/type limits here are deliberately different.
 async function POSTHandler(req: Request) {
+  const denied = await requirePageAccess("any-content");
+  if (denied) return denied;
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
     return NextResponse.json(
       {

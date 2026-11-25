@@ -63,7 +63,9 @@ function rowToAbout(row: any): AboutPageContent {
     heroSubheading: row.hero_subheading ?? DEFAULT_ABOUT.heroSubheading,
     heroImage: row.hero_image ?? DEFAULT_ABOUT.heroImage,
     heroImageAlt: row.hero_image_alt ?? DEFAULT_ABOUT.heroImageAlt,
-    content: row.content ?? DEFAULT_ABOUT.content,
+    // An empty body (never filled in the admin) falls back to the default copy
+    // instead of rendering a blank About page.
+    content: row.content?.trim() ? row.content : DEFAULT_ABOUT.content,
     metaTitle: row.meta_title || DEFAULT_ABOUT.metaTitle,
     metaDescription: row.meta_description || DEFAULT_ABOUT.metaDescription,
     canonicalUrl: row.canonical_url || "",

@@ -12,9 +12,10 @@ import { CalendarIcon, ClockPayIcon, TicketIcon } from "@/components/icons";
 import { getPost, getPosts } from "@/lib/posts";
 import { getHomepageContent } from "@/lib/homepage";
 import { getRedirectTarget } from "@/lib/redirects";
-import { resolveRobots, resolveCanonical, resolveOg, buildArticleJsonLd, pageTitle } from "@/lib/seo";
+import { resolveRobots, resolveCanonical, resolveOg, buildArticleJsonLd, pageTitle, buildBreadcrumbJsonLd } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { extractTableOfContents } from "@/lib/tableOfContents";
+import { jsonLd } from "@/lib/safeHtml";
 
 
 // Empty list = nothing prebuilt at deploy time; each page is rendered on its
@@ -96,7 +97,11 @@ export default async function Post({ params }: { params: { slug: string } }) {
     datePublished: post.date,
     dateModified: [post.updatedAt || post.date, post.lastChecked || ""].sort().pop() || post.date,
     url: `${SITE_URL}/blog/${post.slug}`,
-    authorName: post.author || "Amsterdam Boat Cruise",
+    // posts.author is "Name" or "Name / Role"; the schema wants the name only.
+    authorName: getAuthorParts(post.author).name,
+    // A real person only when a name part is set and it isn't the brand.
+    authorIsPerson: !!post.author.split("/")[0].trim() && getAuthorParts(post.author).name !== "Amsterdam Boat Cruise",
+    authorUrl: `${SITE_URL}/about`,
     siteName: "Amsterdam Boat Cruise",
   });
 
@@ -113,6 +118,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
       <main className="min-h-screen bg-stone-50">
         <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
           {/* Breadcrumbs */}
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(buildBreadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Blog", path: "/blog" }, { name: post.title, path: `/blog/${post.slug}` }])) }} />
           <nav aria-label="Breadcrumb" className="text-xs font-medium text-slate-500">
             <ol className="flex flex-wrap items-center gap-1.5">
               <li>
@@ -165,10 +171,16 @@ export default async function Post({ params }: { params: { slug: string } }) {
                 </span>
               )}
               <span className="inline-flex items-center gap-2">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 text-[10px] font-bold text-white">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600 text-[10px] font-bold text-white">
                   {author.initials}
                 </span>
-                <span className="font-semibold text-slate-900">By {author.name}</span>
+                {post.author.trim() ? (
+                  <Link href="/about" rel="author" className="font-semibold text-slate-900 underline-offset-2 hover:underline">
+                    By {author.name}
+                  </Link>
+                ) : (
+                  <span className="font-semibold text-slate-900">By {author.name}</span>
+                )}
               </span>
             </div>
 
@@ -217,7 +229,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
 
                 <Link
                   href={post.ctaButtonHref}
-                  className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm transition hover:scale-[1.02]"
+                  className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 px-5 py-2.5 text-xs font-bold text-white shadow-sm transition-colors"
                 >
                   {post.ctaButtonText}
                 </Link>
@@ -237,7 +249,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
         </div>
       </main>
       <Footer />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(articleJsonLd) }} />
     </>
   );
 }
