@@ -2,8 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    // sanitize-html loads htmlparser2, which is ESM-only. Keep it out of the
-    // webpack bundle so Node (22.x, see package.json engines) loads it natively.
+    // sanitize-html is pinned to 2.17.0: it uses htmlparser2 v8 (CommonJS).
+    // 2.18+ pulls htmlparser2 v12, which is ESM-only and crashed every
+    // /blog/[slug] render on Vercel with ERR_REQUIRE_ESM (25-26 Nov 2026).
+    // Do not upgrade it without testing a production deploy.
     serverComponentsExternalPackages: ["sanitize-html"],
     staleTimes: {
       dynamic: 0,
